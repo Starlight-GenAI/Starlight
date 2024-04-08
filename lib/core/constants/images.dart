@@ -1,0 +1,1 @@
+const String gradient = "assets/images/gradient.png";
