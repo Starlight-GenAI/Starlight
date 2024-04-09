@@ -19,7 +19,7 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
 
-  var bottomNavActiveItems = [userIcon,userIcon,userIcon];
+  var bottomNavActiveItems = [EvaIcons.home , EvaIcons.bulb, EvaIcons.person];
   var bottomNavInActiveItems = [EvaIcons.homeOutline , EvaIcons.bulbOutline, EvaIcons.personOutline];
 
   var _selected = 0;
@@ -42,26 +42,26 @@ class _NavigationPageState extends State<NavigationPage> {
         width: 100.w,
         height: 100.h,
         child: PageView(
+          physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
           children: [
             HomePage(),HomePage2(),HomePage()
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        top: false,
-        bottom: false,
-        child: Container(
-          height: 9.h,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [BoxShadow(
-              color: navBarShadow.withOpacity(0.65),
-              blurRadius: 52,
-              offset: Offset(0,2),
-              spreadRadius: 0
-            )]
-          ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(top: 8, bottom: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [BoxShadow(
+            color: navBarShadow.withOpacity(0.65),
+            blurRadius: 52,
+            offset: Offset(0,2),
+            spreadRadius: 0
+          )]
+        ),
+        child: SafeArea(
+          top: false,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(bottomNavActiveItems.length, (index) => GestureDetector(
@@ -75,16 +75,17 @@ class _NavigationPageState extends State<NavigationPage> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  AnimatedContainer( width: _selected == index ? 26.w : 0, height: _selected == index ? 7.h : 0 ,decoration: BoxDecoration(
+                  AnimatedContainer( width: _selected == index ? 24.w : 0, height: _selected == index ? 5.h : 0 ,decoration: BoxDecoration(
                     color: navBarSelected,
                     borderRadius: BorderRadius.all(Radius.circular(48))
                   ), duration: Duration(milliseconds: 70),),
-                  Container(
+                  AnimatedContainer(
                           width: 32.w,
-                          height: 8.h,
-                          child: Icon(bottomNavInActiveItems[index],
-                          size: 24.sp,
-                          color: _selected==index ? Colors.white:Colors.black,))
+                          height: 5.h,
+                          child: Icon(_selected==index ?bottomNavActiveItems[index] : bottomNavInActiveItems[index],
+                          size: 22.sp,
+                          color: _selected==index ? Colors.white:Colors.black,)
+                      , duration: Duration(milliseconds: 70))
                 ]
               ),
             ))
