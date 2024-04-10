@@ -64,27 +64,29 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                   child: SafeArea(
                     child: Column(
                       children: [
-                        CarouselSlider(
-                          carouselController: buttonCarouselController,
-                          options: CarouselOptions(
-                              height: 55.h,
-                              enableInfiniteScroll: false,
-                              viewportFraction: 1.0,
-                              onPageChanged: (index, page){
-                                setState(() {
-                                  _currentIndex = index;
-                                });
-                              }
+                        IgnorePointer(
+                          child: CarouselSlider(
+                            carouselController: buttonCarouselController,
+                            options: CarouselOptions(
+                                height: 55.h,
+                                enableInfiniteScroll: false,
+                                viewportFraction: 1.0,
+                                onPageChanged: (index, page){
+                                  setState(() {
+                                    _currentIndex = index;
+                                  });
+                                }
+                            ),
+                            items: [1,2,3].map((i) {
+                              return Builder(
+                                builder: (BuildContext context) {
+                                  return i == 1 ? JourneyPlannerAddLinkPage() :
+                                         i == 2 ? JourneyPlannerSummaryPage() :
+                                         JourneyPlannerProgressPage();
+                                },
+                              );
+                            }).toList(),
                           ),
-                          items: [1,2,3].map((i) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return i == 1 ? JourneyPlannerAddLinkPage() :
-                                       i == 2 ? JourneyPlannerSummaryPage() :
-                                       JourneyPlannerProgressPage();
-                              },
-                            );
-                          }).toList(),
                         ),
                         Expanded(child: Container()),
                         Column(
