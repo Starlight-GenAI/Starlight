@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +11,7 @@ import 'package:starlight/feature/presentation/pages/journey_planner/journey_pla
 import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
 import 'package:starlight/feature/presentation/manager/home/home_state.dart';
 
+import '../../../../core/constants/icons.dart';
 import '../../../../core/constants/images.dart';
 
 class HomePage extends StatefulWidget {
@@ -76,7 +78,7 @@ class _HomePageState extends State<HomePage> {
           controller: _scrollController,
           child: Column(
             children: [
-              SizedBox(height: 18.h),
+              SizedBox(height: 16.h),
               ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: 65.h,
@@ -99,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "Daily Journey",
                           style: TextStyle(
-                            fontFamily: 'inter',
+                            fontFamily: 'poppins',
                             fontSize: 17.sp,
                             fontWeight: FontWeight.w600,
                           ),
@@ -121,7 +123,6 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.only(top: 20, left: 24, right: 24),
-        height: 30.h,
         child: Column(
           children: [
             AnimatedSwitcher(
@@ -159,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                     ),
             ),
             SizedBox(
-              height: 2.h * _opacity,
+              height: 3.h * _opacity,
             ),
             _opacity == 0
                 ? Container()
@@ -173,72 +174,51 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               print('sdsaidjsaodsjaidasojadsiodj');
                             },
-                            child: Container(
-                              height: 13.h,
-                              decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.16),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12))),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                      bottom: 12,
-                                      right: 12,
-                                      child: Image.asset(
-                                        menuSummarize,
-                                        scale: 0.95,
-                                      )),
-                                  Padding(
-                                      padding: const EdgeInsets.all(16),
-                                      child: Text(
-                                        "Video \nSummary",
-                                        style: TextStyle(
-                                            color: homeTitle,
-                                            fontFamily: 'poppins',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 15.sp),
-                                      ))
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 4.w,
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              print('sdsaidjsaodsjaidasojadsiodj');
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => JourneyPlannerPage()));
-                            },
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 650),
-                              height: 13.h,
+                              height: 10.h,
                               decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.16),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(12))),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                      bottom: 12,
-                                      right: 12,
-                                      child: Image.asset(
-                                        menuTripGen,
-                                        scale: 0.95,
-                                      )),
-                                  Padding(
-                                      padding: const EdgeInsets.all(16),
-                                      child: Text(
-                                        "Trip \nGenerator",
-                                        style: TextStyle(
-                                            color: homeTitle,
-                                            fontFamily: 'poppins',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 15.sp),
-                                      ))
-                                ],
+                                      BorderRadius.all(Radius.circular(16))),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 18),
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image.asset(tripGenIcon ,scale: 3,),
+                                            SizedBox(width: 1.w,),
+                                            Text(
+                                              "Trip Generator",
+                                              style: TextStyle(
+                                                  color: homeTitle,
+                                                  fontFamily: 'poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 15.sp),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 0.5.h,),
+                                        Text(
+                                          "Provide a youtube link \nthen get the trip powered by Gemini",
+                                          style: TextStyle(
+                                              color: Colors.white.withOpacity(0.6),
+                                              fontFamily: 'inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 13.sp),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Icon(EvaIcons.arrowIosForward,color: Colors.white,size: 24.sp,)
+
+                                  ],
+                                ),
                               ),
                             ),
                           ),
