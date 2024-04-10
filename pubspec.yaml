@@ -24,6 +24,8 @@ dependencies:
   responsive_sizer: ^3.3.1
   flutter_svg: ^2.0.10+1
   eva_icons_flutter:
+  get: ^4.6.6
+  youtube_player_flutter: ^9.0.0
 
 dev_dependencies:
   flutter_test:

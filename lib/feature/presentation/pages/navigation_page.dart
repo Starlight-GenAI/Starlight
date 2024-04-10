@@ -7,6 +7,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/colors.dart';
 import 'package:starlight/feature/presentation/pages/home/home_page.dart';
 import 'package:starlight/feature/presentation/pages/home/home_page2.dart';
+import 'package:starlight/feature/presentation/pages/journey/journey_page.dart';
 
 import '../../../core/constants/icons.dart';
 
@@ -45,7 +46,7 @@ class _NavigationPageState extends State<NavigationPage> {
           physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
           children: [
-            HomePage(),HomePage2(),HomePage()
+            HomePage(),JourneyPage(),HomePage()
           ],
         ),
       ),
@@ -54,7 +55,7 @@ class _NavigationPageState extends State<NavigationPage> {
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [BoxShadow(
-            color: navBarShadow.withOpacity(0.65),
+            color: shadowColor.withOpacity(0.65),
             blurRadius: 52,
             offset: Offset(0,2),
             spreadRadius: 0

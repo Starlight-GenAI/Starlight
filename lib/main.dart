@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
 import 'package:starlight/injection_container.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         return BlocProvider<HomeBloc>(
           create: (context) => sl()
           ..add(YoutubeSearch(word: 'travel')),
-          child: MaterialApp(
+          child: GetMaterialApp(
               debugShowCheckedModeBanner: false,
               home: NavigationPage()),
         );
