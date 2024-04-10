@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
+import 'package:starlight/injection_container.dart';
+import 'feature/presentation/manager/home/home_event.dart';
 import 'feature/presentation/pages/navigation_page.dart';
 
-void main() {
+Future<void> main() async{
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
@@ -13,9 +18,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, screenType){
-        return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: NavigationPage());
+        return BlocProvider<HomeBloc>(
+          create: (context) => sl()
+          ..add(YoutubeSearch(word: 'travel')),
+          child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: NavigationPage()),
+        );
       }
     );
   }
