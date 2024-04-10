@@ -18,12 +18,16 @@ class JourneyPlannerPage extends StatefulWidget {
 }
 
 class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
-  CarouselController buttonCarouselController = CarouselController();
-  int _currentIndex = 0;
   final double _paddingContent = 24;
+  int _currentIndex = 0;
+  CarouselController buttonCarouselController = CarouselController();
+
+
 
   @override
   Widget build(BuildContext context) {
+    final bool hasSafeAreaBottom = MediaQuery.of(context).padding.bottom > 0;
+
     return Scaffold(
       backgroundColor: const Color(0xFF15104F),
       body: SafeArea(
@@ -109,7 +113,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                             //   child: Text('Next'),
                             // ),
                             _button(_currentIndex == 0 ? 'Next' : _currentIndex == 1 ? "Submit" : "Done"),
-                            SizedBox(height: 3.h,)
+                            SizedBox(height: !hasSafeAreaBottom ? 3.h : 0,)
                           ],
                         ),
                       ],
@@ -129,24 +133,24 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
         onTap: () => buttonCarouselController.nextPage(
             duration: const Duration(milliseconds: 200), curve: Curves.linear),
         child: Container(
-        width: 100.w,
-        decoration: const BoxDecoration(
-        color: Color(0xFF4D32F8),
-    borderRadius: BorderRadius.all(Radius.circular(100))
-    ),
-    child: Padding(
-    padding:  EdgeInsets.only(top: 2.h,bottom: 2.h),
-    child: Text(
-    text,
-    textAlign: TextAlign.center,
-    style: TextStyle(
-    color: Colors.white,
-    fontFamily: 'Poppins',
-    fontSize: 18.sp,
-    fontWeight: FontWeight.w800),
-    ),
-    ),
-    ),
+          width: 100.w,
+          decoration: const BoxDecoration(
+            color: Color(0xFF4D32F8),
+            borderRadius: BorderRadius.all(Radius.circular(100))
+          ),
+          child: Padding(
+            padding:  EdgeInsets.only(top: 2.h,bottom: 2.h),
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Poppins',
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w800),
+            ),
+          ),
+        ),
     );
   }
 }
