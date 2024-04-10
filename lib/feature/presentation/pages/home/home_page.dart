@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/colors.dart';
+import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_page.dart';
 
 import '../../../../core/constants/images.dart';
 
@@ -237,6 +238,7 @@ class _HomePageState extends State<HomePage> {
                           child: GestureDetector(
                             onTap: () {
                               print('sdsaidjsaodsjaidasojadsiodj');
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => JourneyPlannerPage()));
                             },
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 650),
