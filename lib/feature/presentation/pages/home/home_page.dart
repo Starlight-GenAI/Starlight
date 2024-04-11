@@ -3,14 +3,14 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/colors.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_page.dart';
 import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
 import 'package:starlight/feature/presentation/manager/home/home_state.dart';
-
 import '../../../../core/constants/icons.dart';
 import '../../../../core/constants/images.dart';
 
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 16.h),
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: 65.h,
+                  minHeight: 80.h,
                   minWidth: 100.w,
                 ),
                 child: Container(
@@ -172,7 +172,10 @@ class _HomePageState extends State<HomePage> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              print('sdsaidjsaodsjaidasojadsiodj');
+                              Get.to(
+                                transition: Transition.rightToLeft,
+                                  () => JourneyPlannerPage()
+                              );
                             },
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 650),
@@ -233,7 +236,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _buildBlocJourney() {
-    return BlocBuilder<HomeBloc, HomeState>(builder: (_, state) {
+    return bloc.BlocBuilder<HomeBloc, HomeState>(builder: (_, state) {
       if (state is HomeLoadingState) {
         return const Center(
           child: CupertinoActivityIndicator(),

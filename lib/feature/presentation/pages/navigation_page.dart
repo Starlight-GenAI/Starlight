@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/colors.dart';
 import 'package:starlight/feature/presentation/pages/home/home_page.dart';
-import 'package:starlight/feature/presentation/pages/home/home_page2.dart';
 import 'package:starlight/feature/presentation/pages/journey/journey_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_page.dart';
 

@@ -43,7 +43,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Poppins',
-                        fontSize: 18.sp,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
