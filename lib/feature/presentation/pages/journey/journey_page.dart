@@ -165,7 +165,7 @@ class _JourneyPageState extends State<JourneyPage> {
   _buildHomeMenu() {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.only(top: 20, left: 24, right: 24),
+        padding: EdgeInsets.only(top: 20, left: 2.5.h, right: 2.5.h),
         child: Column(
           children: [
             Row(

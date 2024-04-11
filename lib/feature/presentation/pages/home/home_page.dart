@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   _buildHomeMenu() {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.only(top: 20, left: 24, right: 24),
+        padding: EdgeInsets.only(top: 20, left: 2.5.h, right: 2.5.h),
         child: Column(
           children: [
             AnimatedSwitcher(
@@ -174,19 +174,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 onTap: (){
                   _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
                 },
-                    child: Container(
-                        width: 100.w,
-                        child: Text(
-                          "Daily Journey",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Poppins',
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: .6.h),
+                      child: Container(
+                          width: 100.w,
+                          child: Text(
+                            "Daily Journey",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Poppins',
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.start,
                           ),
-                          textAlign: TextAlign.start,
                         ),
-                      ),
+                    ),
                   )
                   : Row(
                       children: [
