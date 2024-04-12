@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -8,6 +12,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_add_link_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_progress_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_summary_page.dart';
+
+import '../navigation_page.dart';
 
 
 class JourneyPlannerPage extends StatefulWidget {
@@ -22,8 +28,6 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
   int _currentIndex = 0;
   CarouselController buttonCarouselController = CarouselController();
 
-
-
   @override
   Widget build(BuildContext context) {
     final bool hasSafeAreaBottom = MediaQuery.of(context).padding.bottom > 0;
@@ -37,13 +41,23 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
             Container(
               padding: EdgeInsets.only(top: 20, left: _paddingContent, right: _paddingContent, bottom: 30),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  GestureDetector(
+                    onTap: () => Get.to(transition: Transition.leftToRight,
+                            () => NavigationPage()
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 3.w),
+                      child: FaIcon(FontAwesomeIcons.angleLeft, size: 20.sp, color: Colors.white)
+                    ),
+                  ),
                   Text(
                     "Video Journey Planner",
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Poppins',
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -68,7 +82,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                           child: CarouselSlider(
                             carouselController: buttonCarouselController,
                             options: CarouselOptions(
-                                height: 55.h,
+                                height: 60.h,
                                 enableInfiniteScroll: false,
                                 viewportFraction: 1.0,
                                 onPageChanged: (index, page){
@@ -132,8 +146,11 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
 
    _button(text) {
     return GestureDetector(
-        onTap: () => buttonCarouselController.nextPage(
-            duration: const Duration(milliseconds: 200), curve: Curves.linear),
+        onTap: () => _currentIndex < 2 ? buttonCarouselController.nextPage(
+            duration: const Duration(milliseconds: 200), curve: Curves.linear) :
+            Get.to(transition: Transition.leftToRight,
+                    () => NavigationPage()
+            ),
         child: Container(
           width: 100.w,
           decoration: const BoxDecoration(
@@ -148,7 +165,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
               style: TextStyle(
               color: Colors.white,
               fontFamily: 'Poppins',
-              fontSize: 18.sp,
+              fontSize: 17.sp,
               fontWeight: FontWeight.w800),
             ),
           ),
@@ -156,5 +173,6 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
     );
   }
 }
+
 
 
