@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   final ScrollController _scrollController = ScrollController();
   double _opacity = 1;
   bool _appbar = false;
-  late TabController _tabController;
   var chipList = ["Travel", "Beach", "Forest", "Mountain", "Thailand"];
   var chipIndex = 0;
 
@@ -35,7 +34,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
     _scrollController.addListener(() {
       print(_scrollController.offset);
       if (_scrollController.offset < 0) {
@@ -77,84 +75,87 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   }
 
   _buildDailyJourney() {
-    return Padding(
-      padding: EdgeInsets.only(top: 25.w),
-      child: Container(
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Column(
-            children: [
-              SizedBox(height: 16.h),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: 80.h,
-                  minWidth: 100.w,
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF9FBFE),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(32),
-                      topRight: Radius.circular(32),
-                    ),
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: EdgeInsets.only(top: 7.h),
+        child: Container(
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                SizedBox(height: 16.h),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: 80.h,
+                    minWidth: 100.w,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 3.h, left: 2.5.h,right: 2.5.h,bottom: 1.h),
-                        child: Text(
-                          "Daily Journey",
-                          style: TextStyle(
-                            fontFamily: 'poppins',
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w600,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF9FBFE),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(32),
+                        topRight: Radius.circular(32),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 3.h, left: 2.5.h,right: 2.5.h,bottom: 1.h),
+                          child: Text(
+                            "Daily Journey",
+                            style: TextStyle(
+                              fontFamily: 'poppins',
+                              fontSize: 17.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 4.h,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 5,
-                            itemBuilder: (context,index){
-                          return GestureDetector(
-                            onTap: (){
-                               setState(() {
-                                 chipIndex = index;
-                               });
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 1.w, left: index == 0 ? 2.5.h : 0 ),
-                              child: Center(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: chipIndex == index ?Color(0xFF4D32F8) : Colors.white,
-                                    border: Border.all(color: chipIndex == index ?Color(0xFF4D32F8) : Color(0x03009C) .withOpacity(0.2)),
-                                    borderRadius: BorderRadius.circular(24)
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(width: 1.w,),
-                                        Text(chipList[index],style: TextStyle(fontWeight: FontWeight.w600,color: chipIndex == index? Colors.white : Colors.black),),
-                                        SizedBox(width: 1.w,),
-                                      ],
+                        Container(
+                          height: 4.h,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 5,
+                              itemBuilder: (context,index){
+                            return GestureDetector(
+                              onTap: (){
+                                 setState(() {
+                                   chipIndex = index;
+                                 });
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 1.w, left: index == 0 ? 2.5.h : 0 ),
+                                child: Center(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: chipIndex == index ?Color(0xFF4D32F8) : Colors.white,
+                                      border: Border.all(color: chipIndex == index ?Color(0xFF4D32F8) : Color(0x03009C) .withOpacity(0.2)),
+                                      borderRadius: BorderRadius.circular(24)
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(width: 1.w,),
+                                          Text(chipList[index],style: TextStyle(fontWeight: FontWeight.w600,color: chipIndex == index? Colors.white : Colors.black),),
+                                          SizedBox(width: 1.w,),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        }),
-                      ),
-                      _buildBlocJourney()
-                    ],
+                            );
+                          }),
+                        ),
+                        _buildBlocJourney()
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -273,7 +274,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                                   Colors.white.withOpacity(0.6),
                                               fontFamily: 'inter',
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 13.sp),
+                                              fontSize: 14.sp),
                                         ),
                                       ],
                                     ),
@@ -321,12 +322,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 crossAxisCount: 2,
               ),
               itemCount: state.list!.items?.length,
-              crossAxisSpacing: 2.w,
-              mainAxisSpacing: 1.h,
+              crossAxisSpacing: 1.5.h,
+              mainAxisSpacing: 1.5.h,
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: shadowColor.withOpacity(0.3),
+                          offset: Offset(0,2),
+                          blurRadius: 25
+                        )
+                      ],
                       borderRadius: BorderRadius.all(Radius.circular(12))),
                   child: Wrap(
                     children: [
@@ -336,7 +344,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                             topLeft: Radius.circular(12)),
                         child: CachedNetworkImage(
                           imageUrl: state.list!.items![index].snippet!.thumbnails
-                                  ?.high?.url ??
+                                  ?.medium?.url ??
                               "",
                           fit: BoxFit.fill,
                         ),
