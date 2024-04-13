@@ -7,19 +7,20 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/feature/presentation/pages/summary/summary_page.dart';
+import 'package:starlight/feature/presentation/pages/trip/trip_page.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/icons.dart';
 import '../../../../core/constants/images.dart';
 
-class JourneyPage extends StatefulWidget {
-  const JourneyPage({super.key});
+class JourneyMapPage extends StatefulWidget {
+  const JourneyMapPage({super.key});
 
   @override
-  State<JourneyPage> createState() => _JourneyPageState();
+  State<JourneyMapPage> createState() => _JourneyMapPageState();
 }
 
-class _JourneyPageState extends State<JourneyPage> {
+class _JourneyMapPageState extends State<JourneyMapPage> {
   final ScrollController _scrollController = ScrollController();
   double _opacity = 1;
   bool _appbar = false;

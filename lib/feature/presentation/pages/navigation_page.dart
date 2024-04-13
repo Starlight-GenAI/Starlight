@@ -3,13 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/colors.dart';
 import 'package:starlight/feature/presentation/pages/home/home_page.dart';
-import 'package:starlight/feature/presentation/pages/journey/journey_page.dart';
+import 'package:starlight/feature/presentation/pages/journey_map/journey_map_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_page.dart';
+import 'package:starlight/feature/presentation/pages/trip/trip_page.dart';
 
 import '../../../core/constants/icons.dart';
+import '../manager/navigation_controller.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -32,6 +36,7 @@ class _NavigationPageState extends State<NavigationPage> {
     // TODO: implement initState
     super.initState();
     pageController = PageController();
+    Get.put(NavigationController(),permanent: true);
   }
 
   @override
@@ -46,7 +51,7 @@ class _NavigationPageState extends State<NavigationPage> {
           physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
           children: [
-            HomePage(),JourneyPage(),HomePage()
+            HomePage(),JourneyMapPage(),TripPage()
           ],
         ),
       ),

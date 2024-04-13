@@ -302,13 +302,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   _buildBlocJourney() {
     return bloc.BlocBuilder<HomeBloc, HomeState>(builder: (_, state) {
       if (state is HomeLoadingState) {
-        return const Center(
-          child: CupertinoActivityIndicator(),
+        return Container(
+          height: 50.h,
+          child: const Center(
+            child: CupertinoActivityIndicator(),
+          ),
         );
       }
       if (state is HomeErrorState) {
-        return Center(
-          child: Icon(Icons.refresh),
+        return Container(
+          height: 50.h,
+          child: Center(
+            child: IconButton(icon: Icon(Icons.refresh), onPressed: () {
+              
+            },),
+          ),
         );
       }
       if (state is HomeLoadedState) {

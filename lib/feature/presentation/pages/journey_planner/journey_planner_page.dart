@@ -109,7 +109,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                               width: 80.w,
                               child: Text(
                                 _currentIndex == 0 ? "Copy video link from social media or Shared from other apps." :
-                                _currentIndex == 1 ? "It might take a minute after submitting a video to plan a journey." :
+                                _currentIndex == 1 ? "It might take a minute after submitting a video to plan a journey_map." :
                                 "Now you can waiting for a result at a My action menu",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -148,9 +148,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
     return GestureDetector(
         onTap: () => _currentIndex < 2 ? buttonCarouselController.nextPage(
             duration: const Duration(milliseconds: 200), curve: Curves.linear) :
-            Get.to(transition: Transition.leftToRight,
-                    () => NavigationPage()
-            ),
+            Get.back(),
         child: Container(
           width: 100.w,
           decoration: const BoxDecoration(

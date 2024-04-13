@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:starlight/feature/presentation/pages/trip/trip_page.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../core/constants/colors.dart';
@@ -42,6 +43,36 @@ class _SummaryPageState extends State<SummaryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          GestureDetector(
+            onTap: (){
+              _controller.pause();
+              Get.to(
+                  () => TripPage()
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24)
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 3.w,vertical: 1.h),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(EvaIcons.mapOutline,color: Colors.black,),
+                    SizedBox(width: 1.w,),
+                    Text("Trip Generator",style: TextStyle(color: Colors.black,fontFamily: 'inter',fontWeight: FontWeight.w600,),),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       backgroundColor: backgroundMain,
       body: SafeArea(
         top: false,
