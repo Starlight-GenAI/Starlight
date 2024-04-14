@@ -163,7 +163,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
             borderRadius: BorderRadius.all(Radius.circular(100))
           ),
           child: Padding(
-            padding:  EdgeInsets.only(top: 2.h,bottom: 2.h),
+            padding:  EdgeInsets.only(top: 4.5.w,bottom: 4.5.w),
             child: Text(
               text,
               textAlign: TextAlign.center,

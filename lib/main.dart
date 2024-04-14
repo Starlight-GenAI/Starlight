@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
+import 'package:starlight/feature/presentation/pages/login/login_page.dart';
 import 'package:starlight/injection_container.dart';
 import 'feature/presentation/manager/home/home_event.dart';
 import 'feature/presentation/manager/navigation_controller.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           ..add(YoutubeSearch(word: 'travel')),
           child: GetMaterialApp(
               debugShowCheckedModeBanner: false,
-              home: NavigationPage()),
+              home: LoginPage()),
         );
       }
     );
