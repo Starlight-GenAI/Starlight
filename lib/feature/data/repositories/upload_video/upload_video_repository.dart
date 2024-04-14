@@ -2,21 +2,26 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:starlight/core/constants/constants.dart';
+import 'package:starlight/feature/data/data_sources/upload_video/upload_video_request.dart';
 import 'package:starlight/feature/data/data_sources/youtube/youtube_api_service.dart';
 import 'package:starlight/feature/data/models/youtube_search.dart';
+import 'package:starlight/feature/domain/repositories/upload_video/upload_video_repository.dart';
 import 'package:starlight/feature/domain/repositories/youtube_repository.dart';
 
-import '../../../core/resources/data_state.dart';
+import '../../../../core/resources/data_state.dart';
+import '../../data_sources/upload_video/upload_video_service.dart';
+import '../../models/upload_video/upload_video.dart';
 
-class YoutubeRepositoryImpl implements YoutubeRepository {
-  final YoutubeApiService _youtubeApiService;
-  YoutubeRepositoryImpl(this._youtubeApiService);
+class UploadVideoRepositoryImpl implements UploadVideoRepository{
+  final UploadVideoApiService _uploadVideoApiService;
+  UploadVideoRepositoryImpl(this._uploadVideoApiService);
 
   @override
-  Future<DataState<YoutubeSearchModel>> getSearch() async {
+  Future<DataState<QueueIdResponse>> uploadVideo() async {
     try{
-      final httpResponse = await _youtubeApiService.getSearch(
-          part: "snippet", maxResults: "10", q: "travel in thailand",type: "video",key: youtubeAPIKey);
+      
+      final httpResponse = await _uploadVideoApiService.uploadVideo(
+          VideoRequestBody(videoUrl: videoUrl, isUseSubtitle: isUseSubtitle, userId: userId));
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(httpResponse.data);
       } else {

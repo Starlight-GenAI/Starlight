@@ -28,11 +28,23 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
   final double _paddingContent = 24;
   int _currentIndex = 0;
   CarouselController buttonCarouselController = CarouselController();
+  
+  var urlFromClipBoard = "";
 
   @override
   void initState() {
     super.initState();
-    Clipboard.getData(Clipboard.kTextPlain).then((value) => print(value?.text ?? ""));
+
+    Clipboard.getData(Clipboard.kTextPlain).then((value) {
+
+      var clipboard = value?.text ?? "";
+      print(clipboard);
+      if(clipboard.isNotEmpty && clipboard.contains("youtube")) {
+        buttonCarouselController.nextPage(
+            duration: const Duration(milliseconds: 200), curve: Curves.linear);
+      }
+    }
+      );
   }
 
   @override
