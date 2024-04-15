@@ -1,34 +1,37 @@
-// import 'package:starlight/core/resources/data_state.dart';
-// import 'package:starlight/feature/presentation/manager/home/home_event.dart';
-// import 'package:starlight/feature/presentation/manager/home/home_state.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-//
-// import '../../../domain/use_cases/get_youtube_search.dart';
-//
-// class JourneyPlannerBloc extends Bloc<HomeEvent,HomeState>{
-//
-//   final GetYoutubeSearchUseCase _getYoutubeSearchUseCase;
-//   HomeBloc(this._getYoutubeSearchUseCase): super(const HomeLoadingState()){
-//     on <YoutubeSearch> (onGetYoutubeSearch);
-//   }
-//
-//   void onGetYoutubeSearch(YoutubeSearch youtubeSearch, Emitter<HomeState> emit) async{
-//     final dataState = await _getYoutubeSearchUseCase();
-//     print(dataState);
-//
-//     if(dataState is DataSuccess && dataState.data != null){
-//       emit(
-//           HomeLoadedState(dataState.data!)
-//       );
-//     }
-//
-//     if(dataState is DataFailed){
-//       print(dataState.error!.message);
-//
-//       emit(
-//           HomeErrorState(dataState.error!)
-//       );
-//     }
-//   }
-//
-// }
+import 'package:starlight/core/resources/data_state.dart';
+import 'package:starlight/feature/domain/use_cases/upload_video/upload_video.dart';
+import 'package:starlight/feature/presentation/manager/home/home_event.dart';
+import 'package:starlight/feature/presentation/manager/home/home_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_event.dart';
+import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_state.dart';
+
+import '../../../domain/use_cases/get_youtube_search.dart';
+
+class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
+  final UploadVideoUseCase _uploadVideoUseCase;
+  JourneyPlannerBloc(this._uploadVideoUseCase): super(const UploadVideoLoadingState()){
+    on <UploadVideo> (onUploadVideo);
+  }
+
+  void onUploadVideo(UploadVideo uploadVideo, Emitter<JourneyPlannerState> emit) async{
+    final dataState = await _uploadVideoUseCase();
+    print('/////////////upload dataState////////////');
+    print(dataState);
+
+    if(dataState is DataSuccess && dataState.data != null){
+      emit(
+          UploadVideoLoadedState(dataState.data!)
+      );
+    }
+
+    if(dataState is DataFailed){
+      print(dataState.error!.message);
+
+      emit(
+          UploadVideoErrorState(dataState.error!)
+      );
+    }
+  }
+
+}

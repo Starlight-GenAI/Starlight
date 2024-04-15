@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
+import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_bloc.dart';
 import 'package:starlight/feature/presentation/pages/login/login_page.dart';
 import 'package:starlight/injection_container.dart';
 import 'feature/presentation/manager/home/home_event.dart';
@@ -26,9 +27,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, screenType){
-        return BlocProvider<HomeBloc>(
-          create: (context) => sl()
-          ..add(YoutubeSearch(word: 'travel')),
+        return BlocProvider<JourneyPlannerBloc>(
+          create: (context) => sl(),
+          // ..add(YoutubeSearch(word: 'travel')),
           child: GetMaterialApp(
               debugShowCheckedModeBanner: false,
               home: LoginPage()),

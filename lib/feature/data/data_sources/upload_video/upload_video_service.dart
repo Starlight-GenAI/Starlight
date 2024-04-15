@@ -11,7 +11,7 @@ part 'upload_video_service.g.dart';
 
 @RestApi(baseUrl: uploadVideoBaseURL)
 abstract class UploadVideoApiService {
-  // factory UploadVideoApiService(Dio dio) = _UploadVideoApiService;
+  factory UploadVideoApiService(Dio dio) = _UploadVideoApiService;
 
   @POST('/upload') // Change annotation to POST and specify your endpoint
   Future<HttpResponse<QueueIdResponse>> uploadVideo(
