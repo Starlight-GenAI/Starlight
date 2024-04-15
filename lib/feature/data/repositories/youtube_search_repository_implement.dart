@@ -7,19 +7,21 @@ import 'package:starlight/feature/data/models/youtube_search.dart';
 import 'package:starlight/feature/domain/repositories/youtube_repository.dart';
 
 import '../../../core/resources/data_state.dart';
+import '../../domain/entities/youtube_search.dart';
 
 class YoutubeRepositoryImpl implements YoutubeRepository {
   final YoutubeApiService _youtubeApiService;
   YoutubeRepositoryImpl(this._youtubeApiService);
 
   @override
-  Future<DataState<YoutubeSearchModel>> getSearch() async {
+  Future<DataState<YoutubeSearchModel>> getSearch({required String word}) async {
     try{
       final httpResponse = await _youtubeApiService.getSearch(
-          part: "snippet", maxResults: "10", q: "travel in thailand",type: "video",key: youtubeAPIKey);
+          part: "snippet", maxResults: "10", q: word ,type: "video",key: youtubeAPIKey);
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(httpResponse.data);
       } else {
+        print("1");
         return DataFailed(DioException(
             error: httpResponse.response.statusMessage,
             response: httpResponse.response,
@@ -27,6 +29,7 @@ class YoutubeRepositoryImpl implements YoutubeRepository {
             requestOptions: httpResponse.response.requestOptions));
       }
     } on DioException catch (e){
+      print(e);
       return DataFailed(e);
     }
   }

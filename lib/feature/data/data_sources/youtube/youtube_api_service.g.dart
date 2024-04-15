@@ -10,9 +10,9 @@ part of 'youtube_api_service.dart';
 
 class _YoutubeApiService implements YoutubeApiService {
   _YoutubeApiService(
-    this._dio, {
-    this.baseUrl,
-  }) {
+      this._dio, {
+        this.baseUrl,
+      }) {
     baseUrl ??= 'https://youtube.googleapis.com/youtube/v3';
   }
 
@@ -58,7 +58,7 @@ class _YoutubeApiService implements YoutubeApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    print("leo ${_result.data}");
+    print("leo ${_result.statusCode}");
 
 
     YoutubeSearchModel value = YoutubeSearchModel.fromJson(_result.data as Map<String, dynamic>);
@@ -80,9 +80,9 @@ class _YoutubeApiService implements YoutubeApiService {
   }
 
   String _combineBaseUrls(
-    String dioBaseUrl,
-    String? baseUrl,
-  ) {
+      String dioBaseUrl,
+      String? baseUrl,
+      ) {
     if (baseUrl == null || baseUrl.trim().isEmpty) {
       return dioBaseUrl;
     }

@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/colors.dart';
+import 'package:starlight/feature/presentation/manager/home/home_event.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_page.dart';
 import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
 import 'package:starlight/feature/presentation/manager/home/home_state.dart';
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   final ScrollController _scrollController = ScrollController();
   double _opacity = 1;
   bool _appbar = false;
-  var chipList = ["Travel", "Beach", "Forest", "Mountain", "Thailand"];
+  var chipList = ["Travel", "Beach", "Food", "Mountain", "Palace"];
   var chipIndex = 0;
 
   @override
@@ -123,6 +124,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                  setState(() {
                                    chipIndex = index;
                                  });
+                                bloc.BlocProvider.of<HomeBloc>(context).add(YoutubeSearch( word: chipList[chipIndex] + " Thailand"));
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(right: 1.w, left: index == 0 ? 2.5.h : 0 ),

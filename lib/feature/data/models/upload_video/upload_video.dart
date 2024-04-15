@@ -1,9 +1,10 @@
-class QueueIdResponse {
-  String queueId;
+import 'package:starlight/feature/domain/entities/upload_video/upload_video.dart';
 
-  QueueIdResponse({
-    required this.queueId,
-  });
+class QueueIdResponse extends QueueIdEntity{
+
+  const QueueIdResponse({
+    required String queueId,
+  }):super(queueId: queueId);
 
   factory QueueIdResponse.fromJson(Map<String, dynamic> json) {
     return QueueIdResponse(
