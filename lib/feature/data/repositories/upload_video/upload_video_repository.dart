@@ -9,6 +9,7 @@ import 'package:starlight/feature/domain/repositories/upload_video/upload_video_
 import 'package:starlight/feature/domain/repositories/youtube_repository.dart';
 
 import '../../../../core/resources/data_state.dart';
+import '../../../domain/entities/upload_video/upload_video.dart';
 import '../../data_sources/upload_video/upload_video_service.dart';
 import '../../models/upload_video/upload_video.dart';
 
@@ -17,11 +18,11 @@ class UploadVideoRepositoryImpl implements UploadVideoRepository{
   UploadVideoRepositoryImpl(this._uploadVideoApiService);
 
   @override
-  Future<DataState<QueueIdResponse>> uploadVideo() async {
+  Future<DataState<QueueIdEntity>> uploadVideo(
+      {required VideoRequestBody body}) async {
     try{
-      
-      final httpResponse = await _uploadVideoApiService.uploadVideo(
-          VideoRequestBody(videoUrl: videoUrl, isUseSubtitle: isUseSubtitle, userId: userId));
+
+      final httpResponse = await _uploadVideoApiService.uploadVideo(body);
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(httpResponse.data);
       } else {

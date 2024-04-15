@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'youtube_api_service.dart';
+part of 'upload_video_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,12 +8,12 @@ part of 'youtube_api_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _YoutubeApiService implements YoutubeApiService {
-  _YoutubeApiService(
+class _UploadVideoApiService implements UploadVideoApiService {
+  _UploadVideoApiService(
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://youtube.googleapis.com/youtube/v3';
+    baseUrl ??= 'http://34.87.143.194:8080';
   }
 
   final Dio _dio;
@@ -21,33 +21,22 @@ class _YoutubeApiService implements YoutubeApiService {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<YoutubeSearchModel>> getSearch({
-    String? part,
-    String? maxResults,
-    String? q,
-    String? type,
-    String? key,
-  }) async {
+  Future<HttpResponse<QueueIdResponse>> uploadVideo(
+      VideoRequestBody body) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'part': part,
-      r'maxResults': maxResults,
-      r'q': q,
-      r'type': type,
-      r'key': key,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<YoutubeSearchModel>>(Options(
-      method: 'GET',
+        _setStreamType<HttpResponse<QueueIdResponse>>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/search',
+              '/upload',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -56,7 +45,7 @@ class _YoutubeApiService implements YoutubeApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = YoutubeSearchModel.fromJson(_result.data!);
+    final value = QueueIdResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

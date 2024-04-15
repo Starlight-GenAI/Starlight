@@ -7,13 +7,13 @@ import 'package:starlight/feature/data/data_sources/upload_video/upload_video_re
 import 'package:starlight/feature/data/models/upload_video/upload_video.dart';
 import '../../models/youtube_search.dart';
 
-part 'youtube_api_service.g.dart';
+part 'upload_video_service.g.dart';
 
-@RestApi(baseUrl: youtubeAPIBaseURL)
+@RestApi(baseUrl: uploadVideoBaseURL)
 abstract class UploadVideoApiService {
-  factory UploadVideoApiService(Dio dio) = _UploadVideoApiService;
+  // factory UploadVideoApiService(Dio dio) = _UploadVideoApiService;
 
-  @POST('/your_endpoint') // Change annotation to POST and specify your endpoint
+  @POST('/upload') // Change annotation to POST and specify your endpoint
   Future<HttpResponse<QueueIdResponse>> uploadVideo(
       @Body() VideoRequestBody body,
       );
