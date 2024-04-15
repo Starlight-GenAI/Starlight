@@ -128,7 +128,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                               width: 80.w,
                               child: Text(
                                 _currentIndex == 0 ? "Copy video link from social media or Shared from other apps." :
-                                _currentIndex == 1 ? "It might take a minute after submitting a video to plan a journey_map." :
+                                _currentIndex == 1 ? "It might take a minute after submitting a video to plan a journey_list." :
                                 "Now you can waiting for a result at a My action menu",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(

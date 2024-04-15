@@ -1,16 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/images.dart';
 import 'package:starlight/core/constants/colors.dart';
 import 'package:starlight/feature/presentation/pages/home/home_page.dart';
 import 'package:starlight/feature/presentation/pages/navigation_page.dart';
 
+import '../../manager/google-auth/google-auth.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -104,10 +109,22 @@ class _LoginPageState extends State<LoginPage> {
 
   _loginButton() {
     return GestureDetector(
-      onTap: () => {
-        Get.to(
-            transition: Transition.fade,
-                () => NavigationPage())
+      onTap: () async {
+        try {
+          var auth = await signInWithGoogle();
+
+            Get.offAll(
+              duration: Duration(milliseconds: 300),
+                transition: Transition.rightToLeft,
+                    () => NavigationPage());
+
+        } catch (e) {
+          // Handle sign-in errors here
+          print('Error signing in with Google: $e');
+        }
+        // Get.to(
+        //     transition: Transition.fade,
+        //         () => NavigationPage())
       },
       child: Container(
         width: 100.w,
@@ -118,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
               BoxShadow(
               color: Color(0xFF8F98D4).withOpacity(0.19),
                 offset: Offset(4,4),
-                blurRadius: 19.8
+                blurRadius: 20
             )
       ],
         ),

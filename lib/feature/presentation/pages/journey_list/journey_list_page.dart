@@ -3,24 +3,28 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:starlight/feature/presentation/pages/summary/summary_page.dart';
 import 'package:starlight/feature/presentation/pages/trip/trip_page.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/icons.dart';
 import '../../../../core/constants/images.dart';
+import '../../manager/navigation_controller.dart';
 
-class JourneyMapPage extends StatefulWidget {
-  const JourneyMapPage({super.key});
+class JourneyListPage extends StatefulWidget {
+  const JourneyListPage({super.key});
 
   @override
-  State<JourneyMapPage> createState() => _JourneyMapPageState();
+  State<JourneyListPage> createState() => _JourneyListPageState();
 }
 
-class _JourneyMapPageState extends State<JourneyMapPage> {
+class _JourneyListPageState extends State<JourneyListPage> {
   final ScrollController _scrollController = ScrollController();
   double _opacity = 1;
   bool _appbar = false;
@@ -180,9 +184,11 @@ class _JourneyMapPageState extends State<JourneyMapPage> {
                       fontWeight: FontWeight.bold),
                 ),
                 Spacer(),
-                CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(
-                      'https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg'),
+                Obx(
+                  () => CircleAvatar(
+                    backgroundImage: CachedNetworkImageProvider(
+                        Get.find<NavigationController>().profile.value ?? ""),
+                  ),
                 )
               ],
             ),

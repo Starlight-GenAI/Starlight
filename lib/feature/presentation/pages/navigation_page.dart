@@ -8,8 +8,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/colors.dart';
 import 'package:starlight/feature/presentation/pages/home/home_page.dart';
-import 'package:starlight/feature/presentation/pages/journey_map/journey_map_page.dart';
+import 'package:starlight/feature/presentation/pages/journey_list/journey_list_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_page.dart';
+import 'package:starlight/feature/presentation/pages/profile/profile_page.dart';
 import 'package:starlight/feature/presentation/pages/trip/trip_page.dart';
 
 import '../../../core/constants/icons.dart';
@@ -51,7 +52,7 @@ class _NavigationPageState extends State<NavigationPage> {
           physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
           children: [
-            HomePage(),JourneyMapPage(),TripPage()
+            HomePage(),JourneyListPage(),ProfilePage()
           ],
         ),
       ),

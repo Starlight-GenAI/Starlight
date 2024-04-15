@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>397166996120-bhm3jlr7dj13q1dd5qa220s7cehi08o0.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.397166996120-bhm3jlr7dj13q1dd5qa220s7cehi08o0</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>397166996120-0jv16tfo3oi8suk7kt7hce53gtcm57s9.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDpxnLVnKqtAVc04PWiUtzim_xfZCA6qZ4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>397166996120</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.arise.starlight</string>
+	<key>PROJECT_ID</key>
+	<string>poc-innovation-iot</string>
+	<key>STORAGE_BUCKET</key>
+	<string>poc-innovation-iot.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:397166996120:ios:c8b49460fa0c247d3cbeed</string>
+</dict>
+</plist>

@@ -9,8 +9,10 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:starlight/core/constants/colors.dart';
 import 'package:starlight/feature/presentation/manager/home/home_event.dart';
+import 'package:starlight/feature/presentation/manager/navigation_controller.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_page.dart';
 import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
 import 'package:starlight/feature/presentation/manager/home/home_state.dart';
@@ -194,23 +196,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                         ),
                     ),
                   )
-                  : Row(
-                      children: [
-                        Text(
-                          "Alexander P.",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Poppins',
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Spacer(),
-                        CircleAvatar(
-                          backgroundImage: CachedNetworkImageProvider(
-                              'https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg'),
-                        )
-                      ],
-                    ),
+                  : Obx(
+                () => Row(
+                        children: [
+                          Text(
+                            Get.find<NavigationController>().name.value,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Poppins',
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Spacer(),
+                          CircleAvatar(
+                            backgroundImage: CachedNetworkImageProvider(
+                                Get.find<NavigationController>().profile.value ?? ""),
+                          )
+                        ],
+                      ),
+                  ),
             ),
             SizedBox(
               height: 3.h * _opacity,
