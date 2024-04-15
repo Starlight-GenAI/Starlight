@@ -12,6 +12,8 @@ class GetYoutubeSearchUseCase implements UseCase<DataState<YoutubeSearchEntity>,
 
   @override
   Future<DataState<YoutubeSearchEntity>> call({String? params}) {
+    print('/////yt params///////');
+    print(params);
     return _youtubeRepository.getSearch(word: params?? "Travel Thailand" );
   }
 }

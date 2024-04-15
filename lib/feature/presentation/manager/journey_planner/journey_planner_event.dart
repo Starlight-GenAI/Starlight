@@ -1,9 +1,15 @@
-// abstract class JourneyEvent {
-//   const JourneyEvent();
-// }
-//
-// class YoutubeSearch extends JourneyEvent {
-//   final String word;
-//
-//   YoutubeSearch({required this.word});
-// }
+abstract class JourneyPlannerEvent {
+  const JourneyPlannerEvent();
+}
+
+class UploadVideo extends JourneyPlannerEvent {
+  final String videoUrl;
+  final String userId;
+  final bool isUseSubtitle;
+
+  UploadVideo({
+    required this.videoUrl,
+    required this.userId,
+    required this.isUseSubtitle,
+  });
+}

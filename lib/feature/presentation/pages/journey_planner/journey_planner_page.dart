@@ -7,13 +7,18 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_bloc.dart';
+import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_event.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_add_link_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_progress_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_summary_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 
+import '../../../../injection_container.dart';
+import '../../../data/data_sources/upload_video/upload_video_request.dart';
+import '../../manager/journey_planner/journey_planner_state.dart';
 import '../navigation_page.dart';
 
 
@@ -148,7 +153,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                             //   child: Text('Next'),
                             // ),
                             _button(_currentIndex == 0 ? 'Next' : _currentIndex == 1 ? "Submit" : "Done"),
-                            SizedBox(height: !hasSafeAreaBottom ? 3.h : 0,)
+                            SizedBox(height: !hasSafeAreaBottom ? 3.h : 0,),
                           ],
                         ),
                       ],
@@ -164,31 +169,45 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
   }
 
    _button(text) {
-    return GestureDetector(
-        onTap: () => _currentIndex < 2 ? buttonCarouselController.nextPage(
-            duration: const Duration(milliseconds: 200), curve: Curves.linear) :
-            Get.back(),
-        child: Container(
-          width: 100.w,
-          decoration: const BoxDecoration(
-            color: Color(0xFF4D32F8),
-            borderRadius: BorderRadius.all(Radius.circular(100))
-          ),
-          child: Padding(
-            padding:  EdgeInsets.only(top: 4.5.w,bottom: 4.5.w),
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'Poppins',
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w800),
+    return bloc.BlocProvider<JourneyPlannerBloc>(
+      create: (context) => sl(),
+      child: GestureDetector(
+          // onTap: () => _currentIndex < 2 ? buttonCarouselController.nextPage(
+          //     duration: const Duration(milliseconds: 200), curve: Curves.linear) :
+          //     Get.back(),
+          onTap: () => {
+            bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: "videoUrl", isUseSubtitle: true, userId: "userId")),
+            // bloc.BlocBuilder<JourneyPlannerBloc, JourneyPlannerState>(builder: (_, state) {
+            //   if (state is UploadVideoLoadedState) {
+            //     buttonCarouselController.nextPage(
+            //       duration: const Duration(milliseconds: 200), curve: Curves.linear);
+            //   }
+            //     return SizedBox(width: 2,);
+            // })
+          },
+          child: Container(
+            width: 100.w,
+            decoration: const BoxDecoration(
+              color: Color(0xFF4D32F8),
+              borderRadius: BorderRadius.all(Radius.circular(100))
+            ),
+            child: Padding(
+              padding:  EdgeInsets.only(top: 4.5.w,bottom: 4.5.w),
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Poppins',
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w800),
+              ),
             ),
           ),
-        ),
+      ),
     );
   }
+
 }
 
 

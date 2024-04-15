@@ -8,6 +8,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
+import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_bloc.dart';
 import 'package:starlight/feature/presentation/pages/login/login_page.dart';
 import 'package:starlight/injection_container.dart';
 import 'core/constants/constants.dart';
@@ -22,7 +23,7 @@ Future<void> main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await initializeDependencies();
-  Get.put(NavigationController(),permanent: true);
+  Get.put(NavigationController(), permanent: true);
 
   runApp(const MyApp());
 }
@@ -48,9 +49,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, screenType){
-        return BlocProvider<HomeBloc>(
-          create: (context) => sl()
-          ..add(YoutubeSearch(word: 'travel')),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<HomeBloc>(
+              create: (context) =>
+              sl<HomeBloc>()..add(YoutubeSearch(word: 'travel')),
+            ),
+            BlocProvider<JourneyPlannerBloc>(
+              create: (context) =>
+                  sl<JourneyPlannerBloc>(),
+            ),
+          ],
           child: GetMaterialApp(
               debugShowCheckedModeBanner: false,
               home: StreamBuilder<User?>(

@@ -23,7 +23,7 @@ class UploadVideoRepositoryImpl implements UploadVideoRepository{
     try{
 
       final httpResponse = await _uploadVideoApiService.uploadVideo(body);
-      if (httpResponse.response.statusCode == HttpStatus.ok) {
+      if (httpResponse.response.statusCode == HttpStatus.created) {
         return DataSuccess(httpResponse.data);
       } else {
         return DataFailed(DioException(
