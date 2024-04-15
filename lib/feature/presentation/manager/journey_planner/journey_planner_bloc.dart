@@ -1,7 +1,5 @@
 import 'package:starlight/core/resources/data_state.dart';
 import 'package:starlight/feature/domain/use_cases/upload_video/upload_video.dart';
-import 'package:starlight/feature/presentation/manager/home/home_event.dart';
-import 'package:starlight/feature/presentation/manager/home/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_event.dart';
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_state.dart';
@@ -16,8 +14,6 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
 
   void onUploadVideo(UploadVideo uploadVideo, Emitter<JourneyPlannerState> emit) async{
     final dataState = await _uploadVideoUseCase();
-    print('/////////////upload dataState////////////');
-    print(dataState);
 
     if(dataState is DataSuccess && dataState.data != null){
       emit(
@@ -26,7 +22,7 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
     }
 
     if(dataState is DataFailed){
-      print(dataState.error!.message);
+      print(dataState.error!.response);
 
       emit(
           UploadVideoErrorState(dataState.error!)
