@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'upload_video_service.dart';
+part of 'video_detail_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'upload_video_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _UploadVideoApiService implements UploadVideoApiService {
-  _UploadVideoApiService(
+class _VideoDetailApiService implements VideoDetailApiService {
+  _VideoDetailApiService(
     this._dio, {
     this.baseUrl,
   }) {
@@ -21,22 +21,23 @@ class _UploadVideoApiService implements UploadVideoApiService {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<QueueIdResponse>> uploadVideo(
-      VideoRequestBody body) async {
+  Future<HttpResponse<VideoDetailResponse>> videoDetail(
+      VideoDetailRequestBody body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
+    print(_data);
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<QueueIdResponse>>(Options(
+        _setStreamType<HttpResponse<VideoDetailResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/upload',
+              '/video-info',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -45,9 +46,9 @@ class _UploadVideoApiService implements UploadVideoApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    print('//////////upload result///////////');
-    print(_result.data);
-    final value = QueueIdResponse.fromJson(_result.data!);
+    print('//////////result///////////');
+    print(_result.data?['video_detail']);
+    final value = VideoDetailResponse.fromJson(_result.data?['video_detail']);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

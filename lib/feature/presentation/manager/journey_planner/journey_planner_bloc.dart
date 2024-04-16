@@ -36,8 +36,8 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
 
   void onGetVideoDetail(VideoDetail videoDetail, Emitter<JourneyPlannerState> emit) async{
     final dataState = await _videoDetailUseCase(params: VideoDetailRequestBody(videoUrl: videoDetail.videoUrl));
-    print('/////////////////state data/////////////////');
-    print(dataState.data!);
+    print('/////////////////state detail data/////////////////');
+    print(dataState);
 
     if (dataState is DataSuccess && dataState.data != null) {
       final uploadedData = dataState.data!;

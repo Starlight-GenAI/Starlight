@@ -60,7 +60,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
 
     return bloc.BlocListener<JourneyPlannerBloc, JourneyPlannerState>(
       listener: (context, state) {
-        if (state is UploadVideoLoadedState) {
+        if (state is UploadVideoLoadedState || state is VideoDetailLoadedState) {
           buttonCarouselController.nextPage(
             duration: const Duration(milliseconds: 200),
             curve: Curves.linear,
@@ -237,7 +237,9 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
   }
 
   void _handleTap(BuildContext context) {
-    if (_currentIndex == 1) {
+    if (_currentIndex == 0) {
+      bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(VideoDetail(videoUrl: "https://youtu.be/IuTDuvYr7f0?si=0dBf78aaB15LGIpF"));
+    } else if (_currentIndex == 1) {
       bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: "https://youtu.be/IuTDuvYr7f0?si=0dBf78aaB15LGIpF", isUseSubtitle: true, userId: "2"));
     } else {
       buttonCarouselController.nextPage(

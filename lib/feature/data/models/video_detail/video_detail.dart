@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:starlight/feature/domain/entities/upload_video/upload_video.dart';
 import 'package:starlight/feature/domain/entities/video_detail/video_detail.dart';
 
@@ -9,8 +11,8 @@ class VideoDetailResponse extends VideoDetailEntity{
     required String thumbnails,
     required String publishAt,
     required String duration,
-    required String viewCount,
-    required String likeCount,
+    required int viewCount,
+    required int likeCount,
   }):super(
       title: title,
       decription: decription,

@@ -7,8 +7,8 @@ class VideoDetailEntity extends Equatable {
   final String thumbnails;
   final String publishAt;
   final String duration;
-  final String viewCount;
-  final String likeCount;
+  final int viewCount;
+  final int likeCount;
 
 
   const VideoDetailEntity({
