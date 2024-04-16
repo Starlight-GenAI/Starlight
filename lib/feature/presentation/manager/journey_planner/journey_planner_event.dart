@@ -13,3 +13,11 @@ class UploadVideo extends JourneyPlannerEvent {
     required this.isUseSubtitle,
   });
 }
+
+class VideoDetail extends JourneyPlannerEvent {
+  final String videoUrl;
+
+  VideoDetail({
+    required this.videoUrl,
+  });
+}

@@ -41,6 +41,6 @@ Future<void> initializeDependencies() async {
   );
 
   sl.registerFactory<JourneyPlannerBloc>(
-      () => JourneyPlannerBloc(sl())
+      () => JourneyPlannerBloc(sl(),sl())
   );
 }
