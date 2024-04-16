@@ -4,6 +4,7 @@ import 'package:starlight/feature/domain/entities/upload_video/upload_video.dart
 import 'package:starlight/feature/domain/entities/video_detail/video_detail.dart';
 
 import '../../../domain/entities/youtube_search.dart';
+import 'journey_planner_event.dart';
 
 abstract class JourneyPlannerState extends Equatable{
   final QueueIdEntity? list;
@@ -42,3 +43,5 @@ class VideoDetailLoadedState extends JourneyPlannerState {
 class VideoDetailErrorState extends JourneyPlannerState {
   const VideoDetailErrorState(DioException error) : super(error: error);
 }
+
+class ResetBlocEvent extends JourneyPlannerEvent {}

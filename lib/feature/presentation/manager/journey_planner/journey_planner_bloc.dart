@@ -17,6 +17,9 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
   JourneyPlannerBloc(this._uploadVideoUseCase, this._videoDetailUseCase): super(const VideoDetailLoadingState()) {
     on <UploadVideo> (onUploadVideo);
     on <VideoDetail> (onGetVideoDetail);
+    on <ResetBlocEvent>((event, emit){
+      emit(const VideoDetailLoadingState());
+    });
   }
 
   void onUploadVideo(UploadVideo uploadVideo, Emitter<JourneyPlannerState> emit) async{
@@ -46,6 +49,13 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
     } else if (dataState is DataFailed) {
       print(dataState.error!.response);
       emit(VideoDetailErrorState(dataState.error!));
+    }
+
+  }
+  @override
+  Stream<JourneyPlannerState> mapEventToState(JourneyPlannerEvent event) async* {
+    if (event is ResetBlocEvent) {
+      yield const VideoDetailLoadingState();
     }
   }
 

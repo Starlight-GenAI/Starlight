@@ -33,6 +33,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
   final double _paddingContent = 24;
   int _currentIndex = 0;
   CarouselController buttonCarouselController = CarouselController();
+  JourneyPlannerBloc? _bloc;
 
   var urlFromClipBoard = "";
 
@@ -49,6 +50,22 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
       }
     }
     );
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Save a reference to the JourneyPlannerBloc using dependOnInheritedWidgetOfExactType
+    _bloc ??= bloc.BlocProvider.of<JourneyPlannerBloc>(context);
+  }
+
+  @override
+  void dispose() {
+    print("leo dispose");
+    _bloc?.add(ResetBlocEvent());
+    super.dispose();
+
   }
 
   @override
@@ -89,7 +106,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                   children: [
                     GestureDetector(
                       onTap: () =>
-                          Get.to(transition: Transition.leftToRight,
+                          Get.off(transition: Transition.leftToRight,
                                   () => NavigationPage()
                           ),
                       child: Padding(
@@ -238,6 +255,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
 
   void _handleTap(BuildContext context) {
     if (_currentIndex == 0) {
+      print('try add event');
       bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(VideoDetail(videoUrl: "https://youtu.be/IuTDuvYr7f0?si=0dBf78aaB15LGIpF"));
     } else if (_currentIndex == 1) {
       bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: "https://youtu.be/IuTDuvYr7f0?si=0dBf78aaB15LGIpF", isUseSubtitle: true, userId: "2"));
