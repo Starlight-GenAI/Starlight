@@ -75,6 +75,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     final bool hasSafeAreaBottom = MediaQuery
@@ -94,7 +95,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
             duration: const Duration(milliseconds: 200),
             curve: Curves.linear,
           );
-        } else if (state is UploadVideoErrorState || state is VideoDetailErrorState) {
+        } else if (state is VideoDetailErrorState) {
           Get.to(transition: Transition.downToUp,
                   () => ErrorAlertPage());
         }
@@ -211,7 +212,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                             //   child: Text('Next'),
                             // ),
                             _button(
-                                _currentIndex == 0 ? 'Next' : _currentIndex == 1
+                                _currentIndex == 0 ? 'Paste Link' : _currentIndex == 1
                                     ? "Submit"
                                     : "Done"),
                             SizedBox(height: !hasSafeAreaBottom ? 3.h : 0,),
@@ -263,7 +264,14 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
   void _handleTap(BuildContext context) {
     if (_currentIndex == 0) {
       print('try add event');
-      bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(VideoDetail(videoUrl: urlFromClipBoard));
+      Clipboard.getData(Clipboard.kTextPlain).then((value) {
+        var clipboard = value?.text ?? "";
+        setState(() {
+          urlFromClipBoard = clipboard;
+        });
+        bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(VideoDetail(videoUrl: urlFromClipBoard));
+
+      });
     } else if (_currentIndex == 1) {
       bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: "https://youtu.be/IuTDuvYr7f0?si=0dBf78aaB15LGIpF", isUseSubtitle: true, userId: "2"));
     } else {
