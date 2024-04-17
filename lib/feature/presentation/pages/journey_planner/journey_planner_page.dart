@@ -12,6 +12,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_bloc.dart';
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_event.dart';
+import 'package:starlight/feature/presentation/manager/navigation_controller.dart';
 import 'package:starlight/feature/presentation/pages/error_alert/error_alert_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_add_link_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_progress_page.dart';
@@ -273,11 +274,9 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
 
       });
     } else if (_currentIndex == 1) {
-      bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: "https://youtu.be/IuTDuvYr7f0?si=0dBf78aaB15LGIpF", isUseSubtitle: true, userId: "2"));
+      bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: urlFromClipBoard, isUseSubtitle: true, userId: Get.find<NavigationController>().uid.value));
     } else {
-      Get.off(transition: Transition.leftToRight,
-              () => NavigationPage()
-      );
+      Get.back();
     }
   }
 
