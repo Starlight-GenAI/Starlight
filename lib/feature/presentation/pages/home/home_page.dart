@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: 3.h, left: 2.5.h,right: 2.5.h,bottom: 1.h),
+                          padding: EdgeInsets.only(top: 3.h, left: 2.5.h,right: 2.5.h,bottom: 2.h),
                           child: Text(
                             "Daily Journey",
                             style: TextStyle(
@@ -255,7 +256,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                           children: [
                                             Image.asset(
                                               tripGenIcon,
-                                              scale: 3,
+                                              scale: 2.5,
                                             ),
                                             SizedBox(
                                               width: 1.w,
@@ -266,7 +267,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                                   color: homeTitle,
                                                   fontFamily: 'poppins',
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 15.sp),
+                                                  fontSize: 16.sp),
                                             ),
                                           ],
                                         ),
@@ -279,7 +280,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                               color:
                                                   Colors.white.withOpacity(0.6),
                                               fontFamily: 'inter',
-                                              fontWeight: FontWeight.w400,
+                                              fontWeight: FontWeight.w500,
                                               fontSize: 14.sp),
                                         ),
                                       ],
@@ -382,7 +383,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 1.h, right: 1.h),
+                        padding: EdgeInsets.only(bottom: 3.w, right: 2.5.w, top: 1.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -396,8 +397,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                     horizontal: 3.w, vertical: .5.h),
                                 child: Row(
                                   children: [
-                                    Icon(EvaIcons.people,
-                                        size: 15.sp, color: Color(0xFF0034A0)),
+                                    FaIcon(FontAwesomeIcons.youtube, size: 15.sp,
+                                        color: const Color(0xFF0034A0)),
                                     SizedBox(
                                       width: 1.w,
                                     ),
