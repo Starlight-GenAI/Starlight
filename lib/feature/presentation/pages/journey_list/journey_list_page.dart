@@ -3,12 +3,15 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:starlight/feature/presentation/manager/journey_summary/journet_summary_bloc.dart';
+import 'package:starlight/feature/presentation/manager/journey_summary/journet_summary_event.dart';
 import 'package:starlight/feature/presentation/pages/summary/summary_page.dart';
 import 'package:starlight/feature/presentation/pages/trip/trip_page.dart';
 
@@ -108,7 +111,9 @@ class _JourneyListPageState extends State<JourneyListPage> {
                             padding: EdgeInsets.only(bottom: 1.5.h),
                             child: GestureDetector(
                               onTap: (){
-                                print('dsds');
+
+                                bloc.BlocProvider.of<JourneySummaryBloc>(context).add(GetSummaryVideo(id: '514436d358b0436e973c7fdf6d2912e7'));
+                                
                                 Get.to(
                                   transition: Transition.rightToLeft,
                                     () => SummaryPage()

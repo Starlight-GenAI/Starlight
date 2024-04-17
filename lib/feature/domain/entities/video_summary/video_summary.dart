@@ -43,11 +43,11 @@ class Content {
 
   factory Content.fromJson(Map<String, dynamic> json) {
     return Content(
-      locationName: json['locationName'],
-      startTime: json['startTime']?.toDouble(), // Convert to double
-      endTime: json['endTime']?.toDouble(), // Convert to double
+      locationName: json['location_name'],
+      startTime: json['start_time']?.toDouble(), // Convert to double
+      endTime: json['end_time']?.toDouble(), // Convert to double
       summary: json['summary'],
-      placeId: json['placeId'],
+      placeId: json['place_id'],
       lat: json['lat']?.toDouble(), // Convert to double
       lng: json['lng']?.toDouble(), // Convert to double
     );

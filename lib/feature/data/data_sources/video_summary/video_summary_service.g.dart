@@ -28,6 +28,7 @@ class _VideoSummaryService implements VideoSummaryService {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
+    print('hi leo sum');
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<VideoSummaryResponse>>(Options(
       method: 'POST',
@@ -45,6 +46,7 @@ class _VideoSummaryService implements VideoSummaryService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
+    // print(_result.data);
     final value = VideoSummaryResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;

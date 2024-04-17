@@ -9,6 +9,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_bloc.dart';
+import 'package:starlight/feature/presentation/manager/journey_summary/journet_summary_bloc.dart';
 import 'package:starlight/feature/presentation/pages/login/login_page.dart';
 import 'package:starlight/injection_container.dart';
 import 'core/constants/constants.dart';
@@ -59,6 +60,9 @@ class MyApp extends StatelessWidget {
               create: (context) =>
                   sl<JourneyPlannerBloc>(),
             ),
+            BlocProvider<JourneySummaryBloc>(create: (context)
+                => sl<JourneySummaryBloc>(),
+            )
           ],
           child: GetMaterialApp(
               debugShowCheckedModeBanner: false,

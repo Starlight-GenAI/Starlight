@@ -11,15 +11,14 @@ class VideoSummaryResponse extends VideoSummaryEntity{
     required super.userId
   });
 
-  factory VideoSummaryResponse.fromJson(Map < String, dynamic > map) {
+  factory VideoSummaryResponse.fromJson(Map<String, dynamic> json) {
     return VideoSummaryResponse(
-      canGenerateTrip: map['canGenerateTrip'],
-      userId: map['userId'],
-      content: (map['content'] as List<dynamic>?)
-          !.map((item) => Content.fromJson(item))
-          .toList(),
+      canGenerateTrip: json['can_generate_trip'] ?? false, // Note the key change
+      userId: json['user_id'] ?? '', // Note the key change
+      content: (json['content'] as List<dynamic>?)
+          ?.map((item) => Content.fromJson(item))
+          .toList() ?? [],
     );
   }
-
 }
 
