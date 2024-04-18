@@ -2,7 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:starlight/feature/data/data_sources/video_summary/video_summary_request.dart';
-import 'package:starlight/feature/presentation/manager/journey_summary/journet_summary_event.dart';
+import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_event.dart';
 import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_state.dart';
 
 import '../../../../core/resources/data_state.dart';

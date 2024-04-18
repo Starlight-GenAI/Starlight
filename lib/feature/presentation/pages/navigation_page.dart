@@ -1,4 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,13 +8,15 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/colors.dart';
+import 'package:starlight/feature/presentation/manager/list_history/list_history_bloc.dart';
 import 'package:starlight/feature/presentation/pages/home/home_page.dart';
-import 'package:starlight/feature/presentation/pages/journey_list/journey_list_page.dart';
-import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_page.dart';
+import 'package:starlight/feature/presentation/pages/list_history/list_history_page.dart';
 import 'package:starlight/feature/presentation/pages/profile/profile_page.dart';
 import 'package:starlight/feature/presentation/pages/trip/trip_page.dart';
 
 import '../../../core/constants/icons.dart';
+import '../../../injection_container.dart';
+import '../manager/list_history/list_history_event.dart';
 import '../manager/navigation_controller.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -52,7 +55,7 @@ class _NavigationPageState extends State<NavigationPage> {
           physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
           children: [
-            HomePage(),JourneyListPage(),ProfilePage()
+            HomePage(),ListHistoryPage(),ProfilePage()
           ],
         ),
       ),
@@ -72,9 +75,12 @@ class _NavigationPageState extends State<NavigationPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(bottomNavActiveItems.length, (index) => GestureDetector(
-              onTap: (){
+              onTap: () async{
                 print(index);
                 setState(() {
+                  // if(index==1){
+                  // sl<ListHistoryBloc>().add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
+                  // }
                   _selected = index;
                   pageController.jumpToPage(_selected);
                 });

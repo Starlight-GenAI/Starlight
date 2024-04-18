@@ -9,13 +9,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:starlight/feature/presentation/manager/journey_summary/journet_summary_bloc.dart';
+import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_bloc.dart';
 import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_state.dart';
 import 'package:starlight/feature/presentation/pages/trip/trip_page.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/icons.dart';
+import '../../../data/models/list_history/list_history.dart';
 
 class SummaryPage extends StatefulWidget {
   const SummaryPage({super.key});
@@ -25,16 +26,8 @@ class SummaryPage extends StatefulWidget {
 }
 
 class _SummaryPageState extends State<SummaryPage> {
-  final YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'DdNinknbetM',
-    flags: const YoutubePlayerFlags(
-      autoPlay: true,
-      mute: false,
-      hideThumbnail: true,
-      forceHD: true,
-      disableDragSeek: true,
-    ),
-  );
+  ListHistoryItemResponse _listHistoryItemResponse = Get.arguments;
+  late YoutubePlayerController _controller ;
 
   double _opacity = 1;
   bool hideCreator = false;
@@ -50,6 +43,28 @@ class _SummaryPageState extends State<SummaryPage> {
     return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = YoutubePlayerController(
+      initialVideoId: _listHistoryItemResponse.videoId,
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+        hideThumbnail: true,
+        forceHD: true,
+        disableDragSeek: true,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +119,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 children: [
                   Column(
                     children: [
-                      // _buildYoutubePlayer(),
+                      _buildYoutubePlayer(),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 2.h, vertical: 24),
                         child: Row(
@@ -119,7 +134,7 @@ class _SummaryPageState extends State<SummaryPage> {
                             ),
                             Expanded(
                                 child: Text(
-                                  'This is SINGAPORE!? - Our Top LOCAL Things to Do, See & Eat! 😍 The Ultimate Guide',
+                                  _listHistoryItemResponse.title,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -220,10 +235,15 @@ class _SummaryPageState extends State<SummaryPage> {
                                   left: 2.h, right: 2.h, bottom: 2.h),
                               child: GestureDetector(
                                 onTap: () {
+                                  if (selectCard != index){
+                                    _controller.seekTo(Duration(seconds: state.list!.content[index].startTime!.floor()));
+                                    _controller.play();
+                                  }
                                   setState(() {
                                     selectCard =
                                     selectCard == index ? -1 : index;
                                   });
+
                                 },
                                 child: AnimatedContainer(
                                   duration: Duration(milliseconds: 200),
@@ -257,7 +277,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                                     topRight:
                                                     Radius.circular(12))
                                                     : BorderRadius.circular(12),
-                                                image: const DecorationImage(
+                                                image: DecorationImage(
                                                     image: CachedNetworkImageProvider(
                                                         "https://img-ha.mthcdn.com/jKQjrId3X0-ENg0iu8ykpFajUj0=/travel.mthai.com/app/uploads/2019/03/phuket-cover.jpg"),
                                                     fit: BoxFit.fitWidth)),
@@ -319,16 +339,20 @@ class _SummaryPageState extends State<SummaryPage> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.end,
                                           children: [
-                                            Text(
-                                              state.list!.content[index].locationName ?? "",
-                                              style: TextStyle(
-                                                  fontFamily: 'inter',
-                                                  fontWeight:
-                                                  FontWeight.w700,
-                                                  color: Colors.white,
-                                                  fontSize: 16.sp),
+                                            Expanded(
+                                              child: Text(
+                                                state.list!.content[index].locationName ?? "",
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontFamily: 'inter',
+                                                    fontWeight:
+                                                    FontWeight.w700,
+                                                    color: Colors.white,
+                                                    fontSize: 16.sp),
+                                              ),
                                             ),
-                                            Spacer(),
+                                            SizedBox(width: 1.w,),
                                             Container(
                                               decoration: BoxDecoration(
                                                   color: Colors.white
@@ -494,6 +518,8 @@ class _SummaryPageState extends State<SummaryPage> {
                           Expanded(
                             child: CircleAvatar(
                               radius: 20.sp,
+                                backgroundImage: CachedNetworkImageProvider(
+                                _listHistoryItemResponse.thumbnails)
                             ),
                           ),
                           Expanded(
@@ -503,7 +529,7 @@ class _SummaryPageState extends State<SummaryPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "The Endless Adventure",
+                                  _listHistoryItemResponse.videoUrl,
                                   maxLines: 1,
                                   style: TextStyle(
                                       fontSize: 15.sp,
@@ -514,7 +540,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                   height: .2.h,
                                 ),
                                 Text(
-                                    "This is SINGAPORE!? - Our Top LOC..asdasdas.",
+                                    _listHistoryItemResponse.description,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: TextStyle(

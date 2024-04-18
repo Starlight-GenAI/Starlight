@@ -117,9 +117,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                   children: [
                     GestureDetector(
                       onTap: () =>
-                          Get.off(transition: Transition.leftToRight,
-                                  () => NavigationPage()
-                          ),
+                          Get.back(),
                       child: Padding(
                           padding: EdgeInsets.only(right: 3.w),
                           child: FaIcon(FontAwesomeIcons.angleLeft, size: 20.sp,

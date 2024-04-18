@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/images.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_page.dart';
+import 'package:starlight/feature/presentation/pages/navigation_page.dart';
 
 class ErrorAlertPage extends StatefulWidget {
   const ErrorAlertPage({super.key});
@@ -64,15 +66,24 @@ class _ErrorAlertPageState extends State<ErrorAlertPage> {
                     child: Column(
                       children: [
                         _button('Try Again'),
-                        SizedBox(height: 2.h),
-                        Text(
-                          'Go to home page',
-                          style: TextStyle(
-                              color: const Color(0xFF8E8E8E),
-                              fontFamily: 'Inter',
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: -0.17
+                        GestureDetector(
+                          onTap: (){
+                            Get.offAll(
+                              transition: Transition.leftToRight,
+                                () => NavigationPage());
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(2.h),
+                            child: Text(
+                              'Go to home page',
+                              style: TextStyle(
+                                  color: const Color(0xFF8E8E8E),
+                                  fontFamily: 'Inter',
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: -0.17
+                              ),
+                            ),
                           ),
                         ),
                       ],

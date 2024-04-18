@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                       Image.asset(logo, width: 2.25.h,),
                       SizedBox(width: 1.8.w,),
                       Text(
-                        "Startlight",
+                        "Starlight",
                         style: TextStyle(
                             color: Color(0xFF4F4C74),
                             fontFamily: 'Poppins',
