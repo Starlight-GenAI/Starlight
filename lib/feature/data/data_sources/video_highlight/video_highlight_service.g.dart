@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'upload_video_service.dart';
+part of 'video_highlight_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,12 +8,12 @@ part of 'upload_video_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _UploadVideoApiService implements UploadVideoApiService {
-  _UploadVideoApiService(
+class _VideoHighlightApiService implements VideoHighlightApiService {
+  _VideoHighlightApiService(
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://34.87.143.194:8080';
+    baseUrl ??= 'http://34.124.179.226:8080';
   }
 
   final Dio _dio;
@@ -21,22 +21,22 @@ class _UploadVideoApiService implements UploadVideoApiService {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<QueueIdResponse>> uploadVideo(
-      VideoRequestBody body) async {
+  Future<HttpResponse<VideoHighlightResponse>> videoHighlight(
+      VideoHighlightRequestBody body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<QueueIdResponse>>(Options(
+        _setStreamType<HttpResponse<VideoHighlightResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/upload',
+              '/get-video-highlight',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -45,7 +45,7 @@ class _UploadVideoApiService implements UploadVideoApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = QueueIdResponse.fromJson(_result.data!);
+    final value = VideoHighlightResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

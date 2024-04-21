@@ -15,6 +15,7 @@ import 'package:starlight/feature/presentation/pages/login/login_page.dart';
 import 'package:starlight/injection_container.dart';
 import 'core/constants/constants.dart';
 import 'feature/presentation/manager/home/home_event.dart';
+import 'feature/presentation/manager/journey_highlight/journey_highlight_bloc.dart';
 import 'feature/presentation/manager/list_history/list_history_event.dart';
 import 'feature/presentation/manager/navigation_controller.dart';
 import 'feature/presentation/pages/navigation_page.dart';
@@ -68,6 +69,10 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider<JourneySummaryBloc>(create: (context)
                 => sl<JourneySummaryBloc>()
+            ),
+            BlocProvider<JourneyHighlightBloc>(
+                create: (context) =>
+                    sl<JourneyHighlightBloc>()
             )
           ],
           child: GetMaterialApp(

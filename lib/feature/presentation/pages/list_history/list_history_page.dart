@@ -10,6 +10,8 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:starlight/feature/presentation/manager/journey_highlight/journey_highlight_bloc.dart';
+import 'package:starlight/feature/presentation/manager/journey_highlight/journey_highlight_event.dart';
 import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_bloc.dart';
 import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_event.dart';
 import 'package:starlight/feature/presentation/manager/list_history/list_history_bloc.dart';
@@ -131,6 +133,7 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                             JourneySummaryBloc>(context)
                                             .add(GetSummaryVideo(
                                             id: state.list?.items[index].queueId ?? ""));
+                                        bloc.BlocProvider.of<JourneyHighlightBloc>(context).add(GetHighlight(Id: state.list?.items[index].queueId ?? ""));
 
                                         Get.to(
                                             transition: Transition.rightToLeft,
