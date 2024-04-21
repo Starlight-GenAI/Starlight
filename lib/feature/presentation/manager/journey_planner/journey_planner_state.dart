@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:starlight/feature/domain/entities/upload_video/upload_video.dart';
 import 'package:starlight/feature/domain/entities/video_detail/video_detail.dart';
 
-import '../../../domain/entities/youtube_search.dart';
+import '../../../domain/entities/youtube/youtube_search.dart';
 import 'journey_planner_event.dart';
 
 abstract class JourneyPlannerState extends Equatable{

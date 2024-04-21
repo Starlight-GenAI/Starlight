@@ -4,7 +4,7 @@ import 'package:starlight/feature/presentation/manager/home/home_event.dart';
 import 'package:starlight/feature/presentation/manager/home/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/use_cases/get_youtube_search.dart';
+import '../../../domain/use_cases/youtube/get_youtube_search.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetYoutubeSearchUseCase _getYoutubeSearchUseCase;

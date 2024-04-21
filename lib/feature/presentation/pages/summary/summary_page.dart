@@ -29,12 +29,15 @@ class _SummaryPageState extends State<SummaryPage> {
   ListHistoryItemResponse _listHistoryItemResponse = Get.arguments;
   late YoutubePlayerController _controller ;
 
-  double _opacity = 1;
-  bool hideCreator = false;
   var chipIndex = 0;
-  var chipList = ["Locations"];
-  var chipIcon = [locationIcon, restaurantIcon, hotelIcon];
+  // var chipList = ["Locations"];
+  var chipIcon = [locationIcon, restaurantIcon, hotelIcon,locationIcon, restaurantIcon, hotelIcon];
   var selectCard = -1;
+
+  var countCate = [0,0,0,0,0,0];
+  var countExistCate = 0;
+  var chipList = ["Attractions","Dining","Accommodation","Entertainment","Outdoor Activities","ETC"];
+  var isFirstInit = false;
 
   String secondsToMmSs(double seconds) {
     int totalSeconds = seconds.ceil();
@@ -43,9 +46,36 @@ class _SummaryPageState extends State<SummaryPage> {
     return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
+  String getImage(String refLink){
+    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&photo_reference=" + refLink + "&key=AIzaSyBUWL3YL5gSpmRsS1Zjlp3ip9KA60Qd9I8&maxheight=400";
+  }
+
+  void startCountCate(VideoSummaryLoadedState state) {
+    state.list?.content.forEach((element) {
+      print(element.category);
+      for (int i = 0; i < chipList.length; i++) {
+        if (element.category == chipList[i].toLowerCase()) {
+            countCate[i]++;
+          break;
+        }
+      }
+    });
+    isFirstInit = true;
+    // startCountChip();
+
+  }
+
+  void startCountChip(){
+    for (int count in countCate) {
+      if (count > 0) {
+          countExistCate++;
+      }
+    }
+  }
+
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: _listHistoryItemResponse.videoId,
@@ -57,7 +87,9 @@ class _SummaryPageState extends State<SummaryPage> {
         disableDragSeek: true,
       ),
     );
+
   }
+
 
   @override
   void dispose() {
@@ -115,13 +147,16 @@ class _SummaryPageState extends State<SummaryPage> {
               return Center(child: CircularProgressIndicator());
             }
             if (state is VideoSummaryLoadedState) {
-              return  Stack(
+              if (isFirstInit == false){
+                startCountCate(state);
+              }
+              return Stack(
                 children: [
                   Column(
                     children: [
                       _buildYoutubePlayer(),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2.h, vertical: 24),
+                        padding: EdgeInsets.only(top: 2.h, left: 24, right: 24,bottom: 1.h),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -146,13 +181,12 @@ class _SummaryPageState extends State<SummaryPage> {
                           ],
                         ),
                       ),
-                      Container(
-                        height: 4.h,
+                      Expanded(
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: chipList.length,
                             itemBuilder: (context, index) {
-                              return GestureDetector(
+                              return countCate[index] >0 ?GestureDetector(
                                 onTap: () {
                                   setState(() {
                                     chipIndex = index;
@@ -163,6 +197,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                       right: 1.w, left: index == 0 ? 2.5.h : 0),
                                   child: Center(
                                     child: Container(
+                                      height: 4.h,
                                       decoration: BoxDecoration(
                                           color: chipIndex == index
                                               ? Color(0xFF4D32F8)
@@ -173,7 +208,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                                 color: Color(0xFFC7CEDF)
                                                     .withOpacity(0.45),
                                                 offset: Offset(3, 1),
-                                                blurRadius: 40)
+                                                blurRadius: 15)
                                           ]),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(vertical: 1.h),
@@ -205,7 +240,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                               backgroundColor: chipIndex == index
                                                   ? Colors.white
                                                   : Color(0xFFEAEDFF),
-                                              child: Text(state.list?.content.length.toString() ?? "",
+                                              child: Text(countCate[index].toString(),
                                                   style: TextStyle(
                                                       color: chipIndex == index
                                                           ? Color(0xFF4D32F8)
@@ -220,17 +255,20 @@ class _SummaryPageState extends State<SummaryPage> {
                                     ),
                                   ),
                                 ),
-                              );
+                              ):Container();
                             }),
                       ),
                       SizedBox(
-                        height: 2.h,
+                        height: 1.h,
                       ),
-                      Expanded(child: ListView.builder(
+                      Expanded(
+                        flex: 10,
+                          child: ListView.builder(
                           padding: EdgeInsets.zero,
                           itemCount: state.list?.content.length,
                           itemBuilder: (context, index) {
-                            return Padding(
+                            print(state.list?.content[index].photo);
+                            return state.list?.content[index].category == chipList[chipIndex].toLowerCase()? Padding(
                               padding: EdgeInsets.only(
                                   left: 2.h, right: 2.h, bottom: 2.h),
                               child: GestureDetector(
@@ -273,14 +311,14 @@ class _SummaryPageState extends State<SummaryPage> {
                                                     index
                                                     ? BorderRadius.only(
                                                     topLeft:
-                                                    Radius.circular(12),
+                                                    Radius.circular(8),
                                                     topRight:
-                                                    Radius.circular(12))
+                                                    Radius.circular(8))
                                                     : BorderRadius.circular(12),
                                                 image: DecorationImage(
                                                     image: CachedNetworkImageProvider(
-                                                        "https://img-ha.mthcdn.com/jKQjrId3X0-ENg0iu8ykpFajUj0=/travel.mthai.com/app/uploads/2019/03/phuket-cover.jpg"),
-                                                    fit: BoxFit.fitWidth)),
+                                                        getImage(state.list?.content[index].photo ?? "")),
+                                                    fit: BoxFit.cover)),
                                           ),
                                           selectCard == index
                                               ? Padding(
@@ -401,27 +439,11 @@ class _SummaryPageState extends State<SummaryPage> {
                                   ),
                                 ),
                               ),
-                            );
+                            ):Container();
                           })),
                     ],
                   ),
-                  hideCreator
-                      ? SizedBox()
-                      : AnimatedSwitcher(
-                    duration: Duration(milliseconds: 200),
-                    child: Container(
-                        height: 20.h,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.black.withOpacity(_opacity * 0.6),
-                              Colors.transparent,
-                            ],
-                          ),
-                        )),
-                  ),
+
                 ],
               );
             }
@@ -459,111 +481,9 @@ class _SummaryPageState extends State<SummaryPage> {
               ),
               const SizedBox(width: 8.0),
             ],
-            onReady: () {
-              Future.delayed(Duration(milliseconds: 1500)).then((value) {
-                setState(() {
-                  _opacity = 0;
-                });
-                Future.delayed(Duration(milliseconds: 500)).then((value) {
-                  setState(() {
-                    hideCreator = true;
-                  });
-                });
-              });
-              // _controller.addListener(() {
-              //   if(!_controller.value.isPlaying){
-              //     setState(() {
-              //       _opacity = 1;
-              //       hideCreator = false;
-              //     });
-              //   }
-              // });
-            },
+
           ),
         ),
-        hideCreator
-            ? Container()
-            : AnimatedOpacity(
-                opacity: _opacity,
-                duration: Duration(milliseconds: 500),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w),
-                  child: GestureDetector(
-                    onTap: () {
-                      // setState(() {
-                      //   _opacity = 0;
-                      //   hideCreator = true;
-                      // });
-                      // _controller.play();
-                    },
-                    child: Container(
-                      height: 8.h,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(48),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: shadowColor.withOpacity(0.3),
-                              offset: Offset(0, 4),
-                              blurRadius: 12,
-                            )
-                          ]),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 1.w,
-                          ),
-                          Expanded(
-                            child: CircleAvatar(
-                              radius: 20.sp,
-                                backgroundImage: CachedNetworkImageProvider(
-                                _listHistoryItemResponse.thumbnails)
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  _listHistoryItemResponse.videoUrl,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: 'inter'),
-                                ),
-                                SizedBox(
-                                  height: .2.h,
-                                ),
-                                Text(
-                                    _listHistoryItemResponse.description,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color:
-                                            Color(0xFF201E38).withOpacity(0.6),
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'inter')),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                              child: Icon(
-                            EvaIcons.checkmark,
-                            size: 24.sp,
-                            color: Color(0xFF009421),
-                          ))
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
         Positioned(
             top: 0,
             left: 0,

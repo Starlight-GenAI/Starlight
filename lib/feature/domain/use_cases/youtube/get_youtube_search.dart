@@ -1,9 +1,9 @@
 
-import 'package:starlight/feature/domain/entities/youtube_search.dart';
-import 'package:starlight/feature/domain/repositories/youtube_repository.dart';
+import 'package:starlight/feature/domain/entities/youtube/youtube_search.dart';
+import 'package:starlight/feature/domain/repositories/youtube/youtube_repository.dart';
 
-import '../../../core/resources/data_state.dart';
-import '../../../core/usecase/usecase.dart';
+import '../../../../core/resources/data_state.dart';
+import '../../../../core/usecase/usecase.dart';
 
 class GetYoutubeSearchUseCase implements UseCase<DataState<YoutubeSearchEntity>, String> {
   final YoutubeRepository _youtubeRepository;

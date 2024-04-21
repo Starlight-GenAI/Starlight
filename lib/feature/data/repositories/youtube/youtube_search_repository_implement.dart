@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:starlight/core/constants/constants.dart';
 import 'package:starlight/feature/data/data_sources/youtube/youtube_api_service.dart';
-import 'package:starlight/feature/data/models/youtube_search.dart';
-import 'package:starlight/feature/domain/repositories/youtube_repository.dart';
+import 'package:starlight/feature/data/models/youtube/youtube_search.dart';
+import 'package:starlight/feature/domain/repositories/youtube/youtube_repository.dart';
 
-import '../../../core/resources/data_state.dart';
-import '../../domain/entities/youtube_search.dart';
+import '../../../../core/resources/data_state.dart';
+import '../../../domain/entities/youtube/youtube_search.dart';
 
 class YoutubeRepositoryImpl implements YoutubeRepository {
   final YoutubeApiService _youtubeApiService;

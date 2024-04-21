@@ -1,5 +1,5 @@
 
-import 'package:starlight/feature/domain/entities/youtube_search.dart';
+import 'package:starlight/feature/domain/entities/youtube/youtube_search.dart';
 
 class YoutubeSearchModel extends YoutubeSearchEntity {
   const YoutubeSearchModel({

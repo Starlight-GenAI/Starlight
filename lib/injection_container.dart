@@ -8,13 +8,13 @@ import 'package:starlight/feature/data/data_sources/youtube/youtube_api_service.
 import 'package:starlight/feature/data/repositories/list_history/list_history_repository_implement.dart';
 import 'package:starlight/feature/data/repositories/upload_video/upload_video_repository.dart';
 import 'package:starlight/feature/data/repositories/video_detail/video_detail_repository.dart';
-import 'package:starlight/feature/data/repositories/youtube_search_repository_implement.dart';
+import 'package:starlight/feature/data/repositories/youtube/youtube_search_repository_implement.dart';
 import 'package:starlight/feature/domain/repositories/list_history/list_history_repository.dart';
 import 'package:starlight/feature/domain/repositories/upload_video/upload_video_repository.dart';
 import 'package:starlight/feature/domain/repositories/video_detail/video_detail_repository.dart';
 import 'package:starlight/feature/domain/repositories/video_summary/video_summary_repository.dart';
-import 'package:starlight/feature/domain/repositories/youtube_repository.dart';
-import 'package:starlight/feature/domain/use_cases/get_youtube_search.dart';
+import 'package:starlight/feature/domain/repositories/youtube/youtube_repository.dart';
+import 'package:starlight/feature/domain/use_cases/youtube/get_youtube_search.dart';
 import 'package:starlight/feature/domain/use_cases/list_history/list_history.dart';
 import 'package:starlight/feature/domain/use_cases/upload_video/upload_video.dart';
 import 'package:starlight/feature/domain/use_cases/video_detail/video_detail.dart';

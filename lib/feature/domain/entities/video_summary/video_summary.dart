@@ -30,6 +30,8 @@ class Content {
   final String? placeId;
   final double? lat;
   final double? lng;
+  final String? category;
+  final String? photo;
 
   Content({
     this.locationName,
@@ -39,6 +41,8 @@ class Content {
     this.placeId,
     this.lat,
     this.lng,
+    this.category,
+    this.photo
   });
 
   factory Content.fromJson(Map<String, dynamic> json) {
@@ -48,8 +52,10 @@ class Content {
       endTime: json['end_time']?.toDouble(), // Convert to double
       summary: json['summary'],
       placeId: json['place_id'],
-      lat: json['lat']?.toDouble(), // Convert to double
-      lng: json['lng']?.toDouble(), // Convert to double
+      lat: json['lat']?.toDouble(),
+      lng: json['lng']?.toDouble(),
+      category: json['category'],
+      photo: json['photo']
     );
   }
 }

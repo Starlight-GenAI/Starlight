@@ -6,11 +6,11 @@ import 'package:starlight/feature/data/data_sources/upload_video/upload_video_re
 import 'package:starlight/feature/data/data_sources/video_detail/video_detail_request.dart';
 import 'package:starlight/feature/data/data_sources/video_detail/video_detail_service.dart';
 import 'package:starlight/feature/data/data_sources/youtube/youtube_api_service.dart';
-import 'package:starlight/feature/data/models/youtube_search.dart';
+import 'package:starlight/feature/data/models/youtube/youtube_search.dart';
 import 'package:starlight/feature/domain/entities/video_detail/video_detail.dart';
 import 'package:starlight/feature/domain/repositories/upload_video/upload_video_repository.dart';
 import 'package:starlight/feature/domain/repositories/video_detail/video_detail_repository.dart';
-import 'package:starlight/feature/domain/repositories/youtube_repository.dart';
+import 'package:starlight/feature/domain/repositories/youtube/youtube_repository.dart';
 
 import '../../../../core/resources/data_state.dart';
 import '../../../domain/entities/upload_video/upload_video.dart';

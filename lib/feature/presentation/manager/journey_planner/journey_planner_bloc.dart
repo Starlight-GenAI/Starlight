@@ -8,7 +8,7 @@ import 'package:starlight/feature/domain/use_cases/video_detail/video_detail.dar
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_event.dart';
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_state.dart';
 
-import '../../../domain/use_cases/get_youtube_search.dart';
+import '../../../domain/use_cases/youtube/get_youtube_search.dart';
 
 class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
   final UploadVideoUseCase _uploadVideoUseCase;

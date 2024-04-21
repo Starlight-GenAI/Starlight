@@ -5,7 +5,7 @@ import 'package:retrofit/dio.dart';
 import 'package:starlight/core/constants/constants.dart';
 import 'package:starlight/feature/data/data_sources/upload_video/upload_video_request.dart';
 import 'package:starlight/feature/data/models/upload_video/upload_video.dart';
-import '../../models/youtube_search.dart';
+import '../../models/youtube/youtube_search.dart';
 
 part 'upload_video_service.g.dart';
 

@@ -79,7 +79,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 print(index);
                 setState(() {
                   // if(index==1){
-                  // sl<ListHistoryBloc>().add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
+                  sl<ListHistoryBloc>().add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
                   // }
                   _selected = index;
                   pageController.jumpToPage(_selected);

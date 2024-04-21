@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/youtube_search.dart';
+import '../../../domain/entities/youtube/youtube_search.dart';
 
 abstract class HomeState extends Equatable{
   final YoutubeSearchEntity ? list;
