@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'video_detail_service.dart';
+part of 'trip_planner_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,12 +8,12 @@ part of 'video_detail_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _VideoDetailApiService implements VideoDetailApiService {
-  _VideoDetailApiService(
+class _TripPlannerApiService implements TripPlannerApiService {
+  _TripPlannerApiService(
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://34.87.143.194:8080';
+    baseUrl ??= 'http://34.124.179.226:8080';
   }
 
   final Dio _dio;
@@ -21,22 +21,22 @@ class _VideoDetailApiService implements VideoDetailApiService {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<VideoDetailResponse>> videoDetail(
-      VideoDetailRequestBody body) async {
+  Future<HttpResponse<TripPlannerResponse>> getPlan(
+      TripPlannerRequestBody body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<VideoDetailResponse>>(Options(
+        _setStreamType<HttpResponse<TripPlannerResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/video-info',
+              '/get-trip-summary',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -45,7 +45,10 @@ class _VideoDetailApiService implements VideoDetailApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = VideoDetailResponse.fromJson(_result.data?['video_detail']);
+    print('leo 777');
+    // print(_result.data!);
+    final value = TripPlannerResponse.fromJson(_result.data!);
+    print(value.content);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

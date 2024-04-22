@@ -12,6 +12,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/feature/presentation/manager/journey_highlight/journey_highlight_state.dart';
 import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_bloc.dart';
 import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_state.dart';
+import 'package:starlight/feature/presentation/manager/trip_planner/trip_planner_bloc.dart';
+import 'package:starlight/feature/presentation/manager/trip_planner/trip_planner_event.dart';
 import 'package:starlight/feature/presentation/pages/trip/trip_page.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -124,6 +126,10 @@ class _SummaryPageState extends State<SummaryPage> {
           GestureDetector(
             onTap: () {
               _controller.pause();
+              BlocProvider.of<
+                  TripPlannerBloc>(context)
+                  .add(GetTripPlanner(
+                  Id: _listHistoryItemResponse.queueId));
               Get.to(() => TripPage());
             },
             child: Container(

@@ -11,6 +11,7 @@ import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_bloc.dart';
 import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_bloc.dart';
 import 'package:starlight/feature/presentation/manager/list_history/list_history_bloc.dart';
+import 'package:starlight/feature/presentation/manager/trip_planner/trip_planner_bloc.dart';
 import 'package:starlight/feature/presentation/pages/login/login_page.dart';
 import 'package:starlight/injection_container.dart';
 import 'core/constants/constants.dart';
@@ -21,7 +22,7 @@ import 'feature/presentation/manager/navigation_controller.dart';
 import 'feature/presentation/pages/navigation_page.dart';
 import 'firebase_options.dart';
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -44,58 +45,53 @@ class MyApp extends StatelessWidget {
 
       Get.find<NavigationController>().uid.value = user.uid;
       Get.find<NavigationController>().name.value = user.displayName ?? "User";
-      Get.find<NavigationController>().profile.value = user.photoURL ?? userProfileDefault;
-
+      Get.find<NavigationController>().profile.value =
+          user.photoURL ?? userProfileDefault;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(
-      builder: (context, orientation, screenType){
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider<HomeBloc>(
-              create: (context) =>
-              sl<HomeBloc>()..add(YoutubeSearch(word: 'travel Thailand')),
-            ),
-            BlocProvider<ListHistoryBloc>(
-                create: (context) =>
-                    sl<ListHistoryBloc>()..add(GetListHistory(userId: Get.find<NavigationController>().uid.value))
-            ),
-            BlocProvider<JourneyPlannerBloc>(
-              create: (context) =>
-                  sl<JourneyPlannerBloc>()
-            ),
-            BlocProvider<JourneySummaryBloc>(create: (context)
-                => sl<JourneySummaryBloc>()
-            ),
-            BlocProvider<JourneyHighlightBloc>(
-                create: (context) =>
-                    sl<JourneyHighlightBloc>()
-            )
-          ],
-          child: GetMaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: StreamBuilder<User?>(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else {
-                    if (snapshot.hasData) {
-                      final user = snapshot.data;
-                      _storeUserData(user);
-                      return NavigationPage();
-                    } else {
-                      return LoginPage();
-                    }
-                  }
-                },
-              ),
+    return ResponsiveSizer(builder: (context, orientation, screenType) {
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider<HomeBloc>(
+            create: (context) =>
+                sl<HomeBloc>()..add(YoutubeSearch(word: 'travel Thailand')),
           ),
-        );
-      }
-    );
+          BlocProvider<ListHistoryBloc>(
+              create: (context) => sl<ListHistoryBloc>()
+                ..add(GetListHistory(
+                    userId: Get.find<NavigationController>().uid.value))),
+          BlocProvider<JourneyPlannerBloc>(
+              create: (context) => sl<JourneyPlannerBloc>()),
+          BlocProvider<JourneySummaryBloc>(
+              create: (context) => sl<JourneySummaryBloc>()),
+          BlocProvider<JourneyHighlightBloc>(
+              create: (context) => sl<JourneyHighlightBloc>()),
+          BlocProvider<TripPlannerBloc>(
+              create: (context) => sl<TripPlannerBloc>())
+        ],
+        child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else {
+                if (snapshot.hasData) {
+                  final user = snapshot.data;
+                  _storeUserData(user);
+                  return NavigationPage();
+                } else {
+                  return LoginPage();
+                }
+              }
+            },
+          ),
+        ),
+      );
+    });
   }
 }
