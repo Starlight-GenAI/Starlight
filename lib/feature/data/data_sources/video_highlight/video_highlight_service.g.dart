@@ -13,7 +13,7 @@ class _VideoHighlightApiService implements VideoHighlightApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://34.124.179.226:8080';
+    baseUrl ??= 'http://34.29.126.183:8080';
   }
 
   final Dio _dio;

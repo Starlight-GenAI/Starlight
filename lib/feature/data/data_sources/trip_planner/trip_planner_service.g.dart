@@ -13,7 +13,7 @@ class _TripPlannerApiService implements TripPlannerApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://34.124.179.226:8080';
+    baseUrl ??= 'http://34.29.126.183:8080';
   }
 
   final Dio _dio;
@@ -45,10 +45,7 @@ class _TripPlannerApiService implements TripPlannerApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    print('leo 777');
-    // print(_result.data!);
     final value = TripPlannerResponse.fromJson(_result.data!);
-    print(value.content);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
