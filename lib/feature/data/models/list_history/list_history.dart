@@ -20,6 +20,10 @@ class ListHistoryItemResponse {
   final String title;
   final String description;
   final String thumbnails;
+  final String createdAt;
+  final String updateAt;
+  final String channelName;
+  final bool isUseSubtitle;
 
   const ListHistoryItemResponse({
     required this.queueId,
@@ -29,6 +33,10 @@ class ListHistoryItemResponse {
     required this.title,
     required this.description,
     required this.thumbnails,
+    required this.createdAt,
+    required this.updateAt,
+    required this.channelName,
+    required this.isUseSubtitle
   });
 
   factory ListHistoryItemResponse.fromJson(Map<String, dynamic> json) {
@@ -40,6 +48,10 @@ class ListHistoryItemResponse {
       title: json['title'],
       description: json['description'],
       thumbnails: json['thumbnails'],
+      createdAt: json['created_at'],
+      updateAt: json['updated_at'],
+      channelName: json['channel_name'],
+      isUseSubtitle: json['is_use_subtitle']
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -152,10 +153,10 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                               arguments:
                                                   state.list?.items[index],
                                               () => SummaryPage());
-                                        } else {}
+                                        }
                                       },
                                       child: Container(
-                                        height: 20.h,
+                                        height: 18.h,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius: BorderRadius.all(
@@ -171,19 +172,20 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                             ]),
                                         child: Row(
                                           children: [
-                                            SizedBox(
-                                              width: 1.w,
-                                            ),
-                                            Expanded(
-                                              flex: 3,
+
+                                            Padding(
+                                              padding: EdgeInsets.all(1.5.h),
                                               child: Container(
+                                                width: 18.h,
+                                                height: 15.h,
+
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12)),
+                                                            10)),
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(12),
+                                                      BorderRadius.circular(10),
                                                   child: CachedNetworkImage(
                                                       imageUrl: state
                                                               .list
@@ -194,74 +196,89 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                               ),
                                             ),
                                             Expanded(
-                                              flex: 3,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    state.list?.items[index]
-                                                            .title ??
-                                                        "",
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                        fontSize: 15.sp,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontFamily: 'inter'),
-                                                  ),
-                                                  SizedBox(
-                                                    height: .2.h,
-                                                  ),
-                                                  Text(
+
+                                              child: Padding(
+                                                padding: EdgeInsets.only(top: 2.h,bottom: 2.h, right: 2.h),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+
+                                                    Row(children: [
+                                                      SvgPicture.asset(youtubeLogo,width: 5.w,),
+                                                      SizedBox(width: 1.w,),
+                                                      Text(state.list?.items[index].channelName ?? "", style: TextStyle(color: Color(0xFF646C9C),fontSize: 14.sp,fontWeight: FontWeight.w600,fontFamily: 'inter'),)
+                                                    ],),
+                                                    SizedBox(height: 1.h,),
+                                                    Text(
                                                       state.list?.items[index]
-                                                              .description ??
+                                                              .title ??
                                                           "",
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 1,
+                                                      maxLines: 2,
                                                       style: TextStyle(
-                                                          color: Color(
-                                                                  0xFF201E38)
-                                                              .withOpacity(0.6),
-                                                          fontSize: 14.sp,
+                                                          fontSize: 15.sp,
                                                           fontWeight:
-                                                              FontWeight.w600,
-                                                          fontFamily: 'inter')),
-                                                ],
+                                                              FontWeight.w700,
+                                                          fontFamily: 'inter'),
+                                                    ),
+                                                    SizedBox(
+                                                      height: .5.h,
+                                                    ),
+                                                    Spacer(),
+                                                    Row(children: [
+                                                      Text(state.list!.items[index].isUseSubtitle ? "Advance Mode": "Normal Mode",style: TextStyle(fontFamily: 'inter',fontWeight: FontWeight.w600, fontSize: 12.sp,color: Color(0xFF201E38).withOpacity(0.6)),),
+                                                      Spacer(),
+                                                      state.list!.items[index].status == "success"? Container(
+                                                        decoration: BoxDecoration(
+                                                          color: Color(0xFF52C883),
+                                                          borderRadius: BorderRadius.circular(48)
+                                                        ),
+                                                        child: Padding(
+                                                          padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(EvaIcons.checkmark,color: Colors.white,size: 18.sp,),
+                                                              SizedBox(width: .5.w,),
+                                                              Text('Success',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ): state.list!.items[index].status == "pending"? Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Color(0xFFFFA800),
+                                                            borderRadius: BorderRadius.circular(48)
+                                                        ),
+                                                        child: Padding(
+                                                          padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(EvaIcons.loaderOutline,color: Colors.white,size: 18.sp,),
+                                                              SizedBox(width: .5.w,),
+                                                              Text('Pending',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ): Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Color(0xFFFF522D),
+                                                            borderRadius: BorderRadius.circular(48)
+                                                        ),
+                                                        child: Padding(
+                                                          padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(EvaIcons.close,color: Colors.white,size: 18.sp,),
+                                                              SizedBox(width: .5.w,),
+                                                              Text('Failed',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],)
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                            Expanded(
-                                                child: Icon(
-                                              state.list?.items[index].status ==
-                                                      "pending"
-                                                  ? EvaIcons.downloadOutline
-                                                  : state.list?.items[index]
-                                                              .status ==
-                                                          "failed"
-                                                      ? EvaIcons.close
-                                                      : state.list?.items[index]
-                                                                  .status ==
-                                                              "is_not_travel_video"
-                                                          ? EvaIcons.minus
-                                                          : EvaIcons.checkmark,
-                                              size: 24.sp,
-                                              color: state.list?.items[index]
-                                                          .status ==
-                                                      "pending"
-                                                  ? Colors.blue
-                                                  : state.list?.items[index]
-                                                              .status ==
-                                                          "failed"
-                                                      ? Colors.red
-                                                      : state.list?.items[index]
-                                                                  .status ==
-                                                              "is_not_travel_video"
-                                                          ? Colors.yellow
-                                                          : Color(0xFF009421),
-                                            ))
                                           ],
                                         ),
                                       ),

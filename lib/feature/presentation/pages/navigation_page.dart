@@ -55,7 +55,7 @@ class _NavigationPageState extends State<NavigationPage> {
           physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
           children: [
-            HomePage(),ListHistoryPage(),ProfilePage()
+            ListHistoryPage(),ListHistoryPage(),ProfilePage()
           ],
         ),
       ),
