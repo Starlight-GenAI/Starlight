@@ -9,7 +9,7 @@ import 'list_history_request.dart';
 
 part 'list_history_service.g.dart';
 
-@RestApi(baseUrl: listHistoryBaseURL)
+@RestApi(baseUrl: starlightServiceBaseURL)
 abstract class ListHistoryApiService {
   factory ListHistoryApiService(Dio dio) = _ListHistoryApiService;
 

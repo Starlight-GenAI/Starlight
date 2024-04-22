@@ -8,7 +8,7 @@ import '../../models/video_summary/video_summary.dart';
 
 part 'video_summary_service.g.dart';
 
-@RestApi(baseUrl: videoSummaryBaseURL)
+@RestApi(baseUrl: starlightServiceBaseURL)
 abstract class VideoSummaryService {
   factory VideoSummaryService(Dio dio) = _VideoSummaryService;
 
