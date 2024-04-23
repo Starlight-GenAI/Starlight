@@ -228,8 +228,6 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                       ),
                                                       Spacer(),
                                                       Row(children: [
-                                                        Text(state.list!.items[index].isUseSubtitle ? "Normal Mode": "Advance Mode",style: TextStyle(fontFamily: 'inter',fontWeight: FontWeight.w600, fontSize: 12.sp,color: Color(0xFF201E38).withOpacity(0.6)),),
-                                                        Spacer(),
                                                         state.list!.items[index].status == "success"? Container(
                                                           decoration: BoxDecoration(
                                                             color: Color(0xFF52C883),

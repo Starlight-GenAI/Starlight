@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:equatable/equatable.dart';
 
 class TripPlannerEntity extends Equatable {
@@ -18,7 +16,7 @@ class TripPlannerEntity extends Equatable {
 class Content {
   final String? day;
   final List<LocationWithSummary>? locationWithSummary;
-  final Int? countDining;
+  final int? countDining;
 
   Content({
     this.day,
