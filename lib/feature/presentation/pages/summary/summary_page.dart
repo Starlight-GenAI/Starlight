@@ -71,7 +71,7 @@ class _SummaryPageState extends State<SummaryPage> {
   String getImage(String refLink) {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&photo_reference=" +
         refLink +
-        "&key="+youtubeAPIKey+"&maxheight=400";
+        "&key="+placeAPIKey+"&maxheight=400";
   }
 
   void startCountCate(VideoSummaryLoadedState state) {
