@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:starlight/feature/domain/entities/upload_video/upload_video.dart';
 import 'package:starlight/feature/domain/entities/video_detail/video_detail.dart';
 
 class VideoDetailResponse extends VideoDetailEntity{
@@ -11,6 +8,7 @@ class VideoDetailResponse extends VideoDetailEntity{
     required String thumbnails,
     required String publishAt,
     required String duration,
+    required String channelName,
     required int viewCount,
     required int likeCount,
   }):super(
@@ -19,8 +17,9 @@ class VideoDetailResponse extends VideoDetailEntity{
       thumbnails: thumbnails,
       publishAt: publishAt,
       duration: duration,
+      channelName: channelName,
       viewCount: viewCount,
-      likeCount: likeCount
+      likeCount: likeCount,
   );
 
   factory VideoDetailResponse.fromJson(Map<String, dynamic> json) {
@@ -30,6 +29,7 @@ class VideoDetailResponse extends VideoDetailEntity{
       thumbnails: json['thumbnails'],
       publishAt: json['publish_at'],
       duration: json['duration'],
+      channelName: json['channel_name'],
       viewCount: json['view_count'],
       likeCount: json['like_count']
     );

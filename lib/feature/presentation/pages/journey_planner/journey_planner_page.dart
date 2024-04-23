@@ -15,6 +15,7 @@ import 'package:starlight/feature/presentation/manager/journey_planner/journey_p
 import 'package:starlight/feature/presentation/manager/navigation_controller.dart';
 import 'package:starlight/feature/presentation/pages/error_alert/error_alert_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_add_link_page.dart';
+import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_modal_submit.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_progress_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_summary_page.dart';
 
@@ -182,7 +183,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                                     ? "Copy video link from social media or Shared from other apps."
                                     :
                                 _currentIndex == 1
-                                    ? "It might take a minute after submitting a video to plan a journey list."
+                                    ? "It might take a minute after submitting a video to plan a journey."
                                     :
                                 "Now you can waiting for a result at a My Journey menu",
                                 textAlign: TextAlign.center,
@@ -272,7 +273,11 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
 
       });
     } else if (_currentIndex == 1) {
-      bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: urlFromClipBoard, isUseSubtitle: true, userId: Get.find<NavigationController>().uid.value));
+      showModalBottomSheet(
+        context: context,
+        builder: (context) => JourneyPlannerModalSubmit(),
+      );
+      // bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: urlFromClipBoard, isUseSubtitle: true, userId: Get.find<NavigationController>().uid.value));
     } else {
       Get.back();
     }

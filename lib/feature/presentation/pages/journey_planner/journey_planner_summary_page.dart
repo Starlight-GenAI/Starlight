@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_bloc.dart';
@@ -143,7 +144,7 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
                           child: CircleAvatar(
                             backgroundColor: Color(0xFF9AA6FF),
                             child: Text(
-                              state.listDetail!.decription.substring(0,1),
+                              state.listDetail!.channelName.substring(0,1),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Inter',
@@ -157,7 +158,7 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Pisit Jaiton Pa travel',
+                              state.listDetail!.channelName,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'Inter',
@@ -173,7 +174,7 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
                                     color: const Color(0xFF5D5D68)),
                                 SizedBox(width: 1.w,),
                                 Text(
-                                  state.listDetail!.likeCount.toString(),
+                                  NumberFormat('#,###').format(state.listDetail!.likeCount),
                                   style: TextStyle(
                                       color: const Color(0xFF5D5D68),
                                       fontFamily: 'Inter',
@@ -187,7 +188,7 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
                                     color: const Color(0xFF5D5D68)),
                                 SizedBox(width: 1.w,),
                                 Text(
-                                  state.listDetail!.viewCount.toString(),
+                                  NumberFormat('#,###').format(state.listDetail!.viewCount),
                                   style: TextStyle(
                                       color: const Color(0xFF5D5D68),
                                       fontFamily: 'Inter',

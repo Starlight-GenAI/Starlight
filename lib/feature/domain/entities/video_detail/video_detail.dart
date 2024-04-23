@@ -9,6 +9,7 @@ class VideoDetailEntity extends Equatable {
   final String duration;
   final int viewCount;
   final int likeCount;
+  final String channelName;
 
 
   const VideoDetailEntity({
@@ -19,6 +20,7 @@ class VideoDetailEntity extends Equatable {
     required this.duration,
     required this.viewCount,
     required this.likeCount,
+    required this.channelName
   });
 
   @override
@@ -30,7 +32,8 @@ class VideoDetailEntity extends Equatable {
       publishAt,
       duration,
       viewCount,
-      likeCount
+      likeCount,
+      channelName
     ];
   }
 }
