@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -40,6 +41,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
   String imageUrl = "";
 
   var urlFromClipBoard = "";
+  var isLoading = false;
 
   @override
   void initState() {
@@ -73,7 +75,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
 
   void onGetImageUrl(String data) {
     setState(() {
-      imageUrl = data; // Update data from child
+      imageUrl = data;
     });
   }
 
@@ -89,7 +91,18 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
       listener: (context, state) {
         print('/////////////ui state//////////////');
         print(state);
-        if (state is UploadVideoLoadedState || state is VideoDetailLoadedState) {
+        if(state is UploadVideoLoadingState) {
+          setState(() {
+            isLoading = true;
+          });
+        } else if(state is VideoDetailLoadingState) {
+          setState(() {
+            isLoading = true;
+          });
+        } else if (state is UploadVideoLoadedState || state is VideoDetailLoadedState) {
+          setState(() {
+            isLoading = false;
+          });
           if(state is VideoDetailLoadedState) {
             imageUrl = state.listDetail!.thumbnails;
           }
@@ -98,6 +111,9 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
             curve: Curves.linear,
           );
         } else if (state is VideoDetailErrorState) {
+          setState(() {
+            isLoading = false;
+          });
           Get.to(transition: Transition.downToUp,
                   () => ErrorAlertPage());
         }
@@ -213,7 +229,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                             // ),
                             _button(
                                 _currentIndex == 0 ? 'Paste Link' : _currentIndex == 1
-                                    ? "Submit"
+                                    ? "Next"
                                     : "Done"),
                             SizedBox(height: !hasSafeAreaBottom ? 3.h : 0,),
                           ],
@@ -234,18 +250,18 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
     return bloc.BlocProvider<JourneyPlannerBloc>(
       create: (context) => sl(),
       child: GestureDetector(
-        onTap: () => _handleTap(context),
+        onTap: () =>  !isLoading ? _handleTap(context) : null,
         child: Padding(
           padding: EdgeInsets.only(left: _paddingContent, right: _paddingContent),
           child: Container(
             width: 100.w,
+            height: 15.w,
             decoration: const BoxDecoration(
                 color: Color(0xFF4D32F8),
                 borderRadius: BorderRadius.all(Radius.circular(100))
             ),
-            child: Padding(
-              padding: EdgeInsets.only(top: 4.5.w,bottom: 4.5.w),
-              child: Text(
+            child: Center(
+              child: !isLoading ? Text(
                 text,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -253,8 +269,14 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                     fontFamily: 'Poppins',
                     fontSize: 17.sp,
                     fontWeight: FontWeight.w800),
+              ) :
+              LoadingAnimationWidget.discreteCircle(
+                  color: Colors.white,
+                  secondRingColor: Color(0xFF4D32F8),
+                  thirdRingColor:  Color(0xFF9AA6FF),
+                  size: 20.sp
               ),
-            ),
+            )
           ),
         ),
       ),
@@ -273,9 +295,12 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
 
       });
     } else if (_currentIndex == 1) {
-      showModalBottomSheet(
+      print('////////////////url when submit//////////////');
+      print(urlFromClipBoard);
+      showModalBottomSheet<dynamic>(
+        isScrollControlled: true,
         context: context,
-        builder: (context) => JourneyPlannerModalSubmit(),
+        builder: (context) => JourneyPlannerModalSubmit(videoUrl: urlFromClipBoard),
       );
       // bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: urlFromClipBoard, isUseSubtitle: true, userId: Get.find<NavigationController>().uid.value));
     } else {

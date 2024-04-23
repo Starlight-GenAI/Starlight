@@ -14,15 +14,16 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
   final UploadVideoUseCase _uploadVideoUseCase;
   final VideoDetailUseCase _videoDetailUseCase;
 
-  JourneyPlannerBloc(this._uploadVideoUseCase, this._videoDetailUseCase): super(const VideoDetailLoadingState()) {
+  JourneyPlannerBloc(this._uploadVideoUseCase, this._videoDetailUseCase): super(const UploadVideoLoadingState()) {
     on <UploadVideo> (onUploadVideo);
     on <VideoDetail> (onGetVideoDetail);
-    on <ResetBlocEvent>((event, emit){
-      emit(const VideoDetailLoadingState());
-    });
+    // on <ResetBlocEvent>((event, emit){
+    //   emit(const UploadVideoLoadingState());
+    // });
   }
 
   void onUploadVideo(UploadVideo uploadVideo, Emitter<JourneyPlannerState> emit) async{
+    emit(const UploadVideoLoadingState());
     final dataState = await _uploadVideoUseCase(params: VideoRequestBody(videoUrl: uploadVideo.videoUrl, isUseSubtitle: uploadVideo.isUseSubtitle, userId: uploadVideo.userId));
     print('/////////////////state data/////////////////');
     print(dataState.data!);
@@ -30,7 +31,6 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
     if (dataState is DataSuccess && dataState.data != null) {
       final uploadedData = dataState.data!;
       emit(UploadVideoLoadedState(uploadedData));
-      print('Successfully uploaded video data: $uploadedData');
     } else if (dataState is DataFailed) {
       print(dataState.error!.response);
       emit(UploadVideoErrorState(dataState.error!));
@@ -38,6 +38,7 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
   }
 
   void onGetVideoDetail(VideoDetail videoDetail, Emitter<JourneyPlannerState> emit) async{
+    emit(const VideoDetailLoadingState());
     final dataState = await _videoDetailUseCase(params: VideoDetailRequestBody(videoUrl: videoDetail.videoUrl));
     print('/////////////////state detail data/////////////////');
     print(dataState);
@@ -45,7 +46,6 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
     if (dataState is DataSuccess && dataState.data != null) {
       final uploadedData = dataState.data!;
       emit(VideoDetailLoadedState(uploadedData));
-      print('Successfully video detail data: $uploadedData');
     } else if (dataState is DataFailed) {
       print(dataState.error!.response);
       emit(VideoDetailErrorState(dataState.error!));
