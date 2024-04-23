@@ -13,7 +13,7 @@ class _UploadVideoApiService implements UploadVideoApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://34.87.143.194:8080';
+    baseUrl ??= 'http://34.29.108.253:8080';
   }
 
   final Dio _dio;

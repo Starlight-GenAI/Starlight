@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:starlight/core/constants/constants.dart';
 import 'package:starlight/feature/presentation/manager/journey_highlight/journey_highlight_state.dart';
 import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_bloc.dart';
 import 'package:starlight/feature/presentation/manager/journey_summary/journey_summary_state.dart';
@@ -70,7 +71,7 @@ class _SummaryPageState extends State<SummaryPage> {
   String getImage(String refLink) {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&photo_reference=" +
         refLink +
-        "&key=AIzaSyBUWL3YL5gSpmRsS1Zjlp3ip9KA60Qd9I8&maxheight=400";
+        "&key="+placeAPIKey+"&maxheight=400";
   }
 
   void startCountCate(VideoSummaryLoadedState state) {
