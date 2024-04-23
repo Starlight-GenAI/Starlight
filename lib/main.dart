@@ -13,7 +13,6 @@ import 'package:starlight/feature/presentation/manager/journey_summary/journey_s
 import 'package:starlight/feature/presentation/manager/list_history/list_history_bloc.dart';
 import 'package:starlight/feature/presentation/manager/trip_planner/trip_planner_bloc.dart';
 import 'package:starlight/feature/presentation/pages/login/login_page.dart';
-import 'package:starlight/feature/presentation/pages/trip/trip_page.dart';
 import 'package:starlight/injection_container.dart';
 import 'core/constants/constants.dart';
 import 'feature/presentation/manager/home/home_event.dart';
@@ -84,7 +83,7 @@ class MyApp extends StatelessWidget {
                 if (snapshot.hasData) {
                   final user = snapshot.data;
                   _storeUserData(user);
-                  return TripPage();
+                  return NavigationPage();
                 } else {
                   return LoginPage();
                 }
