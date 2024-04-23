@@ -3,7 +3,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -71,7 +71,9 @@ class _SummaryPageState extends State<SummaryPage> {
   String getImage(String refLink) {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&photo_reference=" +
         refLink +
-        "&key="+placeAPIKey+"&maxheight=400";
+        "&key=" +
+        placeAPIKey +
+        "&maxheight=400";
   }
 
   void startCountCate(VideoSummaryLoadedState state) {
@@ -127,11 +129,25 @@ class _SummaryPageState extends State<SummaryPage> {
           GestureDetector(
             onTap: () {
               _controller.pause();
-              BlocProvider.of<
-                  TripPlannerBloc>(context)
-                  .add(GetTripPlanner(
-                  Id: _listHistoryItemResponse.queueId));
-              Get.to(() => TripPage());
+              bloc.BlocProvider.of<TripPlannerBloc>(context)
+                  .add(GetTripPlanner(Id: _listHistoryItemResponse.queueId));
+              Get.dialog(
+                Dialog(
+                  backgroundColor: Colors.transparent,
+                  insetPadding:
+                      EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.h),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+                barrierDismissible: true,
+              );
+              Get.to(
+                () => TripPage(),
+                transition: Transition.rightToLeft,
+              )?.then((_) {
+                Get.back();
+              });
             },
             child: Container(
               decoration: BoxDecoration(
@@ -166,7 +182,8 @@ class _SummaryPageState extends State<SummaryPage> {
       backgroundColor: backgroundMain,
       body: SafeArea(
         top: false,
-        child: BlocBuilder<JourneySummaryBloc, JourneySummaryState>(
+        bottom: false,
+        child: bloc.BlocBuilder<JourneySummaryBloc, JourneySummaryState>(
           builder: (_, state) {
             if (state is VideoSummaryLoadingState) {
               return Center(child: CircularProgressIndicator());
@@ -616,14 +633,21 @@ class _SummaryPageState extends State<SummaryPage> {
                                         ),
                                       )
                                     : (chipIndex == 0 && index == 0)
-                                        ? BlocBuilder<JourneyHighlightBloc,
+                                        ? bloc.BlocBuilder<JourneyHighlightBloc,
                                                 JourneyHighlightState>(
                                             builder: (_, state) {
-                                            if (state is JourneyHighlightLoadedState){
-                                              return Text(state.list?.content[0].highlightName ?? "hiu",style: TextStyle(fontSize: 12),);
+                                            if (state
+                                                is JourneyHighlightLoadedState) {
+                                              return Text(
+                                                state.list?.content[0]
+                                                        .highlightName ??
+                                                    "hiu",
+                                                style: TextStyle(fontSize: 12),
+                                              );
                                             }
 
-                                            if (state is JourneyHighlightErrorState){
+                                            if (state
+                                                is JourneyHighlightErrorState) {
                                               return Text("dsadsadssad");
                                             }
                                             return Container();
@@ -646,46 +670,52 @@ class _SummaryPageState extends State<SummaryPage> {
   }
 
   _buildYoutubePlayer() {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        Container(
-          child: YoutubePlayer(
-            aspectRatio: 16 / 9,
-            controller: _controller,
-            progressIndicatorColor: Color(0xFF647AFF),
-            bottomActions: [
-              const SizedBox(width: 8.0),
-              CurrentPosition(),
-              const SizedBox(width: 8.0),
-              ProgressBar(
+    return Container(
+      color: Colors.black,
+      child: SafeArea(
+        bottom: false,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              child: YoutubePlayer(
+                aspectRatio: 16 / 9,
                 controller: _controller,
-                isExpanded: true,
-                colors: const ProgressBarColors(
-                  playedColor: Color(0xFF647AFF),
-                  handleColor: Colors.white,
-                ),
+                progressIndicatorColor: Color(0xFF647AFF),
+                bottomActions: [
+                  const SizedBox(width: 8.0),
+                  CurrentPosition(),
+                  const SizedBox(width: 8.0),
+                  ProgressBar(
+                    controller: _controller,
+                    isExpanded: true,
+                    colors: const ProgressBarColors(
+                      playedColor: Color(0xFF647AFF),
+                      handleColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                ],
               ),
-              const SizedBox(width: 8.0),
-            ],
-          ),
+            ),
+            Positioned(
+                top: 0,
+                left: 0,
+                child: SafeArea(
+                  child: IconButton(
+                    icon: Icon(
+                      EvaIcons.arrowIosBackOutline,
+                      size: 24.sp,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ))
+          ],
         ),
-        Positioned(
-            top: 0,
-            left: 0,
-            child: SafeArea(
-              child: IconButton(
-                icon: Icon(
-                  EvaIcons.arrowIosBackOutline,
-                  size: 24.sp,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              ),
-            ))
-      ],
+      ),
     );
   }
 }
