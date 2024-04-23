@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:equatable/equatable.dart';
 
 class TripPlannerEntity extends Equatable {
@@ -16,10 +18,12 @@ class TripPlannerEntity extends Equatable {
 class Content {
   final String? day;
   final List<LocationWithSummary>? locationWithSummary;
+  final Int? countDining;
 
   Content({
     this.day,
     this.locationWithSummary,
+    this.countDining
   });
 
   factory Content.fromJson(Map<String, dynamic> json) {
@@ -28,6 +32,7 @@ class Content {
       locationWithSummary: (json['location_with_summary'] as List<dynamic>?)
           ?.map((item) => LocationWithSummary.fromJson(item))
           .toList() ?? [],
+      countDining: json['count_dining']
     );
   }
 }

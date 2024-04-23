@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -79,7 +80,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 print(index);
                 setState(() {
                   // if(index==1){
-                  sl<ListHistoryBloc>().add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
+                  BlocProvider.of<ListHistoryBloc>(context).add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
                   // }
                   _selected = index;
                   pageController.jumpToPage(_selected);
