@@ -7,4 +7,5 @@ class NavigationController extends GetxController {
   RxString uid = ''.obs;
   RxString name = ''.obs;
   RxString profile = ''.obs;
+  RxBool isScroll = false.obs;
 }
