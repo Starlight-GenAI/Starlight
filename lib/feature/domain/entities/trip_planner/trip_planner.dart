@@ -43,7 +43,7 @@ class LocationWithSummary {
   final double? lng;
   final double? rating;
   final String? category;
-  final String? photo;
+  final List<String>? photos;
   final bool? hasRecommendedRestaurant;
   final RecommendedRestaurant? recommendedRestaurant;
 
@@ -55,7 +55,7 @@ class LocationWithSummary {
     this.lng,
     this.rating,
     this.category,
-    this.photo,
+    this.photos,
     this.hasRecommendedRestaurant,
     this.recommendedRestaurant,
   });
@@ -69,7 +69,9 @@ class LocationWithSummary {
       lng: json['lng']?.toDouble(), // Convert to double
       rating: json['rating']?.toDouble(), // Convert to double
       category: json['category'],
-      photo: json['photo'],
+      photos: json['photos'] != null
+          ? List<String>.from(json['photos']) // Convert to List<String>
+          : [],
       hasRecommendedRestaurant: json['has_recommended_restaurant'],
       recommendedRestaurant: json['recommended_restaurant'] != null
           ? RecommendedRestaurant.fromJson(json['recommended_restaurant'])
@@ -84,7 +86,7 @@ class RecommendedRestaurant {
   final double? rating;
   final double? lat;
   final double? lng;
-  final String? photo;
+  final List<String>? photos;
 
   RecommendedRestaurant({
     this.name,
@@ -92,7 +94,7 @@ class RecommendedRestaurant {
     this.rating,
     this.lat,
     this.lng,
-    this.photo,
+    this.photos,
   });
 
   factory RecommendedRestaurant.fromJson(Map<String, dynamic> json) {
@@ -102,7 +104,9 @@ class RecommendedRestaurant {
       rating: json['rating']?.toDouble(), // Convert to double
       lat: json['lat']?.toDouble(), // Convert to double
       lng: json['lng']?.toDouble(), // Convert to double
-      photo: json['photo'],
+      photos: json['photos'] != null
+          ? List<String>.from(json['photos']) // Convert to List<String>
+          : [],
     );
   }
 }
