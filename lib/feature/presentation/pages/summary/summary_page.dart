@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +37,8 @@ class _SummaryPageState extends State<SummaryPage> {
   late YoutubePlayerController _controller;
 
   var chipIndex = 0;
-
+  bool showButton = false;
+  bool showText = true;
   // var chipList = ["Locations"];
   var chipIcon = [
     locationIcon,
@@ -84,6 +87,33 @@ class _SummaryPageState extends State<SummaryPage> {
         "&maxheight=400";
   }
 
+  _formatText(text) {
+    if(text.contains('##')) {
+      const start = "## ";
+      final checkColon = text.contains(':') && !hasNewlineBeforeColon(text);
+      // final hasNewlineBeforeColon = !text.substring(0, text.contains(':')).contains('\n');
+      final end = checkColon ? ":" : '\n';
+      final startIndex = text.indexOf(start);
+      int endIndex = text.indexOf(end, startIndex + start.length);
+      final title = text.substring(startIndex + start.length, endIndex + 1);
+
+      int indexToRemove = checkColon ? text.indexOf(":") : text.indexOf("\n");
+      String textRemoveTitle = text.substring(indexToRemove + 1);
+      final splitText = textRemoveTitle.contains('**') ? textRemoveTitle.split("**") : [textRemoveTitle];
+
+      return [title,...splitText];
+    } else if (text.contains('**')) {
+      return text.split("**");
+    } else {
+      return text;
+    }
+  }
+
+  bool hasNewlineBeforeColon(String text) {
+    final index = text.indexOf(':');
+    return index != -1 && text.substring(0, index).contains('\n');
+  }
+
   void startCountCate(VideoSummaryLoadedState state) {
     state.list?.content.forEach((element) {
       print(element.category);
@@ -95,17 +125,31 @@ class _SummaryPageState extends State<SummaryPage> {
       }
     });
     isFirstInit = true;
+    Timer(Duration(seconds: 1),(){
+      setState(() {
+        showButton = true;
+      });
+    });
+    Timer(Duration(seconds: 4), () {
+      setState(() {
+        showText = false;
+      });
+    });
     // startCountChip();
   }
 
-  void startCountChip() {
-    for (int count in countCate) {
-      if (count > 0) {
-        countExistCate++;
-      }
-    }
-  }
+  _buildNewTextFormat(textList) {
+    return TextSpan(
+      children: [
+        TextSpan(text: textList[0], style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Colors.black)),
+        for(int i = 1; i < textList.length; i++)
+          !(i % 2 == 0) ? TextSpan(text: textList[i], style: TextStyle(fontSize: 15.sp, fontFamily: 'inter',color: Color(0xFF666666))) :
+          TextSpan(text: textList[i], style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Color(0xFF666666))),
 
+
+      ],
+    );
+  }
   @override
   void initState() {
     super.initState();
@@ -119,6 +163,7 @@ class _SummaryPageState extends State<SummaryPage> {
         disableDragSeek: true,
       ),
     );
+
   }
 
   @override
@@ -131,61 +176,98 @@ class _SummaryPageState extends State<SummaryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          GestureDetector(
-            onTap: () {
-              _controller.pause();
-              bloc.BlocProvider.of<TripPlannerBloc>(context)
-                  .add(GetTripPlanner(Id: _listHistoryItemResponse.queueId));
-              Get.dialog(
-                Dialog(
-                  backgroundColor: Colors.transparent,
-                  insetPadding:
-                      EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.h),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-                barrierDismissible: true,
-              );
-              Get.to(
-                () => TripPage(),
-                transition: Transition.rightToLeft,
-              )?.then((_) {
-                Get.back();
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(24)),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      EvaIcons.mapOutline,
-                      color: Colors.black,
+      floatingActionButton: AnimatedSwitcher(
+        duration: Duration(milliseconds: 200),
+        child: showButton ? Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AnimatedSwitcher(
+                      duration: Duration(milliseconds: 500),
+                      child: showText
+                          ? Text(
+                              'Trip Generator',
+                              key: ValueKey<bool>(
+                                  showText), // Ensure proper animation
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontFamily: 'inter',
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )
+                          : null),
+                  SizedBox(width: 3.w,),
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2), // Shadow color
+                          spreadRadius: 2,
+                          blurRadius: 20,
+                          offset: Offset(0, 2), // Shadow position
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: 1.w,
-                    ),
-                    Text(
-                      "Trip Generator",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'inter',
-                        fontWeight: FontWeight.w600,
+                    child: ClipOval(
+                      child: Material(
+                        color: Colors.white, // Button color
+                        child: InkWell(
+                          splashColor: Colors.grey,
+                          onLongPress: (){
+                            setState(() {
+                              showText = true;
+                            });
+                            Timer(Duration(seconds: 5), () {
+                              setState(() {
+                                showText = false;
+                              });
+                            });
+                          },
+                          onTapCancel:(){
+                            setState(() {
+                              showText = false;
+                            });
+                          } ,
+                          onTap: () {
+                            _controller.pause();
+                            bloc.BlocProvider.of<TripPlannerBloc>(context)
+                                .add(GetTripPlanner(Id: _listHistoryItemResponse.queueId));
+                            Get.dialog(
+                              Dialog(
+                                backgroundColor: Colors.transparent,
+                                insetPadding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.h),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                              barrierDismissible: true,
+                            );
+                            Get.to(
+                                  () => TripPage(),
+                              transition: Transition.rightToLeft,
+                            )?.then((_) {
+                              Get.back();
+                            });
+                          },
+                          child: Center(child: Icon(EvaIcons.map)),
+                        ),
                       ),
                     ),
-                  ],
-                ),
+                  )
+
+
+                ],
               ),
             ),
-          ),
-        ],
+          ],
+        ) : Container(),
       ),
       backgroundColor: backgroundMain,
       body: SafeArea(
@@ -193,13 +275,16 @@ class _SummaryPageState extends State<SummaryPage> {
         bottom: false,
         child: bloc.BlocBuilder<JourneySummaryBloc, JourneySummaryState>(
           builder: (_, state) {
+
             if (state is VideoSummaryLoadingState) {
               return Center(child: CircularProgressIndicator());
             }
             if (state is VideoSummaryLoadedState) {
+
               if (isFirstInit == false) {
                 startCountCate(state);
               }
+
               return Stack(
                 children: [
                   Column(
@@ -405,7 +490,14 @@ class _SummaryPageState extends State<SummaryPage> {
                               padding: EdgeInsets.only(top: 3.w),
                               itemCount: state.list?.content.length,
                               itemBuilder: (context, index) {
-                                print(state.list?.content[index].photo);
+                                // print(state.list?.content[index].photo);
+                                final textList = _formatText(state
+                                    .list!
+                                    .content[
+                                index]
+                                    .summary);
+
+
                                 return state.list?.content[index].category ==
                                         chipList[chipIndex].toLowerCase()
                                     ? Padding(
@@ -470,7 +562,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                                                   getImage(state
                                                                           .list
                                                                           ?.content[index]
-                                                                          .photo ??
+                                                                          .photos?[0] ??
                                                                       "")),
                                                               fit: BoxFit.cover)),
                                                     ),
@@ -503,12 +595,20 @@ class _SummaryPageState extends State<SummaryPage> {
                                                                 SizedBox(
                                                                   height: 1.5.h,
                                                                 ),
-                                                                Text(state
+                                                                // leosum
+                                                                state
+                                                                    .list!
+                                                                    .content[
+                                                                index]
+                                                                    .summary!.contains('##')? RichText(
+                                                                  maxLines: 5,
+                                                                  text: _buildNewTextFormat(textList),
+                                                                ):Text(state
                                                                         .list!
                                                                         .content[
                                                                             index]
                                                                         .summary ??
-                                                                    "")
+                                                                    "", style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400, fontFamily: 'inter',color: Colors.black))
                                                               ],
                                                             ),
                                                           )
@@ -665,7 +765,9 @@ class _SummaryPageState extends State<SummaryPage> {
                                                 child: _buildHighlightBox(
                                                     state.list?.content[index].highlightName ?? 'hi',
                                                     state.list?.content[index].highlightDetail ?? 'hi',
-                                                    index
+                                                    index,
+                                                  state.list?.contentSummary ?? "",
+
                                                 ),
                                               );
                                               return Text(
@@ -748,91 +850,120 @@ class _SummaryPageState extends State<SummaryPage> {
       ),
     );
   }
+  _buildNewTextHeaderFormat(textList) {
+    return TextSpan(
+      children: [
+        TextSpan(text: textList[0], style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Colors.black)),
+        for(int i = 1; i < textList.length; i++)
+          !(i % 2 == 0) ? TextSpan(text: textList[i], style: TextStyle(fontSize: 15.sp, fontFamily: 'inter',color: Color(0xFF666666))) :
+          TextSpan(text: textList[i], style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Color(0xFF666666))),
 
-  _buildHighlightBox(String? name,String? detail,int index) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: shadowColor.withOpacity(0.3),
-            offset: Offset(0, 4),
-            blurRadius: 12,
-          )
-        ],
-      ),
-      child: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 4.5.h),
-            child: Container(
-              width: 1.w,
-              decoration: BoxDecoration(
-                color: colorList[index % colorList.length]['majorColor'],
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(24),
-                  bottomRight: Radius.circular(24),
+
+      ],
+    );
+  }
+  _buildHighlightBox(String? name,String? detail,int index,String summary) {
+    final textList = _formatText(summary);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        index ==0 && summary.contains('##')? RichText(
+          maxLines: 5,
+          text: _buildNewTextHeaderFormat(textList),
+        ) : Container(),
+        SizedBox(height: 2.h,),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: shadowColor.withOpacity(0.3),
+                offset: Offset(0, 4),
+                blurRadius: 12,
+              )
+            ],
+          ),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.5.h),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: double.infinity,
+                    minHeight: 10.h
+                  ),
+                  child: Container(
+                    width: 1.w,
+                    decoration: BoxDecoration(
+                      color: colorList[index % colorList.length]['majorColor'],
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(24),
+                        bottomRight: Radius.circular(24),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(6.w),
-              child: Column(
-                children: [
-                  Row(
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(6.w),
+                  child: Column(
                     children: [
                       Row(
                         children: [
-                          Container(
-                            width: 8.w,
-                            height: 8.w,
-                            child: CircleAvatar(
-                              backgroundColor: colorList[index % colorList.length]['lightColor'],
-                              child: Text(
-                                (index + 1).toString(),
-                                style: TextStyle(
-                                    fontFamily: 'inter',
-                                    fontWeight: FontWeight.w700,
-                                    color: colorList[index % colorList.length]['majorColor'],
-                                    fontSize:16.sp
+                          Row(
+                            children: [
+                              Container(
+                                width: 8.w,
+                                height: 8.w,
+                                child: CircleAvatar(
+                                  backgroundColor: colorList[index % colorList.length]['lightColor'],
+                                  child: Text(
+                                    (index + 1).toString(),
+                                    style: TextStyle(
+                                        fontFamily: 'inter',
+                                        fontWeight: FontWeight.w700,
+                                        color: colorList[index % colorList.length]['majorColor'],
+                                        fontSize:16.sp
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              SizedBox(width: 3.w,),
+                              Text(
+                                name!,
+                                style: TextStyle(
+                                fontFamily: 'inter',
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                                fontSize:16.sp
+                              )),
+                            ],
                           ),
-                          SizedBox(width: 3.w,),
-                          Text(
-                            name!,
-                            style: TextStyle(
-                            fontFamily: 'inter',
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                            fontSize:16.sp
-                          )),
+                          // Spacer(),
+                          // FaIcon(FontAwesomeIcons.angleRight, size: 20.sp,
+                          //     color: Colors.black),
                         ],
                       ),
-                      // Spacer(),
-                      // FaIcon(FontAwesomeIcons.angleRight, size: 20.sp,
-                      //     color: Colors.black),
+                      SizedBox(height: 3.w,),
+                      Text(
+                          detail!,
+                          style: TextStyle(
+                              fontFamily: 'inter',
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF616161),
+                              fontSize:14.sp
+                          ))
                     ],
                   ),
-                  SizedBox(height: 3.w,),
-                  Text(
-                      detail!,
-                      style: TextStyle(
-                          fontFamily: 'inter',
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF616161),
-                          fontSize:14.sp
-                      ))
-                ],
-              ),
-            )
-          )
-        ],
-      ),
+                )
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

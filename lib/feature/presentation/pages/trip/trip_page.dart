@@ -236,7 +236,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                     image: DecorationImage(
                                         image: CachedNetworkImageProvider(
                                             getImage(
-                                              state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].photo ?? "",
+                                              state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].photos?[0] ?? "",
 
                                             )),
                                         fit: BoxFit.fill)),
@@ -611,7 +611,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                 imageUrl: getImage(state.list!
                                                                     .content![selectedIndex]
                                                                     .locationWithSummary?[index]
-                                                                    .photo ??
+                                                                    .photos?[0] ??
                                                                     ""),
                                                                 fit: BoxFit.cover,
                                                               ),
@@ -702,16 +702,22 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                           size: 15.sp,
                                                                         ),
                                                                         SizedBox(width: 1.w),
-                                                                        Text(
-                                                                          state.list!.content![selectedIndex]
-                                                                              .locationWithSummary?[index]
-                                                                              .locationName ??
-                                                                              "",
-                                                                          style: TextStyle(
-                                                                            color: Colors.black,
-                                                                            fontFamily: 'inter',
-                                                                            fontWeight: FontWeight.w600,
-                                                                            fontSize: 14.sp,
+                                                                        ConstrainedBox(
+                                                                          constraints: BoxConstraints(
+                                                                            maxWidth: 55.w
+                                                                          ),
+                                                                          child: Text(
+                                                                            state.list!.content![selectedIndex]
+                                                                                .locationWithSummary?[index]
+                                                                                .locationName ??
+                                                                                "",
+                                                                            style: TextStyle(
+                                                                              color: Colors.black,
+                                                                              fontFamily: 'inter',
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 14.sp,
+                                                                            ),
+                                                                            maxLines: 1,
                                                                           ),
                                                                         )
                                                                       ],
@@ -735,7 +741,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                         imageUrl: getImage(state.list!
                                                                             .content![selectedIndex]
                                                                             .locationWithSummary?[index]
-                                                                            .photo ??
+                                                                            .photos?[0] ??
                                                                             ""),
                                                                         fit: BoxFit.cover,
                                                                       ),
@@ -769,7 +775,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                         imageUrl: getImage(state.list!
                                                                             .content![selectedIndex]
                                                                             .locationWithSummary?[index]
-                                                                            .photo ??
+                                                                            .photos?[0] ??
                                                                             ""),
                                                                         fit: BoxFit.cover,
                                                                       ),
