@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -29,7 +33,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.397166996120-1r10ramjboc7k5k7fth782vnr55kvmsk</string>
+				<string>com.googleusercontent.apps.397166996120-bhm3jlr7dj13q1dd5qa220s7cehi08o0</string>
 			</array>
 		</dict>
 	</array>
@@ -41,6 +45,13 @@
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
+	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Starlight want to access your location</string>
+	<key>NSPrivacyAccessedAPITypes</key>
+	<dict>
+		<key>NSPrivacyAccessedAPIUsageDescription</key>
+		<string>We access UserDefaults to store app preferences and settings.</string>
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>

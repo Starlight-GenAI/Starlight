@@ -1,4 +1,4 @@
-package com.arise.starlightx
+package com.arise.starlight
 
 import io.flutter.embedding.android.FlutterActivity
 

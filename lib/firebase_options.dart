@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCqsksaGfmTNJ4cS2seW5JiV1l2RoVQVaM',
-    appId: '1:397166996120:android:37408f65fa9423213cbeed',
+    appId: '1:397166996120:android:4f64a726d5ccab983cbeed',
     messagingSenderId: '397166996120',
     projectId: 'poc-innovation-iot',
     storageBucket: 'poc-innovation-iot.appspot.com',
@@ -59,13 +59,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDpxnLVnKqtAVc04PWiUtzim_xfZCA6qZ4',
-    appId: '1:397166996120:ios:22edccd57ab606bd3cbeed',
+    appId: '1:397166996120:ios:c8b49460fa0c247d3cbeed',
     messagingSenderId: '397166996120',
     projectId: 'poc-innovation-iot',
     storageBucket: 'poc-innovation-iot.appspot.com',
     androidClientId: '397166996120-0jv16tfo3oi8suk7kt7hce53gtcm57s9.apps.googleusercontent.com',
-    iosClientId: '397166996120-1r10ramjboc7k5k7fth782vnr55kvmsk.apps.googleusercontent.com',
-    iosBundleId: 'com.arise.starlightx',
+    iosClientId: '397166996120-bhm3jlr7dj13q1dd5qa220s7cehi08o0.apps.googleusercontent.com',
+    iosBundleId: 'com.arise.starlight',
   );
 
 }

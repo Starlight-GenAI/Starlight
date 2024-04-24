@@ -871,8 +871,8 @@ class _SummaryPageState extends State<SummaryPage> {
         index ==0 && summary.contains('##')? RichText(
           maxLines: 5,
           text: _buildNewTextHeaderFormat(textList),
-        ) : Container(),
-        SizedBox(height: 2.h,),
+        ) : Text(summary, style: TextStyle(fontSize: 14.sp, fontFamily: 'inter',color: Color(0xFF666666))),
+        SizedBox(height: 1.h,),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -892,7 +892,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     maxHeight: double.infinity,
-                    minHeight: 10.h
+                    minHeight: 10.h,
                   ),
                   child: Container(
                     width: 1.w,
