@@ -19,6 +19,7 @@ import 'package:starlight/feature/presentation/pages/journey_planner/journey_pla
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_modal_submit.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_progress_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_summary_page.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../injection_container.dart';
 import '../../../data/data_sources/upload_video/upload_video_request.dart';
@@ -51,7 +52,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
     if(videoId != null) {
       print('////////state url///////////');
       print(videoId);
-      // _handleTap(context);
+      bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(VideoDetail(videoId: videoId!));
     } else {
       Clipboard.getData(Clipboard.kTextPlain).then((value) {
         var clipboard = value?.text ?? "";
@@ -292,14 +293,13 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
 
   void _handleTap(BuildContext context) {
     if (_currentIndex == 0) {
-      print('try add event');
       Clipboard.getData(Clipboard.kTextPlain).then((value) {
         var clipboard = value?.text ?? "";
         setState(() {
           urlFromClipBoard = clipboard;
         });
-        bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(VideoDetail(videoUrl: urlFromClipBoard));
-
+        String? videoId = urlFromClipBoard.contains("youtube") || urlFromClipBoard.contains('youtu.be') ? YoutubePlayer.convertUrlToId(urlFromClipBoard) : urlFromClipBoard;
+        bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(VideoDetail(videoId: videoId!));
       });
     } else if (_currentIndex == 1) {
       print('////////////////url when submit//////////////');
@@ -307,7 +307,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
       showModalBottomSheet<dynamic>(
         isScrollControlled: true,
         context: context,
-        builder: (context) => JourneyPlannerModalSubmit(videoUrl: urlFromClipBoard),
+        builder: (context) => JourneyPlannerModalSubmit(videoUrl: urlFromClipBoard,videoId: videoId ?? ''),
       );
       // bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: urlFromClipBoard, isUseSubtitle: true, userId: Get.find<NavigationController>().uid.value));
     } else {

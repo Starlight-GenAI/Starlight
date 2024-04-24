@@ -3,21 +3,23 @@ abstract class JourneyPlannerEvent {
 }
 
 class UploadVideo extends JourneyPlannerEvent {
-  final String videoUrl;
+  String? videoUrl;
+  String? videoId;
   final String userId;
   final bool isUseSubtitle;
 
   UploadVideo({
-    required this.videoUrl,
+    this.videoUrl,
+    this.videoId,
     required this.userId,
     required this.isUseSubtitle,
   });
 }
 
 class VideoDetail extends JourneyPlannerEvent {
-  final String videoUrl;
+  final String videoId;
 
   VideoDetail({
-    required this.videoUrl,
+    required this.videoId,
   });
 }

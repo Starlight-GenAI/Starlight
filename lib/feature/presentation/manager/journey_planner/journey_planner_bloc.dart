@@ -24,7 +24,8 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
 
   void onUploadVideo(UploadVideo uploadVideo, Emitter<JourneyPlannerState> emit) async{
     emit(const UploadVideoLoadingState());
-    final dataState = await _uploadVideoUseCase(params: VideoRequestBody(videoUrl: uploadVideo.videoUrl, isUseSubtitle: uploadVideo.isUseSubtitle, userId: uploadVideo.userId));
+
+    final dataState = await _uploadVideoUseCase(params:  VideoRequestBody(videoUrl: uploadVideo.videoUrl!, isUseSubtitle: uploadVideo.isUseSubtitle, userId: uploadVideo.userId, videoId: uploadVideo.videoId!));
     print('/////////////////state data/////////////////');
     print(dataState.data!);
 
@@ -39,7 +40,7 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
 
   void onGetVideoDetail(VideoDetail videoDetail, Emitter<JourneyPlannerState> emit) async{
     emit(const VideoDetailLoadingState());
-    final dataState = await _videoDetailUseCase(params: VideoDetailRequestBody(videoUrl: videoDetail.videoUrl));
+    final dataState = await _videoDetailUseCase(params: VideoDetailRequestBody(videoId: videoDetail.videoId));
     print('/////////////////state detail data/////////////////');
     print(dataState);
 

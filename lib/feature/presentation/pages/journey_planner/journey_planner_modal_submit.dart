@@ -16,7 +16,8 @@ import '../../manager/navigation_controller.dart';
 
 class JourneyPlannerModalSubmit extends StatefulWidget {
   final String videoUrl;
-  const JourneyPlannerModalSubmit({super.key, required this.videoUrl});
+  final String videoId;
+  const JourneyPlannerModalSubmit({super.key, required this.videoUrl, required this.videoId});
 
   @override
   _JourneyPlannerModalSubmitState createState() => _JourneyPlannerModalSubmitState();
@@ -214,7 +215,8 @@ class _JourneyPlannerModalSubmitState extends State<JourneyPlannerModalSubmit> {
       child: GestureDetector(
         onTap: () => {
           isSelectTitle != '' ?
-          bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: widget.videoUrl, isUseSubtitle: isUseSubtitle, userId: Get.find<NavigationController>().uid.value)) : null,
+          widget.videoId != '' ? bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoId: widget.videoId, videoUrl: '', isUseSubtitle: isUseSubtitle, userId: Get.find<NavigationController>().uid.value)):
+          bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: widget.videoUrl, videoId: '',isUseSubtitle: isUseSubtitle, userId: Get.find<NavigationController>().uid.value)) : null,
           Get.back()
         },
         child: Padding(

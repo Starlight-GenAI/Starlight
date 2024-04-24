@@ -1,13 +1,13 @@
 class VideoDetailRequestBody {
-  String videoUrl;
+  String videoId;
 
   VideoDetailRequestBody({
-    required this.videoUrl
+    required this.videoId
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'video_url': videoUrl,
+      'video_id': videoId,
     };
   }
 }
