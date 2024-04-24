@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Opacity(opacity: 0.8, child: Image.asset(homeGradient)),
+        Opacity(opacity: 1, child: Image.asset(homeGradient)),
         _buildDailyJourney(),
         _buildHomeMenu()
       ],
