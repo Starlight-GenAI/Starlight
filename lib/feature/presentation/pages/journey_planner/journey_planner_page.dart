@@ -34,6 +34,7 @@ class JourneyPlannerPage extends StatefulWidget {
 }
 
 class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
+  var videoId = Get.arguments;
   final double _paddingContent = 24;
   int _currentIndex = 0;
   CarouselController buttonCarouselController = CarouselController();
@@ -47,15 +48,21 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
   void initState() {
     super.initState();
 
-    Clipboard.getData(Clipboard.kTextPlain).then((value) {
-      var clipboard = value?.text ?? "";
-      urlFromClipBoard = clipboard;
-      print(clipboard);
-      if (clipboard.isNotEmpty && (clipboard.contains("youtube") || clipboard.contains('youtu.be'))) {
-        _handleTap(context);
+    if(videoId != null) {
+      print('////////state url///////////');
+      print(videoId);
+      // _handleTap(context);
+    } else {
+      Clipboard.getData(Clipboard.kTextPlain).then((value) {
+        var clipboard = value?.text ?? "";
+        urlFromClipBoard = clipboard;
+        print(clipboard);
+        if (clipboard.isNotEmpty && (clipboard.contains("youtube") || clipboard.contains('youtu.be'))) {
+          _handleTap(context);
+        }
       }
+      );
     }
-    );
   }
 
   @override

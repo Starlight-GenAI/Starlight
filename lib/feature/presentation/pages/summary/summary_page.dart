@@ -61,6 +61,14 @@ class _SummaryPageState extends State<SummaryPage> {
   ];
   var isFirstInit = false;
 
+  final colorList = [
+    {'majorColor': Color(0xFF4D32F8), 'mainColor': Color(0xFF647AFF), 'lightColor': Color(0xFFE1E9FF)},
+    {'majorColor': Color(0xFF774198), 'mainColor': Color(0xFF6F63B0), 'lightColor': Color(0xFFE3DEFE)},
+    {'majorColor': Color(0xFF13C18D), 'mainColor': Color(0xFF355939), 'lightColor': Color(0xFFA3F3AB)},
+    {'majorColor': Color(0xFFE41F4F), 'mainColor': Color(0xFF973B51), 'lightColor': Color(0xFFFFD3D8)},
+    {'majorColor': Color(0xFFFF7A00), 'mainColor': Color(0xFF905824), 'lightColor': Color(0xFFFFEBD3)}
+  ];
+
   String secondsToMmSs(double seconds) {
     int totalSeconds = seconds.ceil();
     int minutes = totalSeconds ~/ 60;
@@ -394,7 +402,7 @@ class _SummaryPageState extends State<SummaryPage> {
                       Expanded(
                           flex: 10,
                           child: ListView.builder(
-                              padding: EdgeInsets.zero,
+                              padding: EdgeInsets.only(top: 3.w),
                               itemCount: state.list?.content.length,
                               itemBuilder: (context, index) {
                                 print(state.list?.content[index].photo);
@@ -636,8 +644,30 @@ class _SummaryPageState extends State<SummaryPage> {
                                         ? bloc.BlocBuilder<JourneyHighlightBloc,
                                                 JourneyHighlightState>(
                                             builder: (_, state) {
-                                            if (state
-                                                is JourneyHighlightLoadedState) {
+                                              print(state);
+                                            if (state is JourneyHighlightLoadedState) {
+                                              // return Expanded(
+                                              //   child: SingleChildScrollView(
+                                              //     child: ListView.builder(
+                                              //       itemCount: state.list!.content.length,
+                                              //       itemBuilder: (BuildContext context, int index) {
+                                              //         return Container(
+                                              //           width: 100,
+                                              //           height: 100,
+                                              //         );
+                                              //       },
+                                              //     ),
+                                              //   ),
+                                              // );
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                      left: 2.h, right: 2.h, bottom: 2.h),
+                                                child: _buildHighlightBox(
+                                                    state.list?.content[index].highlightName ?? 'hi',
+                                                    state.list?.content[index].highlightDetail ?? 'hi',
+                                                    index
+                                                ),
+                                              );
                                               return Text(
                                                 state.list?.content[0]
                                                         .highlightName ??
@@ -715,6 +745,93 @@ class _SummaryPageState extends State<SummaryPage> {
                 ))
           ],
         ),
+      ),
+    );
+  }
+
+  _buildHighlightBox(String? name,String? detail,int index) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: shadowColor.withOpacity(0.3),
+            offset: Offset(0, 4),
+            blurRadius: 12,
+          )
+        ],
+      ),
+      child: Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 4.5.h),
+            child: Container(
+              width: 1.w,
+              decoration: BoxDecoration(
+                color: colorList[index % colorList.length]['majorColor'],
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  bottomRight: Radius.circular(24),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(6.w),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 8.w,
+                            height: 8.w,
+                            child: CircleAvatar(
+                              backgroundColor: colorList[index % colorList.length]['lightColor'],
+                              child: Text(
+                                (index + 1).toString(),
+                                style: TextStyle(
+                                    fontFamily: 'inter',
+                                    fontWeight: FontWeight.w700,
+                                    color: colorList[index % colorList.length]['majorColor'],
+                                    fontSize:16.sp
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 3.w,),
+                          Text(
+                            name!,
+                            style: TextStyle(
+                            fontFamily: 'inter',
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                            fontSize:16.sp
+                          )),
+                        ],
+                      ),
+                      // Spacer(),
+                      // FaIcon(FontAwesomeIcons.angleRight, size: 20.sp,
+                      //     color: Colors.black),
+                    ],
+                  ),
+                  SizedBox(height: 3.w,),
+                  Text(
+                      detail!,
+                      style: TextStyle(
+                          fontFamily: 'inter',
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF616161),
+                          fontSize:14.sp
+                      ))
+                ],
+              ),
+            )
+          )
+        ],
       ),
     );
   }

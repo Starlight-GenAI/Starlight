@@ -330,7 +330,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
         return Padding(
           padding: EdgeInsets.only(left: 2.5.h,right: 2.5.h,bottom: 1.h),
           child: MasonryGridView.builder(
-            padding: EdgeInsets.only(top: 2.h),
+              padding: EdgeInsets.only(top: 2.h),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -340,92 +340,100 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               crossAxisSpacing: 1.5.h,
               mainAxisSpacing: 1.5.h,
               itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowColor.withOpacity(0.3),
-                          offset: Offset(0,2),
-                          blurRadius: 25
-                        )
-                      ],
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  child: Wrap(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(12),
-                            topLeft: Radius.circular(12)),
-                        child: CachedNetworkImage(
-                          imageUrl: state.list!.items![index].snippet!.thumbnails
-                                  ?.medium?.url ??
-                              "",
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Container(
-                          child: Text(
-                            state.list!.items![index].snippet!.title ?? "",
-                            style: TextStyle(
-                                fontFamily: 'inter',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.sp),
-                            maxLines: index % 3 == 0
-                                ? 3
-                                : index % 3 == 1
-                                    ? 2
-                                    : 1,
-                            overflow: TextOverflow.ellipsis,
+                return GestureDetector(
+                  onTap: () => {
+                    Get.to(
+                      transition: Transition.rightToLeft,
+                      arguments: state.list!.items![index].id?.videoId,
+                      () => JourneyPlannerPage())
+                },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: shadowColor.withOpacity(0.3),
+                            offset: Offset(0,2),
+                            blurRadius: 25
+                          )
+                        ],
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child: Wrap(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(12),
+                              topLeft: Radius.circular(12)),
+                          child: CachedNetworkImage(
+                            imageUrl: state.list!.items![index].snippet!.thumbnails
+                                    ?.medium?.url ??
+                                "",
+                            fit: BoxFit.fill,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 3.w, right: 2.5.w, top: 1.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFDBE4FD),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(24))),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 3.w, vertical: .5.h),
-                                child: Row(
-                                  children: [
-                                    FaIcon(FontAwesomeIcons.youtube, size: 15.sp,
-                                        color: const Color(0xFF0034A0)),
-                                    SizedBox(
-                                      width: 1.w,
-                                    ),
-                                    ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                        maxWidth: 25.w
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Container(
+                            child: Text(
+                              state.list!.items![index].snippet!.title ?? "",
+                              style: TextStyle(
+                                  fontFamily: 'inter',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.sp),
+                              maxLines: index % 3 == 0
+                                  ? 3
+                                  : index % 3 == 1
+                                      ? 2
+                                      : 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 3.w, right: 2.5.w, top: 1.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFDBE4FD),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(24))),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 3.w, vertical: .5.h),
+                                  child: Row(
+                                    children: [
+                                      FaIcon(FontAwesomeIcons.youtube, size: 15.sp,
+                                          color: const Color(0xFF0034A0)),
+                                      SizedBox(
+                                        width: 1.w,
                                       ),
-                                      child: Text(
-                                        state.list!.items![index].snippet!
-                                            .channelTitle!,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: Color(0xFF0034A0),
-                                            fontFamily: 'inter',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 13.sp),
+                                      ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                          maxWidth: 25.w
+                                        ),
+                                        child: Text(
+                                          state.list!.items![index].snippet!
+                                              .channelTitle!,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: Color(0xFF0034A0),
+                                              fontFamily: 'inter',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 13.sp),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 );
               }),

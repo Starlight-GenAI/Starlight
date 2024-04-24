@@ -302,83 +302,87 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
             top: false,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 2.h),
-              child: Container(
-                height: 5.h,
-                decoration: BoxDecoration(
-                    color: Color(0xFF4D32F8),
-                    borderRadius: BorderRadius.circular(48)),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 2.h, right: 2.h),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          width: 25.w,
-                          child: Text(
-                            "Day "+ (selectedIndex + 1).toString(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'inter',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16.sp),
-                          )),
-                      Spacer(),
-                      AnimatedSmoothIndicator(
-                        count: state.list?.content?.length ?? 3,
-                        activeIndex: selectedIndex,
-                        effect: ExpandingDotsEffect(
-                            dotHeight: 8,
-                            dotWidth: 8,
-                            expansionFactor: 2,
-                            activeDotColor: Colors.white,
-                            dotColor: Colors.white.withOpacity(0.50)),
-                      ),
-                      Spacer(),
-                      Row(
-                        children: [
-                          IconButton(
-                              onPressed: () async {
-                                if (selectedIndex>0){
-                                  setState(() {
-                                    selectedIndex = selectedIndex - 1;
-                                  });
-                                  _addPin(state);
-                                  carouselController.animateToPage(0,duration: Duration(milliseconds: 400));
-                                  final GoogleMapController controller = await _mapController.future;
-                                  await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.list?.content?[selectedIndex].locationWithSummary?[0].lat ?? 0 ,state.list?.content?[selectedIndex].locationWithSummary?[0].lng ?? 0),zoom: 14.48)));
-                                }
+              child: Stack(
+                alignment: AlignmentDirectional.centerStart,
+                children: [
+                  Container(
+                    height: 5.3.h,
+                    padding: EdgeInsets.only(left: 7.w, right: 2.w),
+                    decoration: BoxDecoration(
+                        color: Color(0xFF4D32F8),
+                        borderRadius: BorderRadius.circular(48)),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                            width: 25.w,
+                            child: Text(
+                              "Day "+ (selectedIndex + 1).toString(),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'inter',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16.sp),
+                            )),
+                        Row(
+                          children: [
+                            IconButton(
+                                onPressed: () async {
+                                  if (selectedIndex>0){
+                                    setState(() {
+                                      selectedIndex = selectedIndex - 1;
+                                    });
+                                    _addPin(state);
+                                    carouselController.animateToPage(0,duration: Duration(milliseconds: 400));
+                                    final GoogleMapController controller = await _mapController.future;
+                                    await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.list?.content?[selectedIndex].locationWithSummary?[0].lat ?? 0 ,state.list?.content?[selectedIndex].locationWithSummary?[0].lng ?? 0),zoom: 14.48)));
+                                  }
 
-                              },
-                              icon: Icon(
-                                Icons.arrow_back_ios_new_rounded,
-                                size: 18.sp,
-                                color: (selectedIndex>0) ? Colors.white : Colors.white.withOpacity(0.2)
-                              )),
-                          IconButton(
-                              onPressed: () async {
-                                if(selectedIndex < ((state.list?.content?.length ) ?? 0)-1){
-                                  setState(() {
-                                    selectedIndex = selectedIndex + 1;
-                                  });
-                                  _addPin(state);
+                                },
+                                icon: Icon(
+                                  Icons.arrow_back_ios_new_rounded,
+                                  size: 18.sp,
+                                  color: (selectedIndex>0) ? Colors.white : Colors.white.withOpacity(0.2)
+                                )),
+                            IconButton(
+                                onPressed: () async {
+                                  if(selectedIndex < ((state.list?.content?.length ) ?? 0)-1){
+                                    setState(() {
+                                      selectedIndex = selectedIndex + 1;
+                                    });
+                                    _addPin(state);
 
-                                  carouselController.animateToPage(0,duration: Duration(milliseconds: 400));
-                                  final GoogleMapController controller = await _mapController.future;
-                                  await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.list?.content?[selectedIndex].locationWithSummary?[0].lat ?? 0 ,state.list?.content?[selectedIndex].locationWithSummary?[0].lng ?? 0),zoom: 14.48)));
-                                }
+                                    carouselController.animateToPage(0,duration: Duration(milliseconds: 400));
+                                    final GoogleMapController controller = await _mapController.future;
+                                    await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.list?.content?[selectedIndex].locationWithSummary?[0].lat ?? 0 ,state.list?.content?[selectedIndex].locationWithSummary?[0].lng ?? 0),zoom: 14.48)));
+                                  }
 
-                              },
-                              icon: Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 18.sp,
-                                  color: (selectedIndex < ((state.list?.content?.length ) ?? 0)-1) ? Colors.white : Colors.white.withOpacity(0.2)
+                                },
+                                icon: Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 18.sp,
+                                    color: (selectedIndex < ((state.list?.content?.length ) ?? 0)-1) ? Colors.white : Colors.white.withOpacity(0.2)
 
-                              ))
-                        ],
-                      ),
-                    ],
+                                ))
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  Center(
+                    child: AnimatedSmoothIndicator(
+                      count: state.list?.content?.length ?? 3,
+                      activeIndex: selectedIndex,
+                      effect: ExpandingDotsEffect(
+                          dotHeight: 8,
+                          dotWidth: 8,
+                          expansionFactor: 2,
+                          activeDotColor: Colors.white,
+                          dotColor: Colors.white.withOpacity(0.50)),
+                    ),
+                  )
+                ],
               ),
             ),
           ),
