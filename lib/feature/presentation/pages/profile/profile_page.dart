@@ -252,29 +252,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               Spacer(),
-              FaIcon(FontAwesomeIcons.arrowRightFromBracket, size: 20.sp,
-                  color: Colors.white),
+              GestureDetector(
+                onTap: () async {
+                  await FirebaseAuth.instance.signOut();
+                    GoogleSignIn().signOut();
+                    Get.offAll(
+                    ()=> LoginPage()
+                  );
+                },
+                child: FaIcon(FontAwesomeIcons.arrowRightFromBracket, size: 20.sp,
+                    color: Colors.white),
+              ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  _imgStack(data,index) {
-    return Positioned(
-      left: index * 10,
-      child: Container(
-        width: 3.w,
-        height: 3.w,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(100000)
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: CircleAvatar(
-            backgroundImage: CachedNetworkImageProvider(data),
           ),
         ),
       ),
