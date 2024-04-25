@@ -11,7 +11,9 @@ import 'package:starlight/core/constants/colors.dart';
 import 'package:starlight/feature/presentation/pages/home/home_page.dart';
 import 'package:starlight/feature/presentation/pages/navigation_page.dart';
 
+import '../../../../core/constants/constants.dart';
 import '../../manager/google-auth/google-auth.dart';
+import '../../manager/navigation_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -112,7 +114,13 @@ class _LoginPageState extends State<LoginPage> {
       onTap: () async {
         try {
           var auth = await signInWithGoogle();
-
+          final user = auth.user;
+          if (user != null) {
+            Get.find<NavigationController>().uid.value = user.uid;
+            Get.find<NavigationController>().name.value = user.displayName ?? "User";
+            Get.find<NavigationController>().profile.value =
+                user.photoURL ?? "";
+          }
             Get.offAll(
               duration: Duration(milliseconds: 300),
                 transition: Transition.rightToLeft,

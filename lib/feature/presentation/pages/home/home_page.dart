@@ -312,7 +312,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
         return Container(
           height: 50.h,
           child: const Center(
-            child: CupertinoActivityIndicator(),
+            child: CircularProgressIndicator(),
           ),
         );
       }

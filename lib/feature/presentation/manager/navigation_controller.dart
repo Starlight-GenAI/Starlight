@@ -24,4 +24,10 @@ class NavigationController extends GetxController {
     thisControl?.jumpToPage(page,);
   }
 
+  logout(){
+    uid.value = "";
+    name.value = "";
+    profile.value = "";
+    statePage.value = 0;
+  }
 }
