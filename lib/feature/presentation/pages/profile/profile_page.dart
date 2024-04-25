@@ -256,6 +256,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 onTap: () async {
                   await FirebaseAuth.instance.signOut();
                     GoogleSignIn().signOut();
+                    Get.find<NavigationController>().logout();
                     Get.offAll(
                     ()=> LoginPage()
                   );

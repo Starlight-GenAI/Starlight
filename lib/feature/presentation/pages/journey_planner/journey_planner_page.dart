@@ -3,10 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart' as page;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -24,6 +25,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../../injection_container.dart';
 import '../../../data/data_sources/upload_video/upload_video_request.dart';
 import '../../manager/journey_planner/journey_planner_state.dart';
+import '../../manager/list_history/list_history_bloc.dart';
+import '../../manager/list_history/list_history_event.dart';
 import '../navigation_page.dart';
 
 
@@ -122,7 +125,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
           setState(() {
             isLoading = false;
           });
-          Get.to(transition: Transition.downToUp,
+          Get.to(transition: page.Transition.downToUp,
                   () => ErrorAlertPage());
         }
       },
@@ -207,9 +210,9 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                                     ? "Copy video link from social media or Shared from other apps."
                                     :
                                 _currentIndex == 1
-                                    ? "It might take a minute after submitting a video to plan a journey."
+                                    ? "It may take a minutes to plan a journey after submitting a video."
                                     :
-                                "Now you can waiting for a result at a My Journey menu",
+                                "We are processing your video. Please visit 'My Journey' to view the result.",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -238,7 +241,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                             _button(
                                 _currentIndex == 0 ? 'Paste Link' : _currentIndex == 1
                                     ? "Next"
-                                    : "Done"),
+                                    : "Go to My Journey"),
                             SizedBox(height: !hasSafeAreaBottom ? 3.h : 0,),
                           ],
                         ),
@@ -311,6 +314,8 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
       );
       // bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: urlFromClipBoard, isUseSubtitle: true, userId: Get.find<NavigationController>().uid.value));
     } else {
+      BlocProvider.of<ListHistoryBloc>(context).add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
+      Get.find<NavigationController>().changePage(1);
       Get.back();
     }
   }

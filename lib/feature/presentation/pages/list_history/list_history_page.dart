@@ -82,6 +82,9 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
       ],
     );
   }
+  Future<void> _refreshData() async {
+    bloc.BlocProvider.of<ListHistoryBloc>(context).add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
+  }
 
   _buildListHistory() {
     return Padding(
@@ -120,176 +123,176 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                           return Expanded(
                             child: Padding(
                               padding: EdgeInsets.only(top: .5.h, bottom: 2.h),
-                              child: ListView.builder(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 4.h, horizontal: 2.h),
-                                  shrinkWrap: true,
-                                  itemCount: state.list?.items.length,
-                                  itemBuilder: (context, index) {
-                                    print("index " +
-                                        state.list!.items[index].status
-                                            .toString());
-                                    return Padding(
-                                      padding: EdgeInsets.only(bottom: 1.5.h),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          print('/////////queueId///////////');
-                                          print(state.list?.items[index].queueId);
-                                          if (state.list!.items[index].status
-                                                  .toString() ==
-                                              "success") {
-                                            bloc.BlocProvider.of<
-                                                    JourneySummaryBloc>(context)
-                                                .add(GetSummaryVideo(
-                                                    id: state.list?.items[index]
-                                                            .queueId ??
-                                                        ""));
-                                            bloc.BlocProvider.of<
-                                                    JourneyHighlightBloc>(context)
-                                                .add(GetHighlight(
-                                                    Id: state.list?.items[index]
-                                                            .queueId ??
-                                                        ""));
+                              child: RefreshIndicator(
+                                displacement: 20,
+                                onRefresh: _refreshData,
+                                child: ListView.builder(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 4.h, horizontal: 2.h),
+                                    shrinkWrap: true,
+                                    itemCount: state.list?.items.length,
+                                    itemBuilder: (context, index) {
+                                      print("index " +
+                                          state.list!.items[index].status
+                                              .toString());
+                                      return Padding(
+                                        padding: EdgeInsets.only(bottom: 1.5.h),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            if (state.list!.items[index].status
+                                                    .toString() ==
+                                                "success") {
+                                              bloc.BlocProvider.of<
+                                                      JourneySummaryBloc>(context)
+                                                  .add(GetSummaryVideo(
+                                                      id: state.list?.items[index]
+                                                              .queueId ??
+                                                          ""));
+                                              bloc.BlocProvider.of<
+                                                      JourneyHighlightBloc>(context)
+                                                  .add(GetHighlight(
+                                                      Id: state.list?.items[index]
+                                                              .queueId ??
+                                                          ""));
 
-                                            Get.to(
-                                                transition:
-                                                    Transition.rightToLeft,
-                                                arguments:
-                                                    state.list?.items[index],
-                                                () => SummaryPage());
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 18.h,
-                                          width: 100.w,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(16),
-                                              ),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: shadowColor
-                                                      .withOpacity(0.3),
-                                                  offset: Offset(0, 4),
-                                                  blurRadius: 12,
-                                                )
-                                              ]),
-                                          child: Row(
-                                            children: [
+                                              Get.to(
+                                                  transition:
+                                                      Transition.rightToLeft,
+                                                  arguments:
+                                                      state.list?.items[index],
+                                                  () => SummaryPage());
+                                            }
+                                          },
+                                          child: Container(
+                                            height: 18.h,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(16),
+                                                ),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: shadowColor
+                                                        .withOpacity(0.3),
+                                                    offset: Offset(0, 4),
+                                                    blurRadius: 12,
+                                                  )
+                                                ]),
+                                            child: Row(
+                                              children: [
 
-                                              Padding(
-                                                padding: EdgeInsets.all(1.5.h),
-                                                child: Container(
-                                                  width: 18.h,
-                                                  height: 15.h,
+                                                Padding(
+                                                  padding: EdgeInsets.all(1.5.h),
+                                                  child: Container(
+                                                    width: 18.h,
+                                                    height: 15.h,
 
-                                                  decoration: BoxDecoration(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10)),
+                                                    child: ClipRRect(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(10),
-                                                    child: CachedNetworkImage(
-                                                        imageUrl: state
-                                                                .list
-                                                                ?.items[index]
-                                                                .thumbnails ??
-                                                            "",fit: BoxFit.cover,),
+                                                          BorderRadius.circular(10),
+                                                      child: CachedNetworkImage(
+                                                          imageUrl: state
+                                                                  .list
+                                                                  ?.items[index]
+                                                                  .thumbnails ??
+                                                              "",fit: BoxFit.cover,),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Expanded(
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(top: 2.h,bottom: 2.h, right: 2.h),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                      children: [
 
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(top: 2.h,bottom: 2.h, right: 2.h),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      Row(children: [
-                                                        SvgPicture.asset(youtubeLogo,width: 5.w,),
-                                                        SizedBox(width: 1.w,),
-                                                        Text(state.list?.items[index].channelName ?? "",
-                                                          overflow: TextOverflow.ellipsis,
-                                                          maxLines: 1,
-                                                          style: TextStyle(color: Color(0xFF646C9C),fontSize: 14.sp,fontWeight: FontWeight.w600,fontFamily: 'inter'),)
-                                                      ],),
-                                                      SizedBox(height: 1.h,),
-                                                      Text(
-                                                        state.list?.items[index]
-                                                                .title ??
-                                                            "",
-                                                        maxLines: 2,
-                                                        style: TextStyle(
-                                                            fontSize: 15.sp,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            fontFamily: 'inter'),
-                                                      ),
-                                                      SizedBox(
-                                                        height: .5.h,
-                                                      ),
-                                                      Spacer(),
-                                                      Row(children: [
-                                                        state.list!.items[index].status == "success"? Container(
-                                                          decoration: BoxDecoration(
-                                                            color: Color(0xFF52C883),
-                                                            borderRadius: BorderRadius.circular(48)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
-                                                            child: Row(
-                                                              children: [
-                                                                Icon(EvaIcons.checkmark,color: Colors.white,size: 18.sp,),
-                                                                SizedBox(width: .5.w,),
-                                                                Text('Success',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ): state.list!.items[index].status == "pending"? Container(
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFA800),
+                                                        Row(
+                                                          children: [
+                                                          SvgPicture.asset(youtubeLogo,width: 5.w,),
+                                                          SizedBox(width: 1.w,),
+                                                          Expanded(child: Text(state.list?.items[index].channelName ?? "", style: TextStyle(color: Color(0xFF646C9C),fontSize: 14.sp,fontWeight: FontWeight.w600,fontFamily: 'inter'),maxLines: 1,)),
+
+                                                        ],),
+                                                        SizedBox(height: 1.h,),
+                                                        Text(
+                                                          state.list?.items[index]
+                                                                  .title ??
+                                                              "",
+                                                          maxLines: 2,
+                                                          style: TextStyle(
+                                                              fontSize: 15.sp,
+                                                              fontWeight:
+                                                                  FontWeight.w700,
+                                                              fontFamily: 'inter'),
+                                                        ),
+                                                        SizedBox(
+                                                          height: .5.h,
+                                                        ),
+                                                        Spacer(),
+                                                        Row(children: [
+                                                          state.list!.items[index].status == "success"? Container(
+                                                            decoration: BoxDecoration(
+                                                              color: Color(0xFF52C883),
                                                               borderRadius: BorderRadius.circular(48)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
-                                                            child: Row(
-                                                              children: [
-                                                                Icon(EvaIcons.loaderOutline,color: Colors.white,size: 18.sp,),
-                                                                SizedBox(width: .5.w,),
-                                                                Text('Pending',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
-                                                              ],
                                                             ),
-                                                          ),
-                                                        ): Container(
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFF522D),
-                                                              borderRadius: BorderRadius.circular(48)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
-                                                            child: Row(
-                                                              children: [
-                                                                Icon(EvaIcons.close,color: Colors.white,size: 18.sp,),
-                                                                SizedBox(width: .5.w,),
-                                                                Text('Failed',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
-                                                              ],
+                                                            child: Padding(
+                                                              padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
+                                                              child: Row(
+                                                                children: [
+                                                                  Icon(EvaIcons.checkmark,color: Colors.white,size: 18.sp,),
+                                                                  SizedBox(width: .5.w,),
+                                                                  Text('Success',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                        )
-                                                      ],)
-                                                    ],
+                                                          ): state.list!.items[index].status == "pending"? Container(
+                                                            decoration: BoxDecoration(
+                                                                color: Color(0xFFFFA800),
+                                                                borderRadius: BorderRadius.circular(48)
+                                                            ),
+                                                            child: Padding(
+                                                              padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
+                                                              child: Row(
+                                                                children: [
+                                                                  Icon(EvaIcons.loaderOutline,color: Colors.white,size: 18.sp,),
+                                                                  SizedBox(width: .5.w,),
+                                                                  Text('Pending',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ): Container(
+                                                            decoration: BoxDecoration(
+                                                                color: Color(0xFFFF522D),
+                                                                borderRadius: BorderRadius.circular(48)
+                                                            ),
+                                                            child: Padding(
+                                                              padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
+                                                              child: Row(
+                                                                children: [
+                                                                  Icon(EvaIcons.close,color: Colors.white,size: 18.sp,),
+                                                                  SizedBox(width: .5.w,),
+                                                                  Text('Failed',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],)
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  }),
+                                      );
+                                    }),
+                              ),
                             ),
                           );
                         } else {

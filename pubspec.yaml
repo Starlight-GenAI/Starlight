@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.2.3
   icons_launcher: ^2.1.7
   draggable_bottom_sheet: ^1.0.2
+  receive_sharing_intent: ^1.7.0
 
 dev_dependencies:
   flutter_test:

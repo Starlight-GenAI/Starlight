@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/colors.dart';
+import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
+import 'package:starlight/feature/presentation/manager/home/home_event.dart';
 import 'package:starlight/feature/presentation/manager/list_history/list_history_bloc.dart';
 import 'package:starlight/feature/presentation/pages/home/home_page.dart';
 import 'package:starlight/feature/presentation/pages/list_history/list_history_page.dart';
@@ -32,7 +34,6 @@ class _NavigationPageState extends State<NavigationPage> {
   var bottomNavActiveItems = [EvaIcons.home , EvaIcons.bulb, EvaIcons.person];
   var bottomNavInActiveItems = [EvaIcons.homeOutline , EvaIcons.bulbOutline, EvaIcons.personOutline];
 
-  var _selected = 0;
 
   late PageController pageController;
 
@@ -40,8 +41,12 @@ class _NavigationPageState extends State<NavigationPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('leo init');
     pageController = PageController();
-    Get.put(NavigationController(),permanent: true);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      final navigationController = Get.find<NavigationController>();
+      navigationController.startControl(pageController);
+    });
   }
 
   @override
@@ -75,32 +80,42 @@ class _NavigationPageState extends State<NavigationPage> {
           top: false,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(bottomNavActiveItems.length, (index) => GestureDetector(
-              onTap: () async{
-                print(index);
-                setState(() {
-                  // if(index==1){
-                  BlocProvider.of<ListHistoryBloc>(context).add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
-                  // }
-                  _selected = index;
-                  pageController.jumpToPage(_selected);
-                });
-              },
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  AnimatedContainer( width: _selected == index ? 24.w : 0, height: _selected == index ? 5.h : 0 ,decoration: BoxDecoration(
-                    color: navBarSelected,
-                    borderRadius: BorderRadius.all(Radius.circular(48))
-                  ), duration: Duration(milliseconds: 70),),
-                  AnimatedContainer(
-                          width: 32.w,
-                          height: 5.h,
-                          child: Icon(_selected==index ?bottomNavActiveItems[index] : bottomNavInActiveItems[index],
-                          size: 22.sp,
-                          color: _selected==index ? Colors.white:Colors.black,)
-                      , duration: Duration(milliseconds: 70))
-                ]
+            children: List.generate(bottomNavActiveItems.length, (index) => Obx(
+              () => GestureDetector(
+                onTap: () async{
+                  print(index);
+                  if (index==0){
+                    setState(() {
+                      BlocProvider.of<HomeBloc>(context).add(YoutubeSearch(word: 'travel Thailand'));
+                    });
+                  }
+                  if(index==1){
+
+                  setState(() {
+                    BlocProvider.of<ListHistoryBloc>(context).add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
+                  });
+                  }
+
+                  pageController.jumpToPage(index);
+                  Get.find<NavigationController>().changePage(index);
+
+                },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    AnimatedContainer( width: Get.find<NavigationController>().statePage.value == index ? 24.w : 0, height: Get.find<NavigationController>().statePage.value == index ? 5.h : 0 ,decoration: BoxDecoration(
+                      color: navBarSelected,
+                      borderRadius: BorderRadius.all(Radius.circular(48))
+                    ), duration: Duration(milliseconds: 70),),
+                    AnimatedContainer(
+                            width: 32.w,
+                            height: 5.h,
+                            child: Icon(Get.find<NavigationController>().statePage.value==index ?bottomNavActiveItems[index] : bottomNavInActiveItems[index],
+                            size: 22.sp,
+                            color: Get.find<NavigationController>().statePage.value==index ? Colors.white:Colors.black,)
+                        , duration: Duration(milliseconds: 70))
+                  ]
+                ),
               ),
             ))
           ),

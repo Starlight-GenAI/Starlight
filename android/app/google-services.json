@@ -7,6 +7,50 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:397166996120:android:4f64a726d5ccab983cbeed",
+        "android_client_info": {
+          "package_name": "com.arise.starlight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397166996120-9j15lbd23ngbfpbm2te0mmnpgqfkdn6m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arise.starlight",
+            "certificate_hash": "b9e8a1f02ec6f82854c389e93b55b4d20643ccf5"
+          }
+        },
+        {
+          "client_id": "397166996120-f3fo1eg4r8rqr8m7e1bccd72jjpm6205.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqsksaGfmTNJ4cS2seW5JiV1l2RoVQVaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397166996120-39t9a8rniamq7bljsed5dr2t4jh7aaqa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "397166996120-1r10ramjboc7k5k7fth782vnr55kvmsk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.arise.starlightx"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:397166996120:android:37408f65fa9423213cbeed",
         "android_client_info": {
           "package_name": "com.arise.starlightx"

@@ -83,7 +83,7 @@ class _JourneyPlannerModalSubmitState extends State<JourneyPlannerModalSubmit> {
                         _buttonBanner('Using Video with Subtitle', '8', btnGradient1),
                         SizedBox(height: 1.h,),
                         Text(
-                          'When using both video and subtitles, the result will depend\non whether the video contains important information\nrelated to the subtitles or not.',
+                          'When using both video and subtitles, the result will integrate\ninformation based on the relevance of the video\ncontent to the subtitles.',
                           style: TextStyle(
                               color: const Color(0xFF646C9C),
                               fontFamily: 'Inter',
