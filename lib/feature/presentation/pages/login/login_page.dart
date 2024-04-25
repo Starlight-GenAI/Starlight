@@ -121,10 +121,9 @@ class _LoginPageState extends State<LoginPage> {
             Get.find<NavigationController>().profile.value =
                 user.photoURL ?? "";
           }
-            Get.offAll(
-              duration: Duration(milliseconds: 300),
-                transition: Transition.rightToLeft,
-                    () => NavigationPage());
+          Future.delayed(Duration(milliseconds: 300), () {
+            Get.offAll(() => NavigationPage(), transition: Transition.rightToLeft);
+          });
 
         } catch (e) {
           // Handle sign-in errors here

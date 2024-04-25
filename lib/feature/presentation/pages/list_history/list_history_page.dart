@@ -204,7 +204,6 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                   ),
                                                 ),
                                                 Expanded(
-
                                                   child: Padding(
                                                     padding: EdgeInsets.only(top: 2.h,bottom: 2.h, right: 2.h),
                                                     child: Column(
@@ -212,10 +211,12 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                           CrossAxisAlignment.start,
                                                       children: [
 
-                                                        Row(children: [
+                                                        Row(
+                                                          children: [
                                                           SvgPicture.asset(youtubeLogo,width: 5.w,),
                                                           SizedBox(width: 1.w,),
-                                                          Text(state.list?.items[index].channelName ?? "", style: TextStyle(color: Color(0xFF646C9C),fontSize: 14.sp,fontWeight: FontWeight.w600,fontFamily: 'inter'),)
+                                                          Expanded(child: Text(state.list?.items[index].channelName ?? "", style: TextStyle(color: Color(0xFF646C9C),fontSize: 14.sp,fontWeight: FontWeight.w600,fontFamily: 'inter'),maxLines: 1,)),
+
                                                         ],),
                                                         SizedBox(height: 1.h,),
                                                         Text(

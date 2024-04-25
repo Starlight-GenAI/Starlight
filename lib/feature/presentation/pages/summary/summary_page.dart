@@ -559,11 +559,16 @@ class _SummaryPageState extends State<SummaryPage> {
                                                                   .circular(12),
                                                           image: DecorationImage(
                                                               image: CachedNetworkImageProvider(
-                                                                  getImage(state
+                                                                  getImage(
+                                                                      state
+                                                                          .list
+                                                                          !.content[index]
+                                                                          .photos.isEmpty ? ""
+                                                                       : state
                                                                           .list
                                                                           ?.content[index]
-                                                                          .photos?[0] ??
-                                                                      "")),
+                                                                          .photos[0] ??
+                                                                          "")),
                                                               fit: BoxFit.cover)),
                                                     ),
                                                     selectCard == index

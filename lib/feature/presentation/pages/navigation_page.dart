@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/colors.dart';
+import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
+import 'package:starlight/feature/presentation/manager/home/home_event.dart';
 import 'package:starlight/feature/presentation/manager/list_history/list_history_bloc.dart';
 import 'package:starlight/feature/presentation/pages/home/home_page.dart';
 import 'package:starlight/feature/presentation/pages/list_history/list_history_page.dart';
@@ -39,9 +41,12 @@ class _NavigationPageState extends State<NavigationPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('leo init');
     pageController = PageController();
-    Get.put(NavigationController(),permanent: true);
-    Get.find<NavigationController>().startControl(pageController);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      final navigationController = Get.find<NavigationController>();
+      navigationController.startControl(pageController);
+    });
   }
 
   @override
@@ -79,12 +84,21 @@ class _NavigationPageState extends State<NavigationPage> {
               () => GestureDetector(
                 onTap: () async{
                   print(index);
+                  if (index==0){
+                    setState(() {
+                      BlocProvider.of<HomeBloc>(context).add(YoutubeSearch(word: 'travel Thailand'));
+                    });
+                  }
+                  if(index==1){
+
                   setState(() {
-                    if(index==1){
                     BlocProvider.of<ListHistoryBloc>(context).add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
-                    }
-                    Get.find<NavigationController>().changePage(index);
                   });
+                  }
+
+                  pageController.jumpToPage(index);
+                  Get.find<NavigationController>().changePage(index);
+
                 },
                 child: Stack(
                   alignment: Alignment.center,

@@ -17,6 +17,7 @@ class NavigationController extends GetxController {
 
   startControl(PageController controller){
     thisControl = controller;
+    statePage.value = 0;
   }
 
   changePage(int page){

@@ -210,9 +210,9 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                                     ? "Copy video link from social media or Shared from other apps."
                                     :
                                 _currentIndex == 1
-                                    ? "It might take a minute after submitting a video to plan a journey."
+                                    ? "It may take a minutes to plan a journey after submitting a video."
                                     :
-                                "Now you can waiting for a result at a My Journey menu",
+                                "We are processing your video. Please visit 'My Journey' to view the result.",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -241,7 +241,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                             _button(
                                 _currentIndex == 0 ? 'Paste Link' : _currentIndex == 1
                                     ? "Next"
-                                    : "Done"),
+                                    : "Go to My Journey"),
                             SizedBox(height: !hasSafeAreaBottom ? 3.h : 0,),
                           ],
                         ),
