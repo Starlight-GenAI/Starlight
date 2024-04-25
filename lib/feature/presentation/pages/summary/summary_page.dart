@@ -763,8 +763,8 @@ class _SummaryPageState extends State<SummaryPage> {
                                                 padding: EdgeInsets.only(
                                                       left: 2.h, right: 2.h, bottom: 2.h),
                                                 child: _buildHighlightBox(
-                                                    state.list?.content[index].highlightName ?? 'hi',
-                                                    state.list?.content[index].highlightDetail ?? 'hi',
+                                                    state.list?.content[index].highlightName ?? '',
+                                                    state.list?.content[index].highlightDetail ?? '',
                                                     index,
                                                   state.list?.contentSummary ?? "",
 

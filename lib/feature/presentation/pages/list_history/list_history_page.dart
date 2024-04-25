@@ -133,6 +133,8 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                       padding: EdgeInsets.only(bottom: 1.5.h),
                                       child: GestureDetector(
                                         onTap: () {
+                                          print('/////////queueId///////////');
+                                          print(state.list?.items[index].queueId);
                                           if (state.list!.items[index].status
                                                   .toString() ==
                                               "success") {
@@ -159,6 +161,7 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                         },
                                         child: Container(
                                           height: 18.h,
+                                          width: 100.w,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius: BorderRadius.all(
@@ -205,11 +208,13 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment.start,
                                                     children: [
-
                                                       Row(children: [
                                                         SvgPicture.asset(youtubeLogo,width: 5.w,),
                                                         SizedBox(width: 1.w,),
-                                                        Text(state.list?.items[index].channelName ?? "", style: TextStyle(color: Color(0xFF646C9C),fontSize: 14.sp,fontWeight: FontWeight.w600,fontFamily: 'inter'),)
+                                                        Text(state.list?.items[index].channelName ?? "",
+                                                          overflow: TextOverflow.ellipsis,
+                                                          maxLines: 1,
+                                                          style: TextStyle(color: Color(0xFF646C9C),fontSize: 14.sp,fontWeight: FontWeight.w600,fontFamily: 'inter'),)
                                                       ],),
                                                       SizedBox(height: 1.h,),
                                                       Text(

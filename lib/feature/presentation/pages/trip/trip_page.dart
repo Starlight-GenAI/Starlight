@@ -11,11 +11,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:starlight/feature/domain/entities/trip_planner/trip_planner.dart';
 import 'package:starlight/feature/presentation/manager/trip_planner/trip_planner_bloc.dart';
 import 'package:starlight/feature/presentation/manager/trip_planner/trip_planner_state.dart';
 import 'dart:ui' as ui;
@@ -209,12 +211,16 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                 itemCount: state.list?.content?[selectedIndex].locationWithSummary?.length,
                 itemBuilder:
                     (BuildContext context, int itemIndex, int pageViewIndex) {
+                  final summaryText = state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].summary;
+                  print('/////////summary text////////');
+                  print(summaryText);
+                  final textList = _formatText(summaryText!.replaceAll('\n', ''));
                   return Padding(
                     padding: EdgeInsets.only(right: 1.h, top: 1.h),
                     child: GestureDetector(
                       onTap: () {},
                       child: Container(
-                        height: 5.h,
+                        // height: 1.h,
                         // width: 30.w,
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -251,7 +257,8 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                     children: [
                                       Text(
                                         state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].locationName ?? "",
-                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 16.sp,
@@ -259,16 +266,33 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                             fontFamily: 'inter'),
                                       ),
                                       Spacer(),
-                                      Text(
-                                        state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].summary ?? "",
-
+                                      // Text(
+                                      //   state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].summary ?? "",
+                                      //   maxLines: 3,
+                                      //   style: TextStyle(
+                                      //       color: Color(0xFF686868),
+                                      //       fontSize: 14.sp,
+                                      //       fontWeight: FontWeight.w400,
+                                      //       fontFamily: 'inter'),
+                                      // ),
+                                      summaryText!.contains('##') ? RichText(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
+                                        text: _buildNewTextFormat(textList),
+                                      ) : Text(
+                                        state.list!.content![selectedIndex]
+                                            .locationWithSummary?[itemIndex]
+                                            .summary ??
+                                            "",
+                                        overflow: TextOverflow.ellipsis,
                                         maxLines: 3,
                                         style: TextStyle(
-                                            color: Color(0xFF686868),
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'inter'),
-                                      ),
+                                          color: Color(0xFF666666),
+                                          fontFamily: 'inter',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14.sp,
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -483,112 +507,291 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
-                
+                //list trip expanded
                 Expanded(
                   child: SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                          minHeight: 80.h, maxHeight: double.infinity),
-                      child: ListView.builder(
-                        padding: EdgeInsets.only(top: 5.w),
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: state.list!.content?[selectedIndex].locationWithSummary?.length,
-                        itemBuilder: (context, index) {
-                          final summaryText = state.list!.content![selectedIndex]
-                              .locationWithSummary?[index].summary;
-                          final textList = _formatText(summaryText);
-                          print("leo" +state.list!.content![selectedIndex].countDining.toString() );
-                          print('////////////color////////////');
-                          print(colorList[index % colorList.length]['lightColor']);
-                          return Padding(
-                            padding: EdgeInsets.only(
-                                left: 3.h, right: 3.h, bottom: 1.h),
-                            child: Stack(
-                              children: [
-                                IntrinsicHeight(
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      VerticalDivider(
-                                        color: Color(0xFFC7CEDF),
-                                        thickness: 2,
-                                        width: 2.h,
-                                        indent: 2.5.h,
-                                      ),
-                                      SizedBox(width: 2.h),
-                                      state.list!.content?[selectedIndex].locationWithSummary?[index].category == "dining"? Expanded(
-                                        flex: 6,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(bottom: 2.h),
-                                          child: ConstrainedBox(
-                                            constraints: BoxConstraints(
-                                              minHeight: 10.h,
-                                              maxHeight: double.infinity,
-                                            ),
-                                            child: Container(
-                                              width: 10.w,
-                                              decoration: BoxDecoration(
-                                                color: colorList[index % colorList.length]['lightColor'],
-                                                borderRadius: BorderRadius.circular(24),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: shadowColor.withOpacity(0.3),
-                                                    offset: Offset(0, 4),
-                                                    blurRadius: 12,
-                                                  )
-                                                ],
+                    child: Column(
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                              minHeight: 80.h, maxHeight: double.infinity),
+                          child: ListView.builder(
+                            padding: EdgeInsets.only(top: 5.w),
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: state.list!.content?[selectedIndex].locationWithSummary?.length,
+                            itemBuilder: (context, index) {
+                              final allLocation = state.list!.content?[selectedIndex].locationWithSummary;
+                              final summaryText = state.list!.content![selectedIndex]
+                                  .locationWithSummary?[index].summary;
+                              final textList = _formatText(summaryText);
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    left: 3.h, right: 3.h, bottom: (index == allLocation!.length + 1)
+                                    && state.list!.content?[selectedIndex].locationWithSummary?[index + 1].category != "recommended_dining" ? 1.h : 0),
+                                child: Stack(
+                                  children: [
+                                    IntrinsicHeight(
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          VerticalDivider(
+                                            color: Color(0xFFC7CEDF),
+                                            thickness: 2,
+                                            width: 2.h,
+                                            indent: 2.5.h,
+                                          ),
+                                          SizedBox(width: 2.h),
+                                          state.list!.content?[selectedIndex].locationWithSummary?[index].category == "dining" ||
+                                          state.list!.content?[selectedIndex].locationWithSummary?[index].category == "recommended_dining"? Expanded(
+                                            flex: 6,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(bottom: 2.h),
+                                              child: ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  minHeight: 10.h,
+                                                  maxHeight: double.infinity,
+                                                ),
+                                                child: Container(
+                                                  width: 10.w,
+                                                  decoration: BoxDecoration(
+                                                    color: state.list!.content?[selectedIndex].locationWithSummary?[index].category == 'dining' ?
+                                                    colorList[index % colorList.length]['lightColor'] :
+                                                    colorList[index-1 % colorList.length]['lightColor'],
+                                                    borderRadius: BorderRadius.circular(24),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: shadowColor.withOpacity(0.3),
+                                                        offset: Offset(0, 4),
+                                                        blurRadius: 12,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                          children: [
+                                                            state.list!.content?[selectedIndex].locationWithSummary?[index].category != 'dining' ? Padding(
+                                                              padding: EdgeInsets.only(right: 2.h),
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                  color: state.list!.content?[selectedIndex].locationWithSummary?[index].category == 'dining' ?
+                                                                  colorList[index % colorList.length]['mainColor']?.withOpacity(0.5) :
+                                                                  colorList[index-1 % colorList.length]['mainColor']?.withOpacity(0.5),
+                                                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.symmetric(vertical: 1.w, horizontal: 6.w),
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    children: [
+                                                                      FaIcon(FontAwesomeIcons.starOfLife, size: 13.sp,
+                                                                          color: Colors.white),
+                                                                      SizedBox(width: 1.w,),
+                                                                      Text("Recommend Dining by Starlight",
+                                                                        style: TextStyle(
+                                                                          color: Colors.white,
+                                                                          fontFamily: 'inter',
+                                                                          fontWeight: FontWeight.w600,
+                                                                          fontSize: 12.5.sp,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ) : const SizedBox(),
+                                                            Padding(
+                                                              padding: EdgeInsets.all(2.h),
+                                                              child: Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                    child: Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        RichText(
+                                                                          overflow: TextOverflow.ellipsis,
+                                                                          maxLines: 3,
+                                                                            text: TextSpan(
+                                                                              style: const TextStyle(
+                                                                                height: 1.3
+                                                                              ),
+                                                                              children: [
+                                                                                TextSpan(text: "${state.list!.content![selectedIndex]
+                                                                                    .locationWithSummary![index]
+                                                                                    .locationName!} - " ?? "", style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Colors.black)),
+                                                                                TextSpan(text: "${state.list!.content![selectedIndex]
+                                                                                    .locationWithSummary![index]
+                                                                                    .summary!.replaceAll("##", "").replaceAll("\n", "")} - " ?? "", style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600,fontFamily: 'inter',color: Color(0xFF44464D)))
+                                                                              ]
+                                                                            )
+                                                                        ),
+                                                                        SizedBox(height: 3.w,),
+                                                                        Row(
+                                                                          children: [
+                                                                            Container(
+                                                                              decoration: BoxDecoration(
+                                                                                color: state.list!.content?[selectedIndex].locationWithSummary?[index].category == 'dining' ?
+                                                                                colorList[index % colorList.length]['mainColor'] :
+                                                                                colorList[index-1 % colorList.length]['mainColor'],
+                                                                                borderRadius: BorderRadius.circular(48),
+                                                                              ),
+                                                                              child: Padding(
+                                                                                padding: EdgeInsets.symmetric(
+                                                                                    vertical: .5.h, horizontal: 2.5.w),
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    Icon(
+                                                                                      EvaIcons.star,
+                                                                                      color: Color(0xFFFFBF1B),
+                                                                                      size: 15.sp,
+                                                                                    ),
+                                                                                    SizedBox(width: 1.w),
+                                                                                    Text((state.list!.content![selectedIndex]
+                                                                                        .locationWithSummary?[index].rating.toString() ?? "" )+ " Rating",
+                                                                                      style: TextStyle(
+                                                                                        color: Colors.white,
+                                                                                        fontFamily: 'inter',
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 14.sp,
+                                                                                      ),
+                                                                                    )
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 2.h),
+
+                                                                  Container(
+                                                                    height: 8.h,
+                                                                    width: 8.h,
+                                                                    child: ClipRRect(
+                                                                      borderRadius: BorderRadius.circular(100),
+                                                                      child: CachedNetworkImage(
+                                                                        imageUrl: getImage(state.list!
+                                                                            .content![selectedIndex]
+                                                                            .locationWithSummary?[index]
+                                                                            .photos?[0] ??
+                                                                            ""),
+                                                                        fit: BoxFit.cover,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding: EdgeInsets.all(2.h),
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(
+                                            ),
+                                          )
+                                              :Expanded(
+                                            flex: 6,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(bottom: 2.h),
+                                              child: GestureDetector(
+                                                onTap: (){
+                                                  if(selectedExpanded == index){
+                                                    setState(() {
+                                                      selectedExpanded = -1;
+                                                    });
+                                                  }else{
+                                                    setState(() {
+                                                      selectedExpanded = index;
+                                                    });
+                                                  }
+
+                                                },
+                                                child: ConstrainedBox(
+                                                  constraints: BoxConstraints(
+                                                    maxHeight: selectedExpanded == index ? double.infinity : 20.h,
+                                                  ),
+                                                  child: AnimatedContainer(
+                                                    width: 10.w,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(24),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: shadowColor.withOpacity(0.3),
+                                                          offset: Offset(0, 4),
+                                                          blurRadius: 12,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    duration: Duration(milliseconds: 200),
+                                                    child: Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding: EdgeInsets.symmetric(vertical: 4.5.h),
+                                                          child: Container(
+                                                            width: 1.w,
+                                                            decoration: BoxDecoration(
+                                                              color: colorList[index % colorList.length]['majorColor'],
+                                                              borderRadius: BorderRadius.only(
+                                                                topRight: Radius.circular(24),
+                                                                bottomRight: Radius.circular(24),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding: EdgeInsets.all(2.h),
                                                             child: Column(
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
-                                                                Text(
-                                                                  state.list!.content![selectedIndex]
-                                                                      .locationWithSummary?[index]
-                                                                      .locationName ??
-                                                                      "",
-                                                                  style: TextStyle(
-                                                                    color: Color(0xFF666666),
-                                                                    fontFamily: 'inter',
-                                                                    fontWeight: FontWeight.w600,
-                                                                    fontSize: 14.sp,
-                                                                  ),
-                                                                  maxLines: 2,
-                                                                ),
-                                                                Spacer(),
                                                                 Row(
                                                                   children: [
                                                                     Container(
                                                                       decoration: BoxDecoration(
-                                                                        color: colorList[index % colorList.length]['mainColor'],
+                                                                        color: colorList[index % colorList.length]['lightColor'],
                                                                         borderRadius: BorderRadius.circular(48),
                                                                       ),
                                                                       child: Padding(
                                                                         padding: EdgeInsets.symmetric(
-                                                                            vertical: .5.h, horizontal: 1.h),
+                                                                            vertical: .5.h, horizontal: 3.w),
                                                                         child: Row(
                                                                           children: [
-                                                                            Icon(
-                                                                              EvaIcons.star,
-                                                                              color: Color(0xFFFFBF1B),
+                                                                            state.list!.content![selectedIndex]
+                                                                                .locationWithSummary?[index]
+                                                                                .category == 'hotel' ? FaIcon(FontAwesomeIcons.hotel, size: 14.sp,
+                                                                                color: Colors.black) : Icon(
+                                                                              EvaIcons.pin,
+                                                                              color: Colors.black,
                                                                               size: 15.sp,
                                                                             ),
                                                                             SizedBox(width: 1.w),
-                                                                            Text((state.list!.content![selectedIndex]
-                                                                                .locationWithSummary?[index].rating.toString() ?? "" )+ " Rating",
-                                                                              style: TextStyle(
-                                                                                color: Colors.white,
-                                                                                fontFamily: 'inter',
-                                                                                fontWeight: FontWeight.w600,
-                                                                                fontSize: 14.sp,
+                                                                            ConstrainedBox(
+                                                                              constraints: BoxConstraints(
+                                                                                maxWidth: 55.w
+                                                                              ),
+                                                                              child: Text(
+                                                                                state.list!.content![selectedIndex]
+                                                                                    .locationWithSummary?[index]
+                                                                                    .locationName ??
+                                                                                    "",
+                                                                                style: TextStyle(
+                                                                                  color: Colors.black,
+                                                                                  fontFamily: 'inter',
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                  fontSize: 14.sp,
+                                                                                ),
+                                                                                maxLines: 1,
                                                                               ),
                                                                             )
                                                                           ],
@@ -597,240 +800,133 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                     ),
                                                                   ],
                                                                 ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          SizedBox(width: 2.h),
-                                                      
-                                                          Container(
-                                                            height: 8.h,
-                                                            width: 8.h,
-                                                            child: ClipRRect(
-                                                              borderRadius: BorderRadius.circular(100),
-                                                              child: CachedNetworkImage(
-                                                                imageUrl: getImage(state.list!
-                                                                    .content![selectedIndex]
-                                                                    .locationWithSummary?[index]
-                                                                    .photos?[0] ??
-                                                                    ""),
-                                                                fit: BoxFit.cover,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                      
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                          :Expanded(
-                                        flex: 6,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(bottom: 2.h),
-                                          child: GestureDetector(
-                                            onTap: (){
-                                              if(selectedExpanded == index){
-                                                setState(() {
-                                                  selectedExpanded = -1;
-                                                });
-                                              }else{
-                                                setState(() {
-                                                  selectedExpanded = index;
-                                                });
-                                              }
-
-                                            },
-                                            child: ConstrainedBox(
-                                              constraints: BoxConstraints(
-                                                maxHeight: selectedExpanded == index ? double.infinity : 20.h,
-                                              ),
-                                              child: AnimatedContainer(
-                                                width: 10.w,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(24),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: shadowColor.withOpacity(0.3),
-                                                      offset: Offset(0, 4),
-                                                      blurRadius: 12,
-                                                    )
-                                                  ],
-                                                ),
-                                                duration: Duration(milliseconds: 200),
-                                                child: Row(
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.symmetric(vertical: 4.5.h),
-                                                      child: Container(
-                                                        width: 1.w,
-                                                        decoration: BoxDecoration(
-                                                          color: colorList[index % colorList.length]['majorColor'],
-                                                          borderRadius: BorderRadius.only(
-                                                            topRight: Radius.circular(24),
-                                                            bottomRight: Radius.circular(24),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding: EdgeInsets.all(2.h),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                Container(
-                                                                  decoration: BoxDecoration(
-                                                                    color: colorList[index % colorList.length]['lightColor'],
-                                                                    borderRadius: BorderRadius.circular(48),
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding: EdgeInsets.symmetric(
-                                                                        vertical: .5.h, horizontal: 1.h),
-                                                                    child: Row(
-                                                                      children: [
-                                                                        Icon(
-                                                                          EvaIcons.pin,
-                                                                          color: Colors.black,
-                                                                          size: 15.sp,
-                                                                        ),
-                                                                        SizedBox(width: 1.w),
-                                                                        ConstrainedBox(
-                                                                          constraints: BoxConstraints(
-                                                                            maxWidth: 55.w
-                                                                          ),
-                                                                          child: Text(
-                                                                            state.list!.content![selectedIndex]
+                                                                SizedBox(height: 2.h),
+                                                                AnimatedSwitcher(
+                                                                  duration: Duration(milliseconds: 200),
+                                                                  child: selectedExpanded == index
+                                                                      ? Column(
+                                                                    children: [
+                                                                      Container(
+                                                                        height: 16.h,
+                                                                        width: 100.w,
+                                                                        child: ClipRRect(
+                                                                          borderRadius: BorderRadius.circular(8),
+                                                                          child: CachedNetworkImage(
+                                                                            imageUrl: getImage(state.list!
+                                                                                .content![selectedIndex]
                                                                                 .locationWithSummary?[index]
-                                                                                .locationName ??
-                                                                                "",
-                                                                            style: TextStyle(
-                                                                              color: Colors.black,
-                                                                              fontFamily: 'inter',
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontSize: 14.sp,
-                                                                            ),
-                                                                            maxLines: 1,
+                                                                                .photos?[0] ??
+                                                                                ""),
+                                                                            fit: BoxFit.cover,
                                                                           ),
-                                                                        )
-                                                                      ],
-                                                                    ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(height: 2.h),
+                                                                      summaryText!.contains('##') ? RichText(
+                                                                        text: _buildNewTextFormat(textList),
+                                                                      ) : Text(
+                                                                        state.list!.content![selectedIndex]
+                                                                            .locationWithSummary?[index]
+                                                                            .summary ??
+                                                                            "",
+                                                                        style: TextStyle(
+                                                                          color: Color(0xFF666666),
+                                                                          fontFamily: 'inter',
+                                                                          fontWeight: FontWeight.w500,
+                                                                          fontSize: 14.sp,
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                      : Row(
+                                                                    children: [
+                                                                      Container(
+                                                                        height: 10.h,
+                                                                        width: 14.h,
+                                                                        child: ClipRRect(
+                                                                          borderRadius: BorderRadius.circular(8),
+                                                                          child: CachedNetworkImage(
+                                                                            imageUrl: getImage(state.list!
+                                                                                .content![selectedIndex]
+                                                                                .locationWithSummary?[index]
+                                                                                .photos?[0] ??
+                                                                                ""),
+                                                                            fit: BoxFit.cover,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 2.h),
+                                                                      Expanded(
+                                                                        child: summaryText!.contains('##') ? RichText(
+                                                                          maxLines: 5,
+                                                                          overflow: TextOverflow.ellipsis,
+                                                                          text: _buildNewTextFormat(textList),
+                                                                        ) : Text(
+                                                                          state.list!.content![selectedIndex]
+                                                                              .locationWithSummary?[index]
+                                                                              .summary ??
+                                                                              "",
+                                                                          style: TextStyle(
+                                                                            color: Color(0xFF666666),
+                                                                            fontFamily: 'inter',
+                                                                            fontWeight: FontWeight.w500,
+                                                                            fontSize: 14.sp,
+                                                                          ),
+                                                                          maxLines: 5,
+                                                                          overflow: TextOverflow.ellipsis,
+                                                                        ),
+                                                                      )
+                                                                    ],
                                                                   ),
                                                                 ),
                                                               ],
                                                             ),
-                                                            SizedBox(height: 2.h),
-                                                            AnimatedSwitcher(
-                                                              duration: Duration(milliseconds: 200),
-                                                              child: selectedExpanded == index
-                                                                  ? Column(
-                                                                children: [
-                                                                  Container(
-                                                                    height: 16.h,
-                                                                    width: 100.w,
-                                                                    child: ClipRRect(
-                                                                      borderRadius: BorderRadius.circular(8),
-                                                                      child: CachedNetworkImage(
-                                                                        imageUrl: getImage(state.list!
-                                                                            .content![selectedIndex]
-                                                                            .locationWithSummary?[index]
-                                                                            .photos?[0] ??
-                                                                            ""),
-                                                                        fit: BoxFit.cover,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(height: 2.h),
-                                                                  summaryText!.contains('##') ? RichText(
-                                                                    text: _buildNewTextFormat(textList),
-                                                                  ) : Text(
-                                                                    state.list!.content![selectedIndex]
-                                                                        .locationWithSummary?[index]
-                                                                        .summary ??
-                                                                        "",
-                                                                    style: TextStyle(
-                                                                      color: Color(0xFF666666),
-                                                                      fontFamily: 'inter',
-                                                                      fontWeight: FontWeight.w500,
-                                                                      fontSize: 14.sp,
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              )
-                                                                  : Row(
-                                                                children: [
-                                                                  Container(
-                                                                    height: 10.h,
-                                                                    width: 14.h,
-                                                                    child: ClipRRect(
-                                                                      borderRadius: BorderRadius.circular(8),
-                                                                      child: CachedNetworkImage(
-                                                                        imageUrl: getImage(state.list!
-                                                                            .content![selectedIndex]
-                                                                            .locationWithSummary?[index]
-                                                                            .photos?[0] ??
-                                                                            ""),
-                                                                        fit: BoxFit.cover,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(width: 2.h),
-                                                                  Expanded(
-                                                                    child: summaryText!.contains('##') ? RichText(
-                                                                      maxLines: 5,
-                                                                      text: _buildNewTextFormat(textList),
-                                                                    ) : Text(
-                                                                      state.list!.content![selectedIndex]
-                                                                          .locationWithSummary?[index]
-                                                                          .summary ??
-                                                                          "",
-                                                                      style: TextStyle(
-                                                                        color: Color(0xFF666666),
-                                                                        fontFamily: 'inter',
-                                                                        fontWeight: FontWeight.w500,
-                                                                        fontSize: 14.sp,
-                                                                      ),
-                                                                      maxLines: 5,
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ],
+                                                          ),
                                                         ),
-                                                      ),
+                                                      ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
+
+
                                               ),
                                             ),
-
-
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    state.list!.content?[selectedIndex].locationWithSummary?[index].category != "recommended_dining" ? SizedBox(
+                                      width: 2.h,
+                                      child: SvgPicture.asset(
+                                        index == 0 ? iconPinStart : iconPinEnd,
+                                        width: index == 0 ? 2.h : 1.5.h,
+                                      ),
+                                    ) : Container(
+                                      height: 2.5.h,
+                                      child: VerticalDivider(
+                                            color: Color(0xFFC7CEDF),
+                                            thickness: 2,
+                                            width: 2.h,
+                                      ),
+                                    ),
+                                    index == allLocation.length - 1 ? Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      child: SizedBox(
+                                        width: 2.h,
+                                        child: SvgPicture.asset(
+                                          iconPinEnd,
+                                          width: 1.5.h,
+                                      )),
+                                    ) : Container()
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: 2.h,
-                                  child: SvgPicture.asset(
-                                    index == 0 ? iconPinStart : iconPinEnd,
-                                    width: index == 0 ? 2.h : 1.5.h,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 8.h,),
+                      ],
                     ),
                   ),
                 ),
@@ -853,11 +949,14 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
 
   _buildNewTextFormat(textList) {
     return TextSpan(
+      style: const TextStyle(
+          height: 1.3
+      ),
       children: [
         TextSpan(text: textList[0], style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Colors.black)),
         for(int i = 1; i < textList.length; i++)
-          !(i % 2 == 0) ? TextSpan(text: textList[i], style: TextStyle(fontSize: 14.sp, fontFamily: 'inter',color: Color(0xFF666666))) :
-          TextSpan(text: textList[i], style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Color(0xFF666666))),
+          !(i % 2 == 0) ? TextSpan(text: textList[i], style: TextStyle(fontSize: 14.sp, fontFamily: 'inter',color: Color(0xFF666666), fontWeight: FontWeight.w500)) :
+          TextSpan(text: textList[i], style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Color(0xFF44464D))),
 
 
       ],
