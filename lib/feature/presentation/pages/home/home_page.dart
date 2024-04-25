@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   final ScrollController _scrollController = ScrollController();
   double _opacity = 1;
   bool _appbar = false;
-  var chipList = ["Trending" ,"City", "Beach", "Mountain", "Cultural", "Palace", "Nightlife" ];
+  var chipList = ["Trending" ,"City", "Beach", "Mountain", "Cultural", "Palace", "Scenic", "Nightlife" ];
   var chipIndex = 0;
 
   @override
@@ -104,19 +104,43 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
                         Padding(
-                          padding: EdgeInsets.only(top: 3.h, left: 2.5.h,right: 2.5.h,bottom: 2.h),
-                          child: Text(
-                            "Journey Destination",
-                            style: TextStyle(
-                              fontFamily: 'poppins',
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          padding: EdgeInsets.only(top: 2.h, left: 2.5.h,right: 2.5.h,bottom: 1.h),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Journey Destinations",
+                                style: TextStyle(
+                                  fontFamily: 'poppins',
+                                  fontSize: 17.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Spacer(),
+                              Container(
+                                width: 12.w,
+                                  height: 12.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(100),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        offset: Offset(0,1),
+                                        blurRadius: 24
+                                      )
+                                    ]
+                                  ),
+                                  child: IconButton(onPressed: (){}, icon: Icon(EvaIcons.searchOutline,)))
+                            ],
                           ),
                         ),
-                        Container(
-                          height: 4.h,
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: 4.h,
+                            maxHeight: 5.h
+                          ),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: chipList.length,
@@ -183,15 +207,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                       padding: EdgeInsets.only(top: .6.h),
                       child: Container(
                           width: 100.w,
-                          child: Text(
-                            "Daily Journey",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Poppins',
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.start,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Discover",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.only(right: 1.w),
+                                child: Icon(EvaIcons.searchOutline,color: Colors.white.withOpacity(0.9),size: 20.sp,),
+                              )
+
+                            ],
                           ),
                         ),
                     ),

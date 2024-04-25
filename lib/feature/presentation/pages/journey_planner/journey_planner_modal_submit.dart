@@ -30,7 +30,7 @@ class _JourneyPlannerModalSubmitState extends State<JourneyPlannerModalSubmit> {
     return Stack(
       children: [
         Container(
-          height: 55.h,
+          height: 60.h,
           decoration: const BoxDecoration(
             color: Color(0xFFF9FBFE),
             borderRadius: BorderRadius.only(
