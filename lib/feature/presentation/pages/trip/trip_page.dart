@@ -44,6 +44,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
     zoom: 14.4746,
   );
   late AnimationController pageController;
+  final scrollController = ScrollController();
   final indicatorController =
   PageController(viewportFraction: 0.8, keepPage: true);
   var selectedIndex = 0;
@@ -126,6 +127,17 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
     super.initState();
     pageController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 800));
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _scrollToStart();
+    });
+  }
+
+  void _scrollToStart() {
+    scrollController.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.ease,
+    );
   }
 
   @override
@@ -268,12 +280,13 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                       Text(
                                         state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].locationName ?? "",
                                         overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
+                                        maxLines: 2,
                                         style: TextStyle(
+                                            height: 1.3,
                                             color: Colors.black,
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w600,
-                                            fontFamily: 'inter'),
+                                            fontFamily: 'poppins'),
                                       ),
                                       Spacer(),
                                       // Text(
@@ -335,8 +348,9 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
           ),
           SafeArea(
             top: false,
+            bottom: false,
             child: Padding(
-              padding: EdgeInsets.only(left: 2.h,right: 2.h, bottom: 1.h),
+              padding: EdgeInsets.only(left: 2.h,right: 2.h, bottom: 2.h),
               child: Stack(
                 alignment: AlignmentDirectional.centerStart,
                 children: [
@@ -489,7 +503,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                   final GoogleMapController controller = await _mapController.future;
                                   await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.list?.content?[selectedIndex].locationWithSummary?[0].lat ?? 0 ,state.list?.content?[selectedIndex].locationWithSummary?[0].lng ?? 0),zoom: 14.48)));
                                 }
-
+                                _scrollToStart();
                               },
                               icon: Icon(
                                   Icons.arrow_back_ios_new_rounded,
@@ -508,7 +522,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                   final GoogleMapController controller = await _mapController.future;
                                   await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.list?.content?[selectedIndex].locationWithSummary?[0].lat ?? 0 ,state.list?.content?[selectedIndex].locationWithSummary?[0].lng ?? 0),zoom: 14.48)));
                                 }
-
+                                _scrollToStart();
                               },
                               icon: Icon(
                                   Icons.arrow_forward_ios_rounded,
@@ -530,6 +544,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                           constraints: BoxConstraints(
                               minHeight: 80.h, maxHeight: double.infinity),
                           child: ListView.builder(
+                            controller: scrollController,
                             padding: EdgeInsets.only(top: 5.w),
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
