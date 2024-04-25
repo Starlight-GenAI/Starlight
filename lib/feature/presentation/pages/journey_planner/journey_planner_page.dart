@@ -210,7 +210,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
                                     ? "Copy video link from social media or Shared from other apps."
                                     :
                                 _currentIndex == 1
-                                    ? "It may take a minutes to plan a journey after submitting a video."
+                                    ? "It may take a few minutes to plan a journey after submitting a video."
                                     :
                                 "We are processing your video. Please visit 'My Journey' to view the result.",
                                 textAlign: TextAlign.center,

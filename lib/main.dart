@@ -90,7 +90,7 @@ class _StarlightAppState extends State<StarlightApp> {
         providers: [
           BlocProvider<HomeBloc>(
             create: (context) =>
-                sl<HomeBloc>()..add(YoutubeSearch(word: 'travel Thailand')),
+                sl<HomeBloc>()..add(YoutubeSearch(word: 'Trending Travel Vlog')),
           ),
           BlocProvider<ListHistoryBloc>(
               create: (context) => sl<ListHistoryBloc>()

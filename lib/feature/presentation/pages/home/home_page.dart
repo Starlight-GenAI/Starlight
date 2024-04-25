@@ -31,12 +31,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   final ScrollController _scrollController = ScrollController();
   double _opacity = 1;
   bool _appbar = false;
-  var chipList = ["Travel", "Beach", "Food", "Mountain", "Palace"];
+  var chipList = ["Trending" ,"City", "Beach", "Mountain", "Cultural", "Palace", "Nightlife" ];
   var chipIndex = 0;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
       print(_scrollController.offset);
@@ -108,7 +107,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                         Padding(
                           padding: EdgeInsets.only(top: 3.h, left: 2.5.h,right: 2.5.h,bottom: 2.h),
                           child: Text(
-                            "Daily Journey",
+                            "Journey Destination",
                             style: TextStyle(
                               fontFamily: 'poppins',
                               fontSize: 17.sp,
@@ -120,14 +119,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                           height: 4.h,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: 5,
+                            itemCount: chipList.length,
                               itemBuilder: (context,index){
                             return GestureDetector(
                               onTap: (){
                                  setState(() {
                                    chipIndex = index;
                                  });
-                                bloc.BlocProvider.of<HomeBloc>(context).add(YoutubeSearch( word: chipList[chipIndex] + " Thailand"));
+                                bloc.BlocProvider.of<HomeBloc>(context).add(YoutubeSearch( word: chipList[chipIndex] + " Travel Vlog"));
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(right: 1.w, left: index == 0 ? 2.5.h : 0 ),

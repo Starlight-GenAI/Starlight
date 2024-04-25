@@ -30,7 +30,7 @@ class _JourneyPlannerModalSubmitState extends State<JourneyPlannerModalSubmit> {
     return Stack(
       children: [
         Container(
-          height: 75.h,
+          height: 55.h,
           decoration: const BoxDecoration(
             color: Color(0xFFF9FBFE),
             borderRadius: BorderRadius.only(
@@ -63,7 +63,7 @@ class _JourneyPlannerModalSubmitState extends State<JourneyPlannerModalSubmit> {
                         _buttonBanner('Only Subtitles', '4 - 5', btnGradient2),
                         SizedBox(height: 1.h,),
                         Text(
-                          'The result when using subtitles will depend on the amount\nof information obtained from the voice in the video.',
+                          'The result when using subtitles will depend on the amount of information obtained from the voice in the video.',
                           style: TextStyle(
                               color: const Color(0xFF646C9C),
                               fontFamily: 'Inter',
@@ -83,7 +83,7 @@ class _JourneyPlannerModalSubmitState extends State<JourneyPlannerModalSubmit> {
                         _buttonBanner('Using Video with Subtitle', '8', btnGradient1),
                         SizedBox(height: 1.h,),
                         Text(
-                          'When using both video and subtitles, the result will integrate\ninformation based on the relevance of the video\ncontent to the subtitles.',
+                          'When using both video and subtitles, the result will integrate information based on the relevance of the video content to the subtitles.',
                           style: TextStyle(
                               color: const Color(0xFF646C9C),
                               fontFamily: 'Inter',

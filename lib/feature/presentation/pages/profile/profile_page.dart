@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/feature/presentation/pages/login/login_page.dart';
 
@@ -22,7 +23,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   List<Map<String, dynamic>> details = [
     {'title': 'Email', 'value': Get.find<NavigationController>().name.value, 'icon': FaIcon(FontAwesomeIcons.envelope, size: 16.sp, color: const Color(0xFF646C9C))},
-    {'title': "Joined", 'value': '16 March 2024', 'icon': FaIcon(FontAwesomeIcons.calendar, size: 16.sp, color: const Color(0xFF646C9C))},
+    {'title': "Joined", 'value': DateFormat('dd MMMM yyyy').format(DateTime.now().toLocal()).toString(), 'icon': FaIcon(FontAwesomeIcons.calendar, size: 16.sp, color: const Color(0xFF646C9C))},
     {'title': "Location", 'value': 'Thailand 🇹🇭', 'icon': FaIcon(FontAwesomeIcons.locationDot, size: 16.sp, color: const Color(0xFF646C9C))}
   ];
   List<String>  placeImgList = [
@@ -68,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.only(top: 120, left: 2.5.h, right: 2.5.h),
+                    padding: EdgeInsets.only(top: 10.h, left: 2.5.h, right: 2.5.h),
                     child: Column(
                       children: [
                         Container(
@@ -193,7 +194,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Positioned(
-                  top: -30,
+                  top: -50,
                   left: (100.w - 120) / 2,
                   child: Container(
                     width: 120,
@@ -223,7 +224,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return SafeArea(
       child: Container(
         width: 100.w,
-        padding: EdgeInsets.only(top: 20, left: 2.5.h, right: 2.5.h),
+        padding: EdgeInsets.only(top: 20, left: 2.5.h, right: 1.h),
         child: Obx(
               () => Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -233,7 +234,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Good Morning,",
+                    "Welcome back,",
                     style: TextStyle(
                         color: Colors.white.withOpacity(0.6),
                         fontFamily: 'Inter',
@@ -252,8 +253,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               Spacer(),
-              GestureDetector(
-                onTap: () async {
+              IconButton(
+                onPressed: () async {
                   await FirebaseAuth.instance.signOut();
                     GoogleSignIn().signOut();
                     Get.find<NavigationController>().logout();
@@ -261,7 +262,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ()=> LoginPage()
                   );
                 },
-                child: FaIcon(FontAwesomeIcons.arrowRightFromBracket, size: 20.sp,
+                icon: FaIcon(FontAwesomeIcons.arrowRightFromBracket, size: 18.sp,
                     color: Colors.white),
               ),
             ],

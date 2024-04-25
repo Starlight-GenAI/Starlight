@@ -41,13 +41,13 @@ class _SummaryPageState extends State<SummaryPage> {
   bool showText = true;
   // var chipList = ["Locations"];
   var chipIcon = [
-    locationIcon,
+    highlightIcon,
+    heartIcon,
     restaurantIcon,
-    hotelIcon,
     locationIcon,
-    restaurantIcon,
-    hotelIcon,
-    locationIcon,
+    theaterIcon,
+    outdoorIcon,
+    etcIcon,
   ];
   var selectCard = -1;
 
@@ -88,23 +88,29 @@ class _SummaryPageState extends State<SummaryPage> {
   }
 
   _formatText(text) {
-    if(text.contains('##')) {
-      const start = "## ";
-      final checkColon = text.contains(':') && !hasNewlineBeforeColon(text);
-      // final hasNewlineBeforeColon = !text.substring(0, text.contains(':')).contains('\n');
-      final end = checkColon ? ":" : '\n';
-      final startIndex = text.indexOf(start);
-      int endIndex = text.indexOf(end, startIndex + start.length);
-      final title = text.substring(startIndex + start.length, endIndex + 1);
+    try{
+      if (text.contains('##')) {
+        const start = "## ";
+        final checkColon = text.contains(':') && !hasNewlineBeforeColon(text);
+        // final hasNewlineBeforeColon = !text.substring(0, text.contains(':')).contains('\n');
+        final end = checkColon ? ":" : '\n';
+        final startIndex = text.indexOf(start);
+        int endIndex = text.indexOf(end, startIndex + start.length);
+        final title = text.substring(startIndex + start.length, endIndex + 1);
 
-      int indexToRemove = checkColon ? text.indexOf(":") : text.indexOf("\n");
-      String textRemoveTitle = text.substring(indexToRemove + 1);
-      final splitText = textRemoveTitle.contains('**') ? textRemoveTitle.split("**") : [textRemoveTitle];
+        int indexToRemove = checkColon ? text.indexOf(":") : text.indexOf("\n");
+        String textRemoveTitle = text.substring(indexToRemove + 1);
+        final splitText = textRemoveTitle.contains('**')
+            ? textRemoveTitle.split("**")
+            : [textRemoveTitle];
 
-      return [title,...splitText];
-    } else if (text.contains('**')) {
-      return text.split("**");
-    } else {
+        return [title, ...splitText];
+      } else if (text.contains('**')) {
+        return text.split("**");
+      } else {
+        return text;
+      }
+    } catch(e) {
       return text;
     }
   }
@@ -189,16 +195,26 @@ class _SummaryPageState extends State<SummaryPage> {
                   AnimatedSwitcher(
                       duration: Duration(milliseconds: 500),
                       child: showText
-                          ? Text(
-                              'Trip Generator',
-                              key: ValueKey<bool>(
-                                  showText), // Ensure proper animation
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                fontFamily: 'inter',
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
+                          ? Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFFDCE5FF),
+                              borderRadius: BorderRadius.circular(48)
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              child: Text(
+                                  'Trip Generator',
+                                  key: ValueKey<bool>(
+                                      showText), // Ensure proper animation
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontFamily: 'inter',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF4D32F8)
+                                  ),
+                                ),
+                            ),
+                          )
                           : null),
                   SizedBox(width: 3.w,),
                   Container(
@@ -256,7 +272,7 @@ class _SummaryPageState extends State<SummaryPage> {
                               Get.back();
                             });
                           },
-                          child: Center(child: Icon(EvaIcons.map)),
+                          child: Center(child: SvgPicture.asset(tripIcon)),
                         ),
                       ),
                     ),
@@ -345,9 +361,9 @@ class _SummaryPageState extends State<SummaryPage> {
                                                 boxShadow: [
                                                   BoxShadow(
                                                       color: Color(0xFFC7CEDF)
-                                                          .withOpacity(0.45),
+                                                          .withOpacity(0.15),
                                                       offset: Offset(3, 1),
-                                                      blurRadius: 15)
+                                                      blurRadius: 8)
                                                 ]),
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(
@@ -358,6 +374,8 @@ class _SummaryPageState extends State<SummaryPage> {
                                                     width: 3.w,
                                                   ),
                                                   SvgPicture.asset(
+                                                    width: 3.5.w,
+                                                    height: 3.5.w,
                                                     chipIcon[index],
                                                     color: chipIndex == index
                                                         ? Colors.white
@@ -433,9 +451,9 @@ class _SummaryPageState extends State<SummaryPage> {
                                                           color:
                                                               Color(0xFFC7CEDF)
                                                                   .withOpacity(
-                                                                      0.45),
+                                                                      0.15),
                                                           offset: Offset(3, 1),
-                                                          blurRadius: 15)
+                                                          blurRadius: 8)
                                                     ]),
                                                 child: Padding(
                                                   padding: EdgeInsets.symmetric(
@@ -446,6 +464,8 @@ class _SummaryPageState extends State<SummaryPage> {
                                                         width: 3.w,
                                                       ),
                                                       SvgPicture.asset(
+                                                        width: 3.5.w,
+                                                        height: 3.5.w,
                                                         chipIcon[index],
                                                         color: chipIndex ==
                                                                 index
@@ -547,6 +567,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                                               ? 20.h
                                                               : 25.h,
                                                       decoration: BoxDecoration(
+                                                        color: Colors.grey.withOpacity(0.5),
                                                           borderRadius: selectCard ==
                                                                   index
                                                               ? BorderRadius.only(

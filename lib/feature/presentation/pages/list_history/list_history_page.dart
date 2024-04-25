@@ -184,7 +184,7 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                 Padding(
                                                   padding: EdgeInsets.all(1.5.h),
                                                   child: Container(
-                                                    width: 18.h,
+                                                    width: 16.h,
                                                     height: 15.h,
 
                                                     decoration: BoxDecoration(
@@ -234,7 +234,10 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                           height: .5.h,
                                                         ),
                                                         Spacer(),
-                                                        Row(children: [
+                                                        Row(
+                                                          children: [
+                                                          Text(state.list!.items[index].isUseSubtitle ? "Mode :\nSubtitle" : "Mode :\nVideo, Subtitle",style: TextStyle(fontSize: 11.sp,fontWeight: FontWeight.w700,color: Color(0xFF201E38).withOpacity(0.6),fontFamily: 'inter'),),
+                                                          Spacer(),
                                                           state.list!.items[index].status == "success"? Container(
                                                             decoration: BoxDecoration(
                                                               color: Color(0xFF52C883),
@@ -256,11 +259,18 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                                 borderRadius: BorderRadius.circular(48)
                                                             ),
                                                             child: Padding(
-                                                              padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
+                                                              padding: EdgeInsets.only(right: 1.h,left: 1.h,top: .2.h, bottom: .2.h),
                                                               child: Row(
                                                                 children: [
-                                                                  Icon(EvaIcons.loaderOutline,color: Colors.white,size: 18.sp,),
-                                                                  SizedBox(width: .5.w,),
+                                                                  Container(
+                                                                    width: 3.w,
+                                                                    height: 3.w,
+                                                                    child: CircularProgressIndicator(
+                                                                      color: Colors.white,
+                                                                      strokeWidth: 2,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 1.5.w,),
                                                                   Text('Pending',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
                                                                 ],
                                                               ),

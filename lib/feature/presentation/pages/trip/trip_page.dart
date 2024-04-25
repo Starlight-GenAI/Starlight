@@ -88,23 +88,30 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
   }
 
   _formatText(text) {
-    if(text.contains('##')) {
-      const start = "## ";
-      final checkColon = text.contains(':') && !hasNewlineBeforeColon(text);
-      // final hasNewlineBeforeColon = !text.substring(0, text.contains(':')).contains('\n');
-      final end = checkColon ? ":" : '\n';
-      final startIndex = text.indexOf(start);
-      int endIndex = text.indexOf(end, startIndex + start.length);
-      final title = text.substring(startIndex + start.length, endIndex + 1);
+    try {
+      if (text.contains('##')) {
+        const start = "## ";
+        final checkColon = text.contains(':') && !hasNewlineBeforeColon(text);
+        // final hasNewlineBeforeColon = !text.substring(0, text.contains(':')).contains('\n');
+        final end = checkColon ? ":" : '\n';
+        final startIndex = text.indexOf(start);
+        int endIndex = text.indexOf(end, startIndex + start.length);
+        final title = text.substring(startIndex + start.length, endIndex + 1);
 
-      int indexToRemove = checkColon ? text.indexOf(":") : text.indexOf("\n");
-      String textRemoveTitle = text.substring(indexToRemove + 1);
-      final splitText = textRemoveTitle.contains('**') ? textRemoveTitle.split("**") : [textRemoveTitle];
+        int indexToRemove = checkColon ? text.indexOf(":") : text.indexOf("\n");
+        String textRemoveTitle = text.substring(indexToRemove + 1);
+        final splitText = textRemoveTitle.contains('**')
+            ? textRemoveTitle.split("**")
+            : [textRemoveTitle];
 
-      return [title,...splitText];
-    } else if (text.contains('**')) {
-      return text.split("**");
-    } else {
+        return [title, ...splitText];
+      } else if (text.contains('**')) {
+        return text.split("**");
+      } else {
+        return text;
+      }
+    }
+    catch(e){
       return text;
     }
   }
@@ -166,7 +173,8 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                             Get.back();
                           },
                         ),
-                      ))
+                      )),
+
                 ],
               ));
         }
@@ -239,8 +247,10 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                 width: 16.h,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
+                                    color: Colors.grey.withOpacity(0.2),
                                     image: DecorationImage(
                                         image: CachedNetworkImageProvider(
+                                          (state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].photos?.length == 0)  ? "":
                                             getImage(
                                               state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].photos?[0] ?? "",
 
@@ -277,7 +287,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                       // ),
                                       summaryText!.contains('##') ? RichText(
                                         overflow: TextOverflow.ellipsis,
-                                        maxLines: 3,
+                                        maxLines: 4,
                                         text: _buildNewTextFormat(textList),
                                       ) : Text(
                                         state.list!.content![selectedIndex]
@@ -292,7 +302,8 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14.sp,
                                         ),
-                                      )
+                                      ),
+
                                     ],
                                   ),
                                 ),
@@ -325,7 +336,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
           SafeArea(
             top: false,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 2.h),
+              padding: EdgeInsets.only(left: 2.h,right: 2.h, bottom: 1.h),
               child: Stack(
                 alignment: AlignmentDirectional.centerStart,
                 children: [
@@ -421,6 +432,9 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
         myLocationButtonEnabled: false,
+        mapToolbarEnabled: false,
+        compassEnabled: false,
+        zoomControlsEnabled: false,
         onMapCreated: (GoogleMapController controller) async {
           _mapController.complete(controller);
           pinBlue = await getBitmapDescriptorFromAssetBytes("assets/images/pin_blue.png", 60);
@@ -438,7 +452,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
     return Container(
       decoration: BoxDecoration(
         color: Color(0xFFF9FBFE),
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.only(topRight: Radius.circular(32),topLeft: Radius.circular(32)),
       ),
       child: Stack(
         alignment: Alignment.topCenter,
@@ -557,7 +571,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                   decoration: BoxDecoration(
                                                     color: state.list!.content?[selectedIndex].locationWithSummary?[index].category == 'dining' ?
                                                     colorList[index % colorList.length]['lightColor'] :
-                                                    colorList[index-1 % colorList.length]['lightColor'],
+                                                    colorList[(index-1) % colorList.length]['lightColor'],
                                                     borderRadius: BorderRadius.circular(24),
                                                     boxShadow: [
                                                       BoxShadow(
@@ -579,7 +593,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                 decoration: BoxDecoration(
                                                                   color: state.list!.content?[selectedIndex].locationWithSummary?[index].category == 'dining' ?
                                                                   colorList[index % colorList.length]['mainColor']?.withOpacity(0.5) :
-                                                                  colorList[index-1 % colorList.length]['mainColor']?.withOpacity(0.5),
+                                                                  colorList[(index-1) % colorList.length]['mainColor']?.withOpacity(0.5),
                                                                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
                                                                 ),
                                                                 child: Padding(
@@ -592,7 +606,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                       FaIcon(FontAwesomeIcons.starOfLife, size: 13.sp,
                                                                           color: Colors.white),
                                                                       SizedBox(width: 1.w,),
-                                                                      Text("Recommend Dining by Starlight",
+                                                                      Text("Recommend Diner by Starlight",
                                                                         style: TextStyle(
                                                                           color: Colors.white,
                                                                           fontFamily: 'inter',
@@ -637,7 +651,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                               decoration: BoxDecoration(
                                                                                 color: state.list!.content?[selectedIndex].locationWithSummary?[index].category == 'dining' ?
                                                                                 colorList[index % colorList.length]['mainColor'] :
-                                                                                colorList[index-1 % colorList.length]['mainColor'],
+                                                                                colorList[(index-1) % colorList.length]['mainColor'],
                                                                                 borderRadius: BorderRadius.circular(48),
                                                                               ),
                                                                               child: Padding(
@@ -652,7 +666,8 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                                     ),
                                                                                     SizedBox(width: 1.w),
                                                                                     Text((state.list!.content![selectedIndex]
-                                                                                        .locationWithSummary?[index].rating.toString() ?? "" )+ " Rating",
+                                                                                        .locationWithSummary?[index].rating) == 0?"5.0 Rating" :"${state.list!.content![selectedIndex]
+                                                                                        .locationWithSummary?[index].rating.toString() ?? ""} Rating",
                                                                                       style: TextStyle(
                                                                                         color: Colors.white,
                                                                                         fontFamily: 'inter',
@@ -677,12 +692,17 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                     child: ClipRRect(
                                                                       borderRadius: BorderRadius.circular(100),
                                                                       child: CachedNetworkImage(
-                                                                        imageUrl: getImage(state.list!
+
+                                                                        imageUrl: state.list!
+                                                                            .content![selectedIndex]
+                                                                            .locationWithSummary![index]
+                                                                            .photos!.isEmpty ? "" : getImage(state.list!
                                                                             .content![selectedIndex]
                                                                             .locationWithSummary?[index]
                                                                             .photos?[0] ??
                                                                             ""),
                                                                         fit: BoxFit.cover,
+                                                                        errorWidget: (context, url, error) => Container(),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -778,7 +798,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                             SizedBox(width: 1.w),
                                                                             ConstrainedBox(
                                                                               constraints: BoxConstraints(
-                                                                                maxWidth: 55.w
+                                                                                maxWidth: 54.w
                                                                               ),
                                                                               child: Text(
                                                                                 state.list!.content![selectedIndex]
