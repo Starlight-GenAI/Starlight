@@ -347,7 +347,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.only(
-                                            right: 1.w,
+                                            right: 2.w,
                                             left: index == 0 ? 2.5.h : 0),
                                         child: Center(
                                           child: Container(
@@ -434,7 +434,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                           },
                                           child: Padding(
                                             padding: EdgeInsets.only(
-                                                right: 1.w,
+                                                right: 2.w,
                                                 left: index == 0 ? 2.5.h : 0),
                                             child: Center(
                                               child: Container(
@@ -938,7 +938,7 @@ class _SummaryPageState extends State<SummaryPage> {
                   child: Container(
                     width: 1.w,
                     decoration: BoxDecoration(
-                      color: colorList[index % colorList.length]['majorColor'],
+                      color: colorList[2]['majorColor'],
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(24),
                         bottomRight: Radius.circular(24),
@@ -957,19 +957,10 @@ class _SummaryPageState extends State<SummaryPage> {
                           Row(
                             children: [
                               Container(
-                                width: 8.w,
-                                height: 8.w,
+                                width: 3.w,
+                                height: 3.w,
                                 child: CircleAvatar(
-                                  backgroundColor: colorList[index % colorList.length]['lightColor'],
-                                  child: Text(
-                                    (index + 1).toString(),
-                                    style: TextStyle(
-                                        fontFamily: 'inter',
-                                        fontWeight: FontWeight.w700,
-                                        color: colorList[index % colorList.length]['majorColor'],
-                                        fontSize:16.sp
-                                    ),
-                                  ),
+                                  backgroundColor: colorList[2]['lightColor'],
                                 ),
                               ),
                               SizedBox(width: 3.w,),

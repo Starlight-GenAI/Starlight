@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,16 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
   late FocusNode _focusNode;
   bool _maxLengthReached = false;
   bool _isNotEmpty = false;
+
+  var suggestHeader = [
+    "Create a solo trip in Thailand.",
+    "Design travel itinerary for a week"
+  ];
+
+  var suggestDesc = [
+    "Suggest a must-visit location for 7 days.",
+    "including details and key activities or attractions to experience."
+  ];
 
   @override
   void initState() {
@@ -72,16 +83,13 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                               icon: FaIcon(FontAwesomeIcons.angleLeft,
                                   size: 18.sp, color: Colors.black),
                               onPressed: () {
-                                Get.to(
-                                    () => CustomizeSelectPage(),
-                                  transition: Transition.rightToLeft
-                                );
+                                Get.back();
                               },
                             ),
                           ),
                         ),
                         SizedBox(width: 2.w,),
-                        Text("Customize trip",style: TextStyle(fontSize: 18.sp,fontFamily: 'inter',fontWeight: FontWeight.w700),)
+                        Text("Customize with Prompt",style: TextStyle(fontSize: 18.sp,fontFamily: 'inter',fontWeight: FontWeight.w700),)
 
                       ],
                     ),
@@ -138,6 +146,42 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                 left: 0,
                 child: Column(
               children: [
+                AnimatedSwitcher(
+                  switchOutCurve: Curves.bounceInOut,
+                  duration: Duration(milliseconds: 250),
+                  child: !_isNotEmpty ? Container(
+                    height: 10.h,
+                    width: 100.w,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: suggestHeader.length,
+                      itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: index == 0? 4.w :2.w,right: 2.w,bottom: 2.w),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xFFEAECF0).withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(12)
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 4.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(suggestHeader[index],style: TextStyle(fontSize: 15.sp, fontFamily: 'inter',fontWeight: FontWeight.w600),),
+                                Spacer(),
+                                Text(suggestDesc[index],style: TextStyle(fontSize: 14.sp, fontFamily: 'inter',fontWeight: FontWeight.w400,color: Color(0xFF8C8C8C)),)
+
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+
+                    ),
+                  ) : null,
+                ),
                 Container(
                   width: 100.w,
                   color: Colors.white,
@@ -164,7 +208,7 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                             ],
                           ),
                           child: Material(
-                            color: _isNotEmpty ? Color(0xFF647AFF) : Color(0xFF8F8C9B).withOpacity(0.4),
+                            color: _isNotEmpty ? Color(0xFF4E33F8) : Color(0xFF8F8C9B).withOpacity(0.4),
 
                             borderRadius: BorderRadius.circular(24),
                             child: ClipOval(
@@ -179,7 +223,7 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                                 },
                                 splashColor: Colors.grey.withOpacity(0.5),
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 1.2.h),
+                                  padding: EdgeInsets.symmetric(vertical: 1.h),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [

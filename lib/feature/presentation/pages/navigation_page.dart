@@ -86,7 +86,7 @@ class _NavigationPageState extends State<NavigationPage> {
                   print(index);
                   if (index==0){
                     setState(() {
-                      BlocProvider.of<HomeBloc>(context).add(YoutubeSearch(word: 'travel Thailand'));
+                      BlocProvider.of<HomeBloc>(context).add(YoutubeSearch(word: 'Trending Travel Vlog'));
                     });
                   }
                   if(index==1){
