@@ -860,15 +860,30 @@ class _SummaryPageState extends State<SummaryPage> {
                 top: 0,
                 left: 0,
                 child: SafeArea(
-                  child: IconButton(
-                    icon: Icon(
-                      EvaIcons.arrowIosBackOutline,
-                      size: 24.sp,
-                      color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 1.h,left: 1.h),
+                    child: Container(
+                      width: 11.w,
+                      height: 11.w,
+                      decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.03),
+                          borderRadius: BorderRadius.circular(100),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                offset: Offset(0,1),
+                                blurRadius: 24
+                            )
+                          ]
+                      ),
+                      child: IconButton(
+                        icon: FaIcon(FontAwesomeIcons.angleLeft,
+                          size: 20.sp, color: Colors.white),
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
                     ),
-                    onPressed: () {
-                      Get.back();
-                    },
                   ),
                 ))
           ],

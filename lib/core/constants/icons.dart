@@ -12,3 +12,6 @@ const String tripIcon = "assets/icons/region-pin-alt.svg";
 const String theaterIcon = "assets/icons/theater-masks.svg";
 const String highlightIcon = "assets/icons/wishlist-star.svg";
 const String outdoorIcon = "assets/icons/bench-tree.svg";
+const String shareIcon = "assets/icons/share.svg";
+const String customizeIcon = "assets/icons/customize.svg";
+const String tripGenBlackIcon = "assets/icons/icon_trip_gen_black.svg";
