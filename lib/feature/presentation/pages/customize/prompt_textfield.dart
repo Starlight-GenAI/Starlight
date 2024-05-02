@@ -79,6 +79,7 @@ class _PromptTextFieldState extends State<PromptTextField> {
                 child: Padding(
                   padding: EdgeInsets.only(top: .3.h),
                   child: TextField(
+                    controller: _textEditingController,
                     onChanged: (value){
                       setState(() {
                         _isNotEmpty = value.length > 0;
@@ -215,6 +216,10 @@ class _PromptTextFieldState extends State<PromptTextField> {
                               ),
                               onTap: () {
                                 if (_isNotEmpty){
+                                  setState(() {
+                                    Get.find<PromptController>().prompt.value = _textEditingController.text;
+                                    print("Leo"+Get.find<PromptController>().prompt.value);
+                                  });
                                   Get.find<PromptController>().indexPage.value++;
                                   Get.find<PromptController>().pageController?.animateToPage(
                                       Get.find<PromptController>().indexPage.value,

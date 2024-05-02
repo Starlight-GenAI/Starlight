@@ -7,6 +7,8 @@ class PromptController extends GetxController {
   RxInt indexPage = 0.obs;
   PageController? pageController;
   RxBool isSelectYoutube = false.obs;
+  RxString image = "".obs;
+  RxString prompt = "".obs;
 
 
   @override

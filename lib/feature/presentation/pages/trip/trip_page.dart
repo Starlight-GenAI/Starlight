@@ -51,6 +51,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
   PageController(viewportFraction: 0.8, keepPage: true);
   var selectedIndex = 0;
   var selectedExpanded = -1;
+  var toTop = 1.0;
   CarouselController carouselController = CarouselController();
   final colorList = [
     {'majorColor': Color(0xFF4D32F8), 'mainColor': Color(0xFF647AFF), 'lightColor': Color(0xFFE1E9FF)},
@@ -162,125 +163,138 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                 children: [
                   DraggableBottomSheet(
                     duration: Duration(milliseconds: 50),
-                    minExtent: 45.h,
+                    minExtent: 50.h,
                     useSafeArea: false,
                     maxExtent: 90.h,
                     previewWidget: _previewWidget(pageController,state),
                     backgroundWidget: _backgroundWidget(state),
                     expandedWidget: _expandedWidget(state),
                     expansionExtent: 1,
-                    onDragging: (res) {},
+                    onDragging: (res) {
+
+                      setState(() {
+                        toTop = (1- ((res - 50.h) / (90.h - 50.h))).clamp(0.0, 1.0);
+                      });
+                      print("res$res");
+                      print("${100.h}");
+
+
+                    },
                     controller: pageController,
                   ),
                   Positioned(
                       top: 0,
                       left: 0,
-                      child: SafeArea(
-                        child: Container(
-                          width: 100.w,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 1.h,vertical: 1.h),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 11.w,
-                                  height: 11.w,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(100),
+                      child: AnimatedOpacity(
+                        duration: Duration(milliseconds: 100),
+                        opacity: toTop,
+                        child: SafeArea(
+                          child: Container(
+                            width: 100.w,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 1.h,vertical: 1.h),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 11.w,
+                                    height: 11.w,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(100),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black.withOpacity(0.1),
+                                              offset: Offset(0,1),
+                                              blurRadius: 24
+                                          )
+                                        ]
+                                    ),
+                                    child: Center(
+                                      child: IconButton(
+                                        hoverColor: Colors.white,
+                                      icon: FaIcon(FontAwesomeIcons.angleLeft,
+                                          size: 18.sp, color: Colors.black),
+                                      onPressed: () {
+                                          Get.back();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    width: 11.w,
+                                    height: 11.w,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
-                                            offset: Offset(0,1),
-                                            blurRadius: 24
-                                        )
-                                      ]
-                                  ),
-                                  child: Center(
-                                    child: IconButton(
-                                      hoverColor: Colors.white,
-                                    icon: FaIcon(FontAwesomeIcons.angleLeft,
-                                        size: 18.sp, color: Colors.black),
-                                    onPressed: () {
-                                        Get.back();
-                                      },
+                                          color: Colors.grey.withOpacity(0.2), // Shadow color
+                                          spreadRadius: 2,
+                                          blurRadius: 20,
+                                          offset: Offset(0, 2), // Shadow position
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                                Spacer(),
-                                Container(
-                                  width: 11.w,
-                                  height: 11.w,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.2), // Shadow color
-                                        spreadRadius: 2,
-                                        blurRadius: 20,
-                                        offset: Offset(0, 2), // Shadow position
-                                      ),
-                                    ],
-                                  ),
-                                  child: ClipOval(
-                                    child: Material(
-                                      color: Colors.white, // Button color
-                                      child: InkWell(
-                                        splashColor: Colors.grey,
-                                        onTap: (){
-
-                                        },
-                                        child: Center(child: SvgPicture.asset(shareIcon)),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 2.w,),
-                                Container(
-                                  width: 35.w,
-                                  height: 11.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(24),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        spreadRadius: 2,
-                                        blurRadius: 20,
-                                        offset: Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Material(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(24),
                                     child: ClipOval(
-                                      child: InkWell(
-                                        customBorder: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(24)
-                                        ),
-                                        onTap: () {
-                                          Get.to(
-                                              () => CustomizeSelectPage(),
-                                            transition: page.Transition.rightToLeft
-                                          );
-                                        },
-                                        splashColor: Colors.grey.withOpacity(0.5),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            SvgPicture.asset(customizeIcon),
-                                            SizedBox(width: 1.w,),
-                                            Text("Customize",style: TextStyle(fontFamily: 'inter',fontWeight: FontWeight.w700),)
-                                          ],
+                                      child: Material(
+                                        color: Colors.white, // Button color
+                                        child: InkWell(
+                                          splashColor: Colors.grey,
+                                          onTap: (){
+
+                                          },
+                                          child: Center(child: SvgPicture.asset(shareIcon)),
                                         ),
                                       ),
                                     ),
                                   ),
-                                )
+                                  SizedBox(width: 2.w,),
+                                  Container(
+                                    width: 35.w,
+                                    height: 11.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(24),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 20,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Material(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(24),
+                                      child: ClipOval(
+                                        child: InkWell(
+                                          customBorder: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(24)
+                                          ),
+                                          onTap: () {
+                                            Get.to(
+                                                () => CustomizeSelectPage(),
+                                              transition: page.Transition.rightToLeft
+                                            );
+                                          },
+                                          splashColor: Colors.grey.withOpacity(0.5),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              SvgPicture.asset(customizeIcon),
+                                              SizedBox(width: 1.w,),
+                                              Text("Customize",style: TextStyle(fontFamily: 'inter',fontWeight: FontWeight.w700),)
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
 
 
 
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -307,20 +321,35 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                EvaIcons.arrowCircleUp,
-                color: Color(0xFF5F5F61).withOpacity(0.8),
-              ),
-              SizedBox(
-                width: .3.h,
-              ),
-              Text(
-                'Swipe up to see more',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    fontFamily: 'inter',
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF5F5F61)),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24)
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 2.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        EvaIcons.arrowUpwardOutline,
+                        color: Colors.black,
+                        size: 16.sp,
+                      ),
+                      SizedBox(
+                        width: .5.h,
+                      ),
+                      Text(
+                        'Swipe up to see more',
+                        style: TextStyle(
+                            fontSize: 13.sp,
+                            fontFamily: 'inter',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),

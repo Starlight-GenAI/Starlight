@@ -2,11 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_bloc.dart';
 import 'package:starlight/feature/presentation/manager/journey_planner/journey_planner_state.dart';
+import 'package:starlight/feature/presentation/manager/prompt_controller.dart';
 
 import '../../../../core/constants/colors.dart';
 
@@ -84,14 +87,20 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
         return Text('loading');
       }
       if (state is VideoDetailLoadedState) {
+
         List<Map<String, dynamic>> _videoData =  [
           {'title':'Duration', 'value': formatDuration(state.listDetail!.duration), 'icon': FaIcon(FontAwesomeIcons.clock, size: 22.sp, color: const Color(0xFF0034A0))},
           {'title':"Upload Date", 'value': changeFormatTime(state.listDetail!.publishAt), 'icon': FaIcon(FontAwesomeIcons.calendar, size: 22.sp, color: const Color(0xFF0034A0))}
         ];
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Get.find<PromptController>().image.value = state.listDetail!.thumbnails;
+          print("leo "+Get.find<PromptController>().image.value);
+        });
+
         return Padding(
           padding: EdgeInsets.only(left:  widget.paddingContent,
               right:  widget.paddingContent,
-              top:  widget.paddingContent),
+          top: widget.paddingContent/2),
           child: Column(
             children: [
               Container(

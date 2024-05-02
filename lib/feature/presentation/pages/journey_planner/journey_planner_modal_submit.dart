@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 
 import '../../manager/journey_planner/journey_planner_event.dart';
 import '../../manager/navigation_controller.dart';
+import '../../manager/prompt_controller.dart';
 
 
 class JourneyPlannerModalSubmit extends StatefulWidget {
@@ -217,7 +218,12 @@ class _JourneyPlannerModalSubmitState extends State<JourneyPlannerModalSubmit> {
           isSelectTitle != '' ?
           widget.videoId != '' ? bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoId: widget.videoId, videoUrl: '', isUseSubtitle: isUseSubtitle, userId: Get.find<NavigationController>().uid.value)):
           bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: widget.videoUrl, videoId: '',isUseSubtitle: isUseSubtitle, userId: Get.find<NavigationController>().uid.value)) : null,
-          Get.back()
+          Get.back(),
+          Get.find<PromptController>().indexPage.value++,
+          Get.find<PromptController>().pageController?.animateToPage(
+          Get.find<PromptController>().indexPage.value,
+          duration: Duration(milliseconds: 200),
+          curve: Curves.linear)
         },
         child: Padding(
           padding: EdgeInsets.only(left: 0, right: 0),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/feature/presentation/pages/customize/customize_prompt_page.dart';
+import 'package:starlight/feature/presentation/pages/customize/customize_youtube_page.dart';
 
 import 'customize_preset_page.dart';
 
@@ -73,7 +74,7 @@ class _CustomizeSelectPageState extends State<CustomizeSelectPage> {
 
                     onTap: (){
                       Get.to(
-                              () => CustomizePromptPage(),
+                              () => CustomizeYoutubePage(),
                           transition: Transition.rightToLeft
                       );
                     },

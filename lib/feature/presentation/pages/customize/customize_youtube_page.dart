@@ -29,16 +29,18 @@ import '../../manager/navigation_controller.dart';
 import '../error_alert/error_alert_page.dart';
 import '../journey_planner/journey_planner_modal_submit.dart';
 
-class CustomizePromptPage extends StatefulWidget {
+
+class CustomizeYoutubePage extends StatefulWidget {
+  const CustomizeYoutubePage({super.key});
+
   @override
-  State<CustomizePromptPage> createState() => _CustomizePromptPageState();
+  State<CustomizeYoutubePage> createState() => _CustomizeYoutubePageState();
 }
 
-class _CustomizePromptPageState extends State<CustomizePromptPage> {
+class _CustomizeYoutubePageState extends State<CustomizeYoutubePage> {
   var urlFromClipBoard = "";
 
   var pageHeader = [
-    "Prompt a sentence about\n trip that you interest.",
     "Copy video link from social media\nor Shared from other apps.",
     "Video detail of youtube media\nyou provided",
     "Now you can waiting for a result\nat a My action menu"
@@ -54,10 +56,9 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
   ];
 
   var buttonText = [
-    "",
     "Paste",
     "Next",
-    "Go to My Journey"
+    "Go to My Journey",
   ];
 
   @override
@@ -65,18 +66,15 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
     // TODO: implement initState
     super.initState();
     Get.put(PromptController(), permanent: false);
-
     Get.find<PromptController>().pageController = PageController();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF9FBFE) ,
       body: Obx(
-        ()=> Stack(
+            ()=> Stack(
           children: [
             Column(
               children: [
@@ -106,7 +104,7 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                             ),
                           ),
                           SizedBox(width: 2.w,),
-                          Text("Customize with Prompt",style: TextStyle(fontSize: 18.sp,fontFamily: 'inter',fontWeight: FontWeight.w700),)
+                          Text("Generate by Youtube",style: TextStyle(fontSize: 18.sp,fontFamily: 'inter',fontWeight: FontWeight.w700),)
 
                         ],
                       ),
@@ -126,7 +124,7 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                         ),
                       ),
                       AnimatedContainer(
-                        width:(Get.find<PromptController>().isSelectYoutube.value? 35.w : 100.w) * (Get.find<PromptController>().indexPage.value ),
+                        width:50.w * (Get.find<PromptController>().indexPage.value ),
                         height: .8.h,
                         duration: Duration(milliseconds: 400),
                         decoration: BoxDecoration(
@@ -139,10 +137,10 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                 ),
                 Column(
                   children: [
-                    Text('STEP ${(Get.find<PromptController>().indexPage.value+1)}/${Get.find<PromptController>().isSelectYoutube.value? "4": "2"}',style: TextStyle(color: Color(0xFF4D32F8), fontFamily: 'inter', fontWeight: FontWeight.w700,letterSpacing: 1),),
+                    Text('STEP ${(Get.find<PromptController>().indexPage.value+1)}/3',style: TextStyle(color: Color(0xFF4D32F8), fontFamily: 'inter', fontWeight: FontWeight.w700,letterSpacing: 1),),
                     SizedBox(height: 1.h,),
 
-                    Text((Get.find<PromptController>().indexPage.value == 1 && Get.find<PromptController>().isSelectYoutube.value == false)? pageHeader[3]: pageHeader[Get.find<PromptController>().indexPage.value],style: TextStyle( fontFamily: 'poppins', fontWeight: FontWeight.w700, fontSize: 18.sp,),textAlign: TextAlign.center,),
+                    Text(pageHeader[Get.find<PromptController>().indexPage.value],style: TextStyle( fontFamily: 'poppins', fontWeight: FontWeight.w700, fontSize: 18.sp,),textAlign: TextAlign.center,),
                     SizedBox(height: 1.h,),
                     Text(pageTitle[Get.find<PromptController>().indexPage.value],style: TextStyle(color: Color(0xFF8C8C8C), fontFamily: 'inter', fontWeight: FontWeight.w500, fontSize: 15.sp,),textAlign: TextAlign.center,),
                     // Container(
@@ -167,8 +165,7 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                     physics: const NeverScrollableScrollPhysics(),
                     controller: Get.find<PromptController>().pageController,
                     children: [
-                      PromptTextField(),
-                      Get.find<PromptController>().isSelectYoutube.value ?JourneyPlannerAddLinkPage(paddingContent: 3.h) : PromptOnlyResult(),
+                      JourneyPlannerAddLinkPage(paddingContent: 3.h),
                       JourneyPlannerSummaryPage(paddingContent: 3.h),
                       JourneyPlannerProgressPage(paddingContent: 3.h, imageUrl: Get.find<PromptController>().image.value,)
                     ],
@@ -184,85 +181,76 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
               bottom: 0,
               right: 0,
               left: 0,
-              child:
-               AnimatedSwitcher(
-                duration: Duration(milliseconds: 400),
-                child: Get.find<PromptController>().indexPage.value == 0 ? Container() :SafeArea(
-                  top: false,
-                  child: GestureDetector(
-                    onTap: () {
-                       if (Get.find<PromptController>().indexPage.value == 1 && Get.find<PromptController>().isSelectYoutube.value == false){
-                         BlocProvider.of<ListHistoryBloc>(context).add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
-                         Get.find<NavigationController>().changePage(1);
-                         Get.close(2);
-                       }
-                      else if (Get.find<PromptController>().indexPage.value == 1){
-                        try {
-                                Clipboard.getData(Clipboard.kTextPlain)
-                                    .then((value) {
-                                  var clipboard = value?.text ?? "";
-                                  setState(() {
-                                    urlFromClipBoard = clipboard;
-                                  });
-                                  String? videoId = urlFromClipBoard
-                                              .contains("youtube") ||
-                                          urlFromClipBoard.contains('youtu.be')
-                                      ? YoutubePlayer.convertUrlToId(
-                                          urlFromClipBoard)
-                                      : urlFromClipBoard;
-                                  bloc.BlocProvider.of<JourneyPlannerBloc>(
-                                          context)
-                                      .add(VideoDetail(videoId: videoId!));
-                                });
-                              } catch (e){
-                          Get.to(transition: page.Transition.downToUp,
-                                  () => ErrorAlertPage());
-                        }
-                            }
-                      else if (Get.find<PromptController>().indexPage.value == 2){
-                        showModalBottomSheet<dynamic>(
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) => JourneyPlannerModalSubmit(videoUrl: urlFromClipBoard,videoId: ''),
-                        );
-                      }else {
-                         BlocProvider.of<ListHistoryBloc>(context).add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
-                         Get.find<NavigationController>().changePage(1);
-                         Get.close(2);
-                       }
-                      // if (Get.find<PromptController>().indexPage.value < 2){
-                      //   setState(() {
-                      //     Get.find<PromptController>().indexPage.value++;
-                      //   });
-                      //   Get.find<PromptController>().pageController?.animateToPage(Get.find<PromptController>().indexPage.value,
-                      //       duration: Duration(milliseconds: 200),
-                      //       curve: Curves.linear);
-                      // }else{
-                      //   Get.back();
-                      // }
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24,vertical: 3.h),
-                      child: Container(
-                          width: 100.w,
-                          height: 15.w,
-                          decoration: const BoxDecoration(
-                              color: Color(0xFF4D32F8),
-                              borderRadius: BorderRadius.all(Radius.circular(100))
-                          ),
-                          child: Center(
-                              child: Text(
-                                (Get.find<PromptController>().indexPage.value == 1 && Get.find<PromptController>().isSelectYoutube == false)? buttonText[3] :buttonText[Get.find<PromptController>().indexPage.value],
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Poppins',
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w800),
-                              )
-                
-                          )
-                      ),
+              child: SafeArea(
+                top: false,
+                child: GestureDetector(
+                  onTap: () {
+                    if (Get.find<PromptController>().indexPage.value == 0){
+                      try {
+                        Clipboard.getData(Clipboard.kTextPlain)
+                            .then((value) {
+                          var clipboard = value?.text ?? "";
+                          setState(() {
+                            urlFromClipBoard = clipboard;
+                          });
+                          String? videoId = urlFromClipBoard
+                              .contains("youtube") ||
+                              urlFromClipBoard.contains('youtu.be')
+                              ? YoutubePlayer.convertUrlToId(
+                              urlFromClipBoard)
+                              : urlFromClipBoard;
+                          bloc.BlocProvider.of<JourneyPlannerBloc>(
+                              context)
+                              .add(VideoDetail(videoId: videoId!));
+                        });
+                      } catch (e){
+                        Get.to(transition: page.Transition.downToUp,
+                                () => ErrorAlertPage());
+                      }
+                    }
+                    else if (Get.find<PromptController>().indexPage.value == 1){
+                      showModalBottomSheet<dynamic>(
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) => JourneyPlannerModalSubmit(videoUrl: urlFromClipBoard,videoId: ''),
+                      );
+                    }else {
+                      BlocProvider.of<ListHistoryBloc>(context).add(GetListHistory(userId: Get.find<NavigationController>().uid.value));
+                      Get.find<NavigationController>().changePage(1);
+                      Get.close(2);
+                    }
+                    // if (Get.find<PromptController>().indexPage.value < 2){
+                    //   setState(() {
+                    //     Get.find<PromptController>().indexPage.value++;
+                    //   });
+                    //   Get.find<PromptController>().pageController?.animateToPage(Get.find<PromptController>().indexPage.value,
+                    //       duration: Duration(milliseconds: 200),
+                    //       curve: Curves.linear);
+                    // }else{
+                    //   Get.back();
+                    // }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24,vertical: 3.h),
+                    child: Container(
+                        width: 100.w,
+                        height: 15.w,
+                        decoration: const BoxDecoration(
+                            color: Color(0xFF4D32F8),
+                            borderRadius: BorderRadius.all(Radius.circular(100))
+                        ),
+                        child: Center(
+                            child: Text(
+                              buttonText[Get.find<PromptController>().indexPage.value],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 17.sp,
+                                  fontWeight: FontWeight.w800),
+                            )
+
+                        )
                     ),
                   ),
                 ),
