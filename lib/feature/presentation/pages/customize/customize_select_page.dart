@@ -120,7 +120,7 @@ class _CustomizeSelectPageState extends State<CustomizeSelectPage> {
                 padding: EdgeInsets.all(8.0),
                 child: Material(
                   borderRadius: BorderRadius.circular(24),
-                  color: Color(0xFF4D32F8),
+                  color: Color(0xFF647AFF),
                   child: InkWell(
                     customBorder: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24)

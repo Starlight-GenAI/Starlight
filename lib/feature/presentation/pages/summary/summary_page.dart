@@ -516,6 +516,8 @@ class _SummaryPageState extends State<SummaryPage> {
                                     .content[
                                 index]
                                     .summary);
+                                print('//////////textList/////');
+                                print(textList);
 
 
                                 return state.list?.content[index].category ==
@@ -621,13 +623,11 @@ class _SummaryPageState extends State<SummaryPage> {
                                                                 SizedBox(
                                                                   height: 1.5.h,
                                                                 ),
-                                                                // leosum
                                                                 state
                                                                     .list!
                                                                     .content[
                                                                 index]
                                                                     .summary!.contains('##')? RichText(
-                                                                  maxLines: 5,
                                                                   text: _buildNewTextFormat(textList),
                                                                 ):Text(state
                                                                         .list!
