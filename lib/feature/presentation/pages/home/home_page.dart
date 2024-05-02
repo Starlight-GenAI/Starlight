@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:starlight/core/constants/colors.dart';
 import 'package:starlight/feature/presentation/manager/home/home_event.dart';
 import 'package:starlight/feature/presentation/manager/navigation_controller.dart';
+import 'package:starlight/feature/presentation/pages/customize/customize_select_page.dart';
 import 'package:starlight/feature/presentation/pages/journey_planner/journey_planner_page.dart';
 import 'package:starlight/feature/presentation/manager/home/home_bloc.dart';
 import 'package:starlight/feature/presentation/manager/home/home_state.dart';
@@ -265,7 +266,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                             onTap: () {
                               Get.to(
                                   transition: Transition.rightToLeft,
-                                  () => JourneyPlannerPage());
+                                  () => CustomizeSelectPage());
                             },
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 650),

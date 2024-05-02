@@ -279,7 +279,6 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
                   )
                 ],
               ),
-              SizedBox(height: 2.5.h),
               _listVideoData(_videoData)
             ],
           ),
@@ -294,6 +293,7 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
       child: GridView.builder(
           itemCount: _videoData.length, //${_videoData[index]}
           shrinkWrap: true,
+          padding: EdgeInsets.only(top: 2.h),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 3.w,
