@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/images.dart';
+import 'package:starlight/feature/presentation/manager/preset_controller.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../manager/navigation_controller.dart';
@@ -20,10 +21,10 @@ class PresetSummaryResult extends StatefulWidget {
 
 class _PresetSummaryResultState extends State<PresetSummaryResult> {
   List<Map<String, dynamic>> details = [
-    {'title': 'Days', 'value': Get.find<NavigationController>().name.value, 'icon': FaIcon(FontAwesomeIcons.calendar, size: 16.sp, color: const Color(0xFF646C9C))},
-    {'title': 'Coming with', 'value': Get.find<NavigationController>().name.value, 'icon': FaIcon(FontAwesomeIcons.userGroup, size: 15.sp, color: const Color(0xFF646C9C))},
-    {'title': "Activities", 'value': 'ffff', 'icon': FaIcon(FontAwesomeIcons.drum, size: 16.sp, color: const Color(0xFF646C9C))},
-    {'title': "Location", 'value': 'Thailand 🇹🇭', 'icon': FaIcon(FontAwesomeIcons.locationDot, size: 16.sp, color: const Color(0xFF646C9C))}
+    {'title': 'Days', 'value': Get.find<PresetController>().day.value.toString(), 'icon': FaIcon(FontAwesomeIcons.calendar, size: 16.sp, color: const Color(0xFF646C9C))},
+    {'title': 'Coming with', 'value': Get.find<PresetController>().comingWith.value, 'icon': FaIcon(FontAwesomeIcons.userGroup, size: 15.sp, color: const Color(0xFF646C9C))},
+    {'title': "Activities", 'value': Get.find<PresetController>().activities.value, 'icon': FaIcon(FontAwesomeIcons.drum, size: 16.sp, color: const Color(0xFF646C9C))},
+    {'title': "Location", 'value': Get.find<PresetController>().location.value, 'icon': FaIcon(FontAwesomeIcons.locationDot, size: 16.sp, color: const Color(0xFF646C9C))}
   ];
   String selectData = '';
   @override
@@ -49,8 +50,8 @@ class _PresetSummaryResultState extends State<PresetSummaryResult> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
                 child: Column(
-                  children: details.map((data) => InformationRow(data: data)).toList(),
-                ),
+                    children: details.map((data) => InformationRow(data: data)).toList(),
+                  ),
               ),
             ),
             Spacer(flex: 2,),

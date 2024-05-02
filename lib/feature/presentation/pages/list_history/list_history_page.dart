@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -26,6 +27,7 @@ import '../../../../core/constants/images.dart';
 import '../../../../injection_container.dart';
 import '../../manager/list_history/list_history_event.dart';
 import '../../manager/navigation_controller.dart';
+import '../profile/profile_page.dart';
 
 class ListHistoryPage extends StatefulWidget {
   const ListHistoryPage({super.key});
@@ -225,10 +227,12 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                               "",
                                                           maxLines: 2,
                                                           style: TextStyle(
-                                                              fontSize: 15.sp,
+                                                              fontSize: 16.sp,
                                                               fontWeight:
                                                                   FontWeight.w700,
-                                                              fontFamily: 'inter'),
+                                                              fontFamily: 'inter',
+                                                            letterSpacing: -0.17
+                                                          ),
                                                         ),
                                                         SizedBox(
                                                           height: .5.h,
@@ -358,4 +362,36 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
       ),
     );
   }
+
+  // _buildPresetBox() {
+  //   List<Map<String, dynamic>> details = [
+  //     {'title': 'Days', 'value': Get.find<PresetController>().day.value.toString(), 'icon': FaIcon(FontAwesomeIcons.calendar, size: 16.sp, color: const Color(0xFF646C9C))},
+  //     {'title': 'Coming with', 'value': Get.find<PresetController>().comingWith.value, 'icon': FaIcon(FontAwesomeIcons.userGroup, size: 15.sp, color: const Color(0xFF646C9C))},
+  //     {'title': "Activities", 'value': Get.find<PresetController>().activities.value, 'icon': FaIcon(FontAwesomeIcons.drum, size: 16.sp, color: const Color(0xFF646C9C))},
+  //     {'title': "Location", 'value': Get.find<PresetController>().location.value, 'icon': FaIcon(FontAwesomeIcons.locationDot, size: 16.sp, color: const Color(0xFF646C9C))}
+  //   ];
+  //   return Container(
+  //     child: Column(
+  //       children: [
+  //         Row(
+  //           children: [
+  //             Text(
+  //               "Generate with Preset",
+  //               style: TextStyle(
+  //                   fontSize: 16.sp,
+  //                   fontWeight:
+  //                   FontWeight.w700,
+  //                   fontFamily: 'inter',
+  //                   letterSpacing: -0.17
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         Column(
+  //           children: details.map((data) => InformationRow(data: data)).toList(),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 }

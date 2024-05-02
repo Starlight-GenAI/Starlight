@@ -14,8 +14,6 @@ class VideoDetailUseCase implements UseCase<DataState<VideoDetailEntity>, VideoD
 
   @override
   Future<DataState<VideoDetailEntity>> call({VideoDetailRequestBody? params}) {
-    print('////////params detail////////');
-    print(params?.videoId);
     return _videoDetailRepository.videoDetail(body: params ?? VideoDetailRequestBody(videoId: "https://youtu.be/IuTDuvYr7f0?si=0dBf78aaB15LGIpF"));
   }
 }

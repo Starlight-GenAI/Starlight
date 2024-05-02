@@ -25,9 +25,17 @@ class JourneyPlannerBloc extends Bloc<JourneyPlannerEvent,JourneyPlannerState>{
   void onUploadVideo(UploadVideo uploadVideo, Emitter<JourneyPlannerState> emit) async{
     emit(const UploadVideoLoadingState());
 
-    final dataState = await _uploadVideoUseCase(params:  VideoRequestBody(videoUrl: uploadVideo.videoUrl!, isUseSubtitle: uploadVideo.isUseSubtitle, userId: uploadVideo.userId, videoId: uploadVideo.videoId!));
+    final dataState = await _uploadVideoUseCase(params:  VideoRequestBody(
+        videoUrl: uploadVideo.videoUrl!,
+        isUseSubtitle: uploadVideo.isUseSubtitle,
+        userId: uploadVideo.userId,
+        videoId: uploadVideo.videoId!,
+        prompt: uploadVideo.prompt != null ? uploadVideo.prompt! : '',
+        promptPreset: uploadVideo.promptPreset != null ? uploadVideo.promptPreset! :
+        PromptPresetRequestBody(day: 1, city: '', journeyType: '', interestingActivity: '')
+    ));
     print('/////////////////state data/////////////////');
-    print(dataState.data!);
+    print(dataState);
 
     if (dataState is DataSuccess && dataState.data != null) {
       final uploadedData = dataState.data!;

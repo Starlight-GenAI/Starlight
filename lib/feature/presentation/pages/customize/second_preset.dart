@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/images.dart';
+import '../../manager/preset_controller.dart';
 
 class SecondPreset extends StatefulWidget {
   const SecondPreset({super.key});
@@ -32,6 +35,7 @@ class _SecondPresetState extends State<SecondPreset> {
             onTap: () => {
               setState(() {
                 selectIndex = data['text'];
+                Get.find<PresetController>().comingWith.value = data['text'];
               })
             },
             child: ListComingWith(data: data, selectData: selectIndex))).toList(),

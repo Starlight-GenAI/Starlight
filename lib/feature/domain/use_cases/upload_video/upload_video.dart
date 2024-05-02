@@ -14,9 +14,7 @@ class UploadVideoUseCase implements UseCase<DataState<QueueIdEntity>, VideoReque
 
   @override
   Future<DataState<QueueIdEntity>> call({VideoRequestBody? params}) {
-    print('////////params////////');
-    print(params);
-    return _uploadVideoRepository.uploadVideo(body: params ?? VideoRequestBody(videoUrl: "https://youtu.be/IuTDuvYr7f0?si=0dBf78aaB15LGIpF", isUseSubtitle: true, userId: "2", videoId: ''));
+    return _uploadVideoRepository.uploadVideo(body: params ?? VideoRequestBody(videoUrl: "https://youtu.be/IuTDuvYr7f0?si=0dBf78aaB15LGIpF", isUseSubtitle: true, userId: "2", videoId: '', prompt: '', promptPreset: PromptPresetRequestBody(day: 1, city: '', journeyType: '', interestingActivity: '')));
   }
 }
 

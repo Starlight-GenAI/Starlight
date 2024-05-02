@@ -28,6 +28,7 @@ class _UploadVideoApiService implements UploadVideoApiService {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
+    print(_data);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<QueueIdResponse>>(Options(
       method: 'POST',
