@@ -100,14 +100,6 @@ class _JourneyPlannerAddLinkPageState extends State<JourneyPlannerAddLinkPage> {
               ],
             ),
             _sbBetween,
-            Row(
-              children: [
-                Expanded(child: Container(height: 5.h, color: bgColor,)),
-                SizedBox(width: 4.w),
-                Expanded(child: Container(height: 5.h, color: bgColor,))
-              ],
-            ),
-            _sbBetween,
             Column(
               children: [
                 Container(height: 1.5.h, color: bgColor),
