@@ -100,7 +100,7 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
         return Padding(
           padding: EdgeInsets.only(left:  widget.paddingContent,
               right:  widget.paddingContent,
-          top: widget.paddingContent/2),
+          top: widget.paddingContent),
           child: Column(
             children: [
               Container(
@@ -275,7 +275,7 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
                   Expanded(
                     child: Text(
                       state.listDetail!.title,
-                      maxLines: 3,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: const Color(0xFF25233A),
@@ -316,7 +316,7 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
                 borderRadius: BorderRadius.all(Radius.circular(4.w))
               ),
               child: Padding(
-                padding: EdgeInsets.only(top: 1.h, bottom: 1.h, left: 3.5.w, right: 3.5.w),
+                padding: EdgeInsets.symmetric(vertical: 3.w, horizontal: 3.5.w),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -343,7 +343,7 @@ class _JourneyPlannerSummaryPageState extends State<JourneyPlannerSummaryPage> {
                             style: TextStyle(
                                 color: const Color(0xFF0034A0),
                                 fontFamily: 'Inter',
-                                fontSize: 15.sp,
+                                fontSize: 14.6.sp,
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: -0.17
                             ),

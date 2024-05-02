@@ -332,9 +332,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                 itemBuilder:
                     (BuildContext context, int itemIndex, int pageViewIndex) {
                   final summaryText = state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].summary;
-                  print('/////////summary text////////');
-                  print(summaryText);
-                  final textList = _formatText(summaryText!.replaceAll('\n', ''));
+                  final textList = _formatText(summaryText!);
                   return Padding(
                     padding: EdgeInsets.only(right: 1.h, top: 1.h),
                     child: GestureDetector(
@@ -389,23 +387,14 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                             fontFamily: 'inter'),
                                       ),
                                       Spacer(),
-                                      // Text(
-                                      //   state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].summary ?? "",
-                                      //   maxLines: 3,
-                                      //   style: TextStyle(
-                                      //       color: Color(0xFF686868),
-                                      //       fontSize: 14.sp,
-                                      //       fontWeight: FontWeight.w400,
-                                      //       fontFamily: 'inter'),
-                                      // ),
-                                      summaryText!.contains('##') ? RichText(
+                                      summaryText.contains('##') ? RichText(
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 4,
-                                        text: _buildNewTextFormat(textList),
+                                        text: _buildNewTextFormat(textList, false),
                                       ) : Text(
                                         state.list!.content![selectedIndex]
                                             .locationWithSummary?[itemIndex]
-                                            .summary ??
+                                            .summary?.replaceAll('\n', ' ') ??
                                             "",
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 3,
@@ -959,7 +948,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                       ),
                                                                       SizedBox(height: 2.h),
                                                                       summaryText!.contains('##') ? RichText(
-                                                                        text: _buildNewTextFormat(textList),
+                                                                        text: _buildNewTextFormat(textList, true),
                                                                       ) : Text(
                                                                         state.list!.content![selectedIndex]
                                                                             .locationWithSummary?[index]
@@ -994,13 +983,13 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                       SizedBox(width: 2.h),
                                                                       Expanded(
                                                                         child: summaryText!.contains('##') ? RichText(
-                                                                          maxLines: 5,
+                                                                          maxLines: 4,
                                                                           overflow: TextOverflow.ellipsis,
-                                                                          text: _buildNewTextFormat(textList),
+                                                                          text: _buildNewTextFormat(textList, false),
                                                                         ) : Text(
                                                                           state.list!.content![selectedIndex]
                                                                               .locationWithSummary?[index]
-                                                                              .summary ??
+                                                                              .summary?.replaceAll('\n', ' ') ??
                                                                               "",
                                                                           style: TextStyle(
                                                                             color: Color(0xFF666666),
@@ -1008,7 +997,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                             fontWeight: FontWeight.w500,
                                                                             fontSize: 14.sp,
                                                                           ),
-                                                                          maxLines: 5,
+                                                                          maxLines: 4,
                                                                           overflow: TextOverflow.ellipsis,
                                                                         ),
                                                                       )
@@ -1083,16 +1072,16 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
     );
   }
 
-  _buildNewTextFormat(textList) {
+  _buildNewTextFormat(textList, isExpand) {
     return TextSpan(
       style: const TextStyle(
-          height: 1.3
+          height: 1.5
       ),
       children: [
-        TextSpan(text: textList[0], style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Colors.black)),
+        TextSpan(text: isExpand ? textList[0] : textList[0].replaceAll('\n', ' '), style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Colors.black)),
         for(int i = 1; i < textList.length; i++)
-          !(i % 2 == 0) ? TextSpan(text: textList[i], style: TextStyle(fontSize: 14.sp, fontFamily: 'inter',color: Color(0xFF666666), fontWeight: FontWeight.w500)) :
-          TextSpan(text: textList[i], style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Color(0xFF44464D))),
+          !(i % 2 == 0) ? TextSpan(text: isExpand ? textList[i] : textList[i].replaceAll('\n', ' '), style: TextStyle(fontSize: 14.sp, fontFamily: 'inter',color: Color(0xFF666666), fontWeight: FontWeight.w500)) :
+          TextSpan(text: isExpand ? textList[i] : textList[i].replaceAll('\n', ' '), style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: 'inter',color: Color(0xFF44464D))),
 
 
       ],

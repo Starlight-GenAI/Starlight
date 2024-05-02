@@ -14,7 +14,6 @@ class ThirdPreset extends StatefulWidget {
   @override
   State<ThirdPreset> createState() => _ThirdPresetState();
 }
-
 class _ThirdPresetState extends State<ThirdPreset> {
   List<Map<String, dynamic>> activitiesList = [
     {'image': emojiNatural, 'text': 'Nature'},
@@ -27,7 +26,16 @@ class _ThirdPresetState extends State<ThirdPreset> {
     {'image': emojiArt, 'text': 'Art'},
     {'image': emojiCultural, 'text': 'Cultural'},
   ];
-  List<String> selectData = Get.find<PresetController>().activities.value.split(',');
+  List<String> selectData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    Get.find<PresetController>().activities.value.split(',').forEach((e) {
+      selectData.add(e);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -38,18 +46,18 @@ class _ThirdPresetState extends State<ThirdPreset> {
         mainAxisSpacing: 4.w,
         crossAxisCount: 3,
         children: activitiesList.map((data) => GestureDetector(
-          onTap: () => {
-            setState(() {
-              if(selectData.firstWhere((element) => element == data['text'], orElse: () => '') != '') {
-                selectData.remove(data['text']);
-              } else {
-                selectData.add(data['text']);
-              }
-              Get.find<PresetController>().activities.value = selectData.join(',');
-              // print(selectData);
-            })
-          },
-          child: ListActivities(data: data, selectData: selectData))).toList(),
+            onTap: () {
+              setState(() {
+                selectData.contains(data['text'])
+                    ? selectData.remove(data['text'])
+                    : selectData.add(data['text']);
+
+                // Remove leading comma before joining the data
+                String joinedData = selectData.where((item) => item.isNotEmpty).join(',');
+                Get.find<PresetController>().activities.value = joinedData;
+              });
+            },
+            child: ListActivities(data: data, isSelected: selectData.contains(data['text'])))).toList(),
       ),
     );
   }
@@ -57,13 +65,12 @@ class _ThirdPresetState extends State<ThirdPreset> {
 
 class ListActivities extends StatelessWidget {
   final Map<String, dynamic> data;
-  final List<String>  selectData;
+  final bool isSelected;
 
-  const ListActivities({super.key, required this.data, required this.selectData});
+  const ListActivities({super.key, required this.data, required this.isSelected});
 
   @override
   Widget build(BuildContext context) {
-    final isSelect = selectData.firstWhere((element) => element == data['text'], orElse: () => '');
     return Column(
       children: [
         AnimatedContainer(
@@ -71,12 +78,12 @@ class ListActivities extends StatelessWidget {
           width: 16.5.w,
           height: 16.5.w,
           decoration: BoxDecoration(
-            color: isSelect != '' ? Color(0xFFC8D0FF): Colors.white,
+            color: isSelected ? Color(0xFFC8D0FF) : Colors.white,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
                   color: shadowColor.withOpacity(0.4),
-                  offset: Offset(3,1),
+                  offset: Offset(3, 1),
                   blurRadius: 40
               )
             ],
@@ -86,7 +93,7 @@ class ListActivities extends StatelessWidget {
           ),
         ),
         SizedBox(height: 2.w),
-        Text(data['text'], style: TextStyle(fontSize: 14.5.sp,fontWeight: FontWeight.w600,fontFamily: 'poppins',
+        Text(data['text'], style: TextStyle(fontSize: 14.5.sp, fontWeight: FontWeight.w600, fontFamily: 'poppins',
             color: Color(0xFF676771)))
       ],
     );

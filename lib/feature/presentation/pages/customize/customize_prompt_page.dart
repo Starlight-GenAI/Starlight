@@ -40,8 +40,8 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
   var pageHeader = [
     "Prompt a sentence that reflects\nyour travel preferences",
     "Copy video link from social media\nor Shared from other apps",
-    "Video detail of youtube media\nyou provided",
-    "We are processing your video.\nPlease visit 'My Journey' to view the result",
+    "Video detail of youtube\nmedia you provided",
+    "We are processing\nyour video.",
     "Please visit 'My Journey'\nto view the result"
 
   ];
@@ -51,8 +51,8 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
   var pageTitle = [
     "",
     "",
-    "It may take a few minutes to plan\na journey after submitting a video.",
-    ""
+    "It may take a few minutes to\nplan a journey after submitting a video.",
+    "Please visit 'My Journey' to view the result"
   ];
 
   var buttonText = [
@@ -254,7 +254,7 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                       // }
                     },
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24,vertical: 3.h),
+                      padding: EdgeInsets.symmetric(horizontal: 24),
                       child: Container(
                           width: 100.w,
                           height: 15.w,

@@ -22,10 +22,10 @@ class _PresetSelectCountryState extends State<PresetSelectCountry> {
     {'image': 'https://www.thomascook.com/.imaging/mte/thomascook-theme/og-image/dam/uk/holidays/city-breaks/paris-dekstop.jpg/jcr:content/paris-dekstop.jpg', 'text': 'Paris'},
     {'image': 'https://www.fodors.com/wp-content/uploads/2018/10/HERO_UltimateRome_Hero_shutterstock789412159.jpg', 'text': 'Rome'},
     {'image': 'https://a.cdn-hotels.com/gdcs/production172/d459/3af9262b-3d8b-40c6-b61d-e37ae1aa90aa.jpg', 'text': 'Bangkok'},
-    {'image': 'https://www.civitatis.com/blog/wp-content/uploads/2023/07/shutterstock_557625622-scaled.jpg', 'text': 'Madrid2'},
-    {'image': 'https://www.thomascook.com/.imaging/mte/thomascook-theme/og-image/dam/uk/holidays/city-breaks/paris-dekstop.jpg/jcr:content/paris-dekstop.jpg', 'text': 'Paris2'},
-    {'image': 'https://www.fodors.com/wp-content/uploads/2018/10/HERO_UltimateRome_Hero_shutterstock789412159.jpg', 'text': 'Rome2'},
-    {'image': 'https://a.cdn-hotels.com/gdcs/production172/d459/3af9262b-3d8b-40c6-b61d-e37ae1aa90aa.jpg', 'text': 'Bangkok3'},
+    {'image': 'https://a.cdn-hotels.com/gdcs/production29/d1870/6a5ec560-bb25-11e8-970b-0242ac110006.jpg?impolicy=fcrop&w=800&h=533&q=medium', 'text': 'London'},
+    {'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg/800px-View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg', 'text': 'New York'},
+    {'image': 'https://cdn.britannica.com/65/162465-050-9CDA9BC9/Alps-Switzerland.jpg', 'text': 'Switzerland'},
+    {'image': 'https://a.cdn-hotels.com/gdcs/production8/d946/61ea3fbe-d21e-4b09-a90f-9c6ac0f82e99.jpg?impolicy=fcrop&w=800&h=533&q=medium', 'text': 'Tokyo'},
   ];
   String selectData = Get.find<PresetController>().location.value;
   @override
