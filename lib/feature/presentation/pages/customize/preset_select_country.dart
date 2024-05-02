@@ -22,12 +22,12 @@ class _PresetSelectCountryState extends State<PresetSelectCountry> {
     {'image': 'https://www.thomascook.com/.imaging/mte/thomascook-theme/og-image/dam/uk/holidays/city-breaks/paris-dekstop.jpg/jcr:content/paris-dekstop.jpg', 'text': 'Paris'},
     {'image': 'https://www.fodors.com/wp-content/uploads/2018/10/HERO_UltimateRome_Hero_shutterstock789412159.jpg', 'text': 'Rome'},
     {'image': 'https://a.cdn-hotels.com/gdcs/production172/d459/3af9262b-3d8b-40c6-b61d-e37ae1aa90aa.jpg', 'text': 'Bangkok'},
-    {'image': 'https://www.civitatis.com/blog/wp-content/uploads/2023/07/shutterstock_557625622-scaled.jpg', 'text': 'Madrid'},
-    {'image': 'https://www.thomascook.com/.imaging/mte/thomascook-theme/og-image/dam/uk/holidays/city-breaks/paris-dekstop.jpg/jcr:content/paris-dekstop.jpg', 'text': 'Paris'},
-    {'image': 'https://www.fodors.com/wp-content/uploads/2018/10/HERO_UltimateRome_Hero_shutterstock789412159.jpg', 'text': 'Rome'},
-    {'image': 'https://a.cdn-hotels.com/gdcs/production172/d459/3af9262b-3d8b-40c6-b61d-e37ae1aa90aa.jpg', 'text': 'Bangkok'},
+    {'image': 'https://www.civitatis.com/blog/wp-content/uploads/2023/07/shutterstock_557625622-scaled.jpg', 'text': 'Madrid2'},
+    {'image': 'https://www.thomascook.com/.imaging/mte/thomascook-theme/og-image/dam/uk/holidays/city-breaks/paris-dekstop.jpg/jcr:content/paris-dekstop.jpg', 'text': 'Paris2'},
+    {'image': 'https://www.fodors.com/wp-content/uploads/2018/10/HERO_UltimateRome_Hero_shutterstock789412159.jpg', 'text': 'Rome2'},
+    {'image': 'https://a.cdn-hotels.com/gdcs/production172/d459/3af9262b-3d8b-40c6-b61d-e37ae1aa90aa.jpg', 'text': 'Bangkok3'},
   ];
-  String selectData = '';
+  String selectData = Get.find<PresetController>().location.value;
   @override
   Widget build(BuildContext context) {
     return Center(

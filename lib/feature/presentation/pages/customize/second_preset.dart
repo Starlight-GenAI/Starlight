@@ -23,7 +23,7 @@ class _SecondPresetState extends State<SecondPreset> {
     {'image': emojiFamily, 'text': 'Family'},
     {'image': emojiPartner, 'text': 'Partner'}
   ];
-  String selectIndex = '';
+  String selectIndex = Get.find<PresetController>().comingWith.value;
   @override
   Widget build(BuildContext context) {
     return Center(

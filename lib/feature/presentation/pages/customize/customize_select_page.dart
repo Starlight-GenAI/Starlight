@@ -100,7 +100,7 @@ class _CustomizeSelectPageState extends State<CustomizeSelectPage> {
                               ),),
                             SizedBox(height: 1.h,),
 
-                            Text('Personalize your itinerary by entering a word or sentence that reflects your travel preferences.'
+                            Text('Provide a youtube link that inspired you.'
                               ,style: TextStyle(
                                   color: Colors.white.withOpacity(0.7),
                                   fontFamily: 'inter',

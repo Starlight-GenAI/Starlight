@@ -221,7 +221,7 @@ class _JourneyPlannerModalSubmitState extends State<JourneyPlannerModalSubmit> {
               videoUrl: '',
               isUseSubtitle: isUseSubtitle,
               userId: Get.find<NavigationController>().uid.value)):
-          bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: widget.videoUrl, videoId: '',isUseSubtitle: isUseSubtitle, userId: Get.find<NavigationController>().uid.value)) : null,
+          bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: widget.videoUrl, videoId: '',isUseSubtitle: isUseSubtitle, userId: Get.find<NavigationController>().uid.value,prompt: Get.find<PromptController>().prompt.value)) : null,
           Get.back(),
           Get.find<PromptController>().indexPage.value++,
           Get.find<PromptController>().pageController?.animateToPage(

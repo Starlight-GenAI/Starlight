@@ -309,7 +309,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                           height: 0.5.h,
                                         ),
                                         Text(
-                                          "Provide a youtube link \nthen get the trip powered by Gemini",
+                                          "Get your personalized trip\npowered by Gemini",
                                           style: TextStyle(
                                               color:
                                                   Colors.white.withOpacity(0.6),

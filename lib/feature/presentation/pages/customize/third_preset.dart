@@ -27,7 +27,7 @@ class _ThirdPresetState extends State<ThirdPreset> {
     {'image': emojiArt, 'text': 'Art'},
     {'image': emojiCultural, 'text': 'Cultural'},
   ];
-  List<String> selectData = [];
+  List<String> selectData = Get.find<PresetController>().activities.value.split(',');
   @override
   Widget build(BuildContext context) {
     return Center(

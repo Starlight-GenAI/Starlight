@@ -114,7 +114,10 @@ class DraggableBottomSheetState extends State<DraggableBottomSheet> {
       ignoring: !widget.barrierDismissible,
       child: GestureDetector(
         onTap: widget.barrierDismissible
-            ? () => setState(() => _currentExtent = widget.minExtent)
+            ? () {
+          setState(() => _currentExtent = widget.minExtent);
+          Get.find<NavigationController>().toTop.value = 1;
+        }
             : null,
         child: Container(color: widget.barrierColor),
       ),

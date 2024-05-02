@@ -51,7 +51,6 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
   PageController(viewportFraction: 0.8, keepPage: true);
   var selectedIndex = 0;
   var selectedExpanded = -1;
-  var toTop = 1.0;
   CarouselController carouselController = CarouselController();
   final colorList = [
     {'majorColor': Color(0xFF4D32F8), 'mainColor': Color(0xFF647AFF), 'lightColor': Color(0xFFE1E9FF)},
@@ -173,7 +172,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                     onDragging: (res) {
 
                       setState(() {
-                        toTop = (1- ((res - 50.h) / (90.h - 50.h))).clamp(0.0, 1.0);
+                        Get.find<NavigationController>().toTop.value = (1- ((res - 50.h) / (90.h - 50.h))).clamp(0.0, 1.0);
                       });
                       print("res$res");
                       print("${100.h}");
@@ -185,115 +184,87 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                   Positioned(
                       top: 0,
                       left: 0,
-                      child: AnimatedOpacity(
-                        duration: Duration(milliseconds: 100),
-                        opacity: toTop,
-                        child: SafeArea(
-                          child: Container(
-                            width: 100.w,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 1.h,vertical: 1.h),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 11.w,
-                                    height: 11.w,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(100),
+                      child: Obx(
+                        ()=> AnimatedOpacity(
+                          duration: Duration(milliseconds: 100),
+                          opacity: Get.find<NavigationController>().toTop.value,
+                          child: SafeArea(
+                            child: Container(
+                              width: 100.w,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 1.h,vertical: 1.h),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 11.w,
+                                      height: 11.w,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(100),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black.withOpacity(0.1),
+                                                offset: Offset(0,1),
+                                                blurRadius: 24
+                                            )
+                                          ]
+                                      ),
+                                      child: Center(
+                                        child: IconButton(
+                                          hoverColor: Colors.white,
+                                        icon: FaIcon(FontAwesomeIcons.angleLeft,
+                                            size: 18.sp, color: Colors.black),
+                                        onPressed: () {
+                                            Get.back();
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Spacer(),
+
+                                    Container(
+                                      width: 24.w,
+                                      height: 11.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(24),
                                         boxShadow: [
                                           BoxShadow(
-                                              color: Colors.black.withOpacity(0.1),
-                                              offset: Offset(0,1),
-                                              blurRadius: 24
-                                          )
-                                        ]
-                                    ),
-                                    child: Center(
-                                      child: IconButton(
-                                        hoverColor: Colors.white,
-                                      icon: FaIcon(FontAwesomeIcons.angleLeft,
-                                          size: 18.sp, color: Colors.black),
-                                      onPressed: () {
-                                          Get.back();
-                                        },
+                                            color: Colors.grey.withOpacity(0.2),
+                                            spreadRadius: 2,
+                                            blurRadius: 20,
+                                            offset: Offset(0, 2),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Container(
-                                    width: 11.w,
-                                    height: 11.w,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.2), // Shadow color
-                                          spreadRadius: 2,
-                                          blurRadius: 20,
-                                          offset: Offset(0, 2), // Shadow position
-                                        ),
-                                      ],
-                                    ),
-                                    child: ClipOval(
                                       child: Material(
-                                        color: Colors.white, // Button color
-                                        child: InkWell(
-                                          splashColor: Colors.grey,
-                                          onTap: (){
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(24),
+                                        child: ClipOval(
+                                          child: InkWell(
+                                            customBorder: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(24)
+                                            ),
+                                            onTap: () {
 
-                                          },
-                                          child: Center(child: SvgPicture.asset(shareIcon)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 2.w,),
-                                  Container(
-                                    width: 35.w,
-                                    height: 11.w,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(24),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.2),
-                                          spreadRadius: 2,
-                                          blurRadius: 20,
-                                          offset: Offset(0, 2),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Material(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(24),
-                                      child: ClipOval(
-                                        child: InkWell(
-                                          customBorder: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(24)
-                                          ),
-                                          onTap: () {
-                                            Get.to(
-                                                () => CustomizeSelectPage(),
-                                              transition: page.Transition.rightToLeft
-                                            );
-                                          },
-                                          splashColor: Colors.grey.withOpacity(0.5),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              SvgPicture.asset(customizeIcon),
-                                              SizedBox(width: 1.w,),
-                                              Text("Customize",style: TextStyle(fontFamily: 'inter',fontWeight: FontWeight.w700),)
-                                            ],
+                                            },
+                                            splashColor: Colors.grey.withOpacity(0.5),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset(shareIcon),
+                                                SizedBox(width: 2.w,),
+                                                Text("Share",style: TextStyle(fontFamily: 'inter',fontWeight: FontWeight.w700),)
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  )
+                                    )
 
 
 
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),

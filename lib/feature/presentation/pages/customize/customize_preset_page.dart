@@ -37,11 +37,11 @@ class _CustomizePresetPageState extends State<CustomizePresetPage> {
   late PageController pageController;
 
   var pageHeader = [
-    "How many day you\nwant to go?",
-    "Who coming with you\n on this journey?",
-    "What activity you\n interest?",
+    "How many day do you\nwant to go?",
+    "Who is coming with you\n on this journey?",
+    "What activity do\nyou interest?",
     "What Country do you\nwant to go?",
-    "Now you can waiting for a result\nat a My action menu"
+    "Please visit 'My Journey'\nto view the result."
 
   ];
 
@@ -49,8 +49,8 @@ class _CustomizePresetPageState extends State<CustomizePresetPage> {
     "Tell us to plan a right trip for you.",
     "We will find the right place for you all.",
     "Feel free to select as many options\nas you would like.",
-    "...",
-    "...."
+    "",
+    ""
 
   ];
 
@@ -111,7 +111,18 @@ class _CustomizePresetPageState extends State<CustomizePresetPage> {
                                 icon: FaIcon(FontAwesomeIcons.angleLeft,
                                     size: 18.sp, color: Colors.black),
                                 onPressed: () {
-                                  Get.back();
+
+                                  if(_indexPage == 4){
+                                    Get.close(2);
+                                  } else if(_indexPage > 0){
+                                    setState(() {
+                                      _indexPage--;
+
+                                    });
+                                    pageController.animateToPage(_indexPage, duration: Duration(milliseconds: 400), curve: Curves.linear);
+                                  }else{
+                                    Get.back();
+                                  }
                                 },
                               ),
                             ),
@@ -222,7 +233,7 @@ class _CustomizePresetPageState extends State<CustomizePresetPage> {
                         ),
                         child: Center(
                             child: !isLoading ? Text(
-                              _indexPage==2? "Apply": "Next",
+                              _indexPage==4? "Go to My Journey": "Next",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.white,

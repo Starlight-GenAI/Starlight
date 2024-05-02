@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/feature/presentation/manager/preset_controller.dart';
+import 'package:starlight/feature/presentation/manager/prompt_controller.dart';
 
 class FirstPreset extends StatefulWidget {
   const FirstPreset({super.key});
@@ -16,7 +17,7 @@ class FirstPreset extends StatefulWidget {
 
 class _FirstPresetState extends State<FirstPreset> {
   List<String> index = ['1','2','3','4','5','6','7'];
-  String selectIndex = '0';
+  String selectIndex = Get.find<PresetController>().day.value.toString();
   @override
   Widget build(BuildContext context) {
     return Center(

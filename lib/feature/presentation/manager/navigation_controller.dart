@@ -12,6 +12,8 @@ class NavigationController extends GetxController {
   RxBool isScroll = false.obs;
   var allMarkers = <Marker>[].obs;
   var statePage = 0.obs;
+  var toTop = 1.0.obs;
+
 
   PageController? thisControl;
 

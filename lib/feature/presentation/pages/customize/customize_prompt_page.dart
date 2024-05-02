@@ -38,10 +38,12 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
   var urlFromClipBoard = "";
 
   var pageHeader = [
-    "Prompt a sentence about\n trip that you interest.",
-    "Copy video link from social media\nor Shared from other apps.",
+    "Prompt a sentence that reflects\nyour travel preferences",
+    "Copy video link from social media\nor Shared from other apps",
     "Video detail of youtube media\nyou provided",
-    "Now you can waiting for a result\nat a My action menu"
+    "We are processing your video.\nPlease visit 'My Journey' to view the result",
+    "Please visit 'My Journey'\nto view the result"
+
   ];
 
 
@@ -49,7 +51,7 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
   var pageTitle = [
     "",
     "",
-    "It might take a minute after submitting\na video to plan a journey.",
+    "It may take a few minutes to plan\na journey after submitting a video.",
     ""
   ];
 
@@ -100,7 +102,17 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                                 icon: FaIcon(FontAwesomeIcons.angleLeft,
                                     size: 18.sp, color: Colors.black),
                                 onPressed: () {
-                                  Get.back();
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  if(Get.find<PromptController>().indexPage.value > 0 && Get.find<PromptController>().isSelectYoutube.value == true){
+                                    Get.find<PromptController>().indexPage--;
+                                    Get.find<PromptController>().pageController?.animateToPage(Get.find<PromptController>().indexPage.value, duration: Duration(milliseconds: 300), curve: Curves.linear);
+                                  }else if (Get.find<PromptController>().indexPage.value == 1 && Get.find<PromptController>().isSelectYoutube.value == false){
+                                    Get.close(2);
+
+                                  }else{
+                                    Get.back();
+
+                                  }
                                 },
                               ),
                             ),
@@ -142,7 +154,7 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                     Text('STEP ${(Get.find<PromptController>().indexPage.value+1)}/${Get.find<PromptController>().isSelectYoutube.value? "4": "2"}',style: TextStyle(color: Color(0xFF4D32F8), fontFamily: 'inter', fontWeight: FontWeight.w700,letterSpacing: 1),),
                     SizedBox(height: 1.h,),
 
-                    Text((Get.find<PromptController>().indexPage.value == 1 && Get.find<PromptController>().isSelectYoutube.value == false)? pageHeader[3]: pageHeader[Get.find<PromptController>().indexPage.value],style: TextStyle( fontFamily: 'poppins', fontWeight: FontWeight.w700, fontSize: 18.sp,),textAlign: TextAlign.center,),
+                    Text((Get.find<PromptController>().indexPage.value == 1 && Get.find<PromptController>().isSelectYoutube.value == false)? pageHeader[4]: pageHeader[Get.find<PromptController>().indexPage.value],style: TextStyle( fontFamily: 'poppins', fontWeight: FontWeight.w700, fontSize: 18.sp,),textAlign: TextAlign.center,),
                     SizedBox(height: 1.h,),
                     Text(pageTitle[Get.find<PromptController>().indexPage.value],style: TextStyle(color: Color(0xFF8C8C8C), fontFamily: 'inter', fontWeight: FontWeight.w500, fontSize: 15.sp,),textAlign: TextAlign.center,),
                     // Container(

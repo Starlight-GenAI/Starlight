@@ -41,9 +41,9 @@ class _CustomizeYoutubePageState extends State<CustomizeYoutubePage> {
   var urlFromClipBoard = "";
 
   var pageHeader = [
-    "Copy video link from social media\nor Shared from other apps.",
+    "Copy video link from social media\nor Shared from other apps",
     "Video detail of youtube media\nyou provided",
-    "Now you can waiting for a result\nat a My action menu"
+    "We are processing your video.\nPlease visit 'My Journey' to view the result."
   ];
 
 
@@ -51,8 +51,7 @@ class _CustomizeYoutubePageState extends State<CustomizeYoutubePage> {
   var pageTitle = [
     "",
     "",
-    "It might take a minute after submitting\na video to plan a journey.",
-    ""
+    "It may take a few minutes to plan\na journey after submitting a video.",
   ];
 
   var buttonText = [

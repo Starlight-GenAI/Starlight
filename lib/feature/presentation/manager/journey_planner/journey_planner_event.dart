@@ -17,7 +17,8 @@ class UploadVideo extends JourneyPlannerEvent {
     this.videoId,
     required this.userId,
     required this.isUseSubtitle,
-    this.promptPreset
+    this.promptPreset,
+    this.prompt
   });
 }
 
