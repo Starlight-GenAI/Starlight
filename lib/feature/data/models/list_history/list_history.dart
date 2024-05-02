@@ -24,6 +24,8 @@ class ListHistoryItemResponse {
   final String updateAt;
   final String channelName;
   final bool isUseSubtitle;
+  final String prompt;
+  final Object promptPreset;
 
   const ListHistoryItemResponse({
     required this.queueId,
@@ -36,7 +38,9 @@ class ListHistoryItemResponse {
     required this.createdAt,
     required this.updateAt,
     required this.channelName,
-    required this.isUseSubtitle
+    required this.isUseSubtitle,
+    required this.prompt,
+    required this.promptPreset
   });
 
   factory ListHistoryItemResponse.fromJson(Map<String, dynamic> json) {
@@ -51,7 +55,10 @@ class ListHistoryItemResponse {
       createdAt: json['created_at'],
       updateAt: json['updated_at'],
       channelName: json['channel_name'],
-      isUseSubtitle: json['is_use_subtitle']
+      isUseSubtitle: json['is_use_subtitle'],
+      prompt: json['prompt'],
+      promptPreset: json['prompt_preset'],
+
     );
   }
 }
