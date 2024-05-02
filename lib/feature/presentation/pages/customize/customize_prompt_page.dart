@@ -133,7 +133,7 @@ class _CustomizePromptPageState extends State<CustomizePromptPage> {
                     Text('STEP ${(Get.find<PromptController>().indexPage.value+1)}/${Get.find<PromptController>().isSelectYoutube.value? "4": "2"}',style: TextStyle(color: Color(0xFF4D32F8), fontFamily: 'inter', fontWeight: FontWeight.w700,letterSpacing: 1),),
                     SizedBox(height: 1.h,),
 
-                    Text(Get.find<PromptController>().isSelectYoutube.value? pageHeader[Get.find<PromptController>().indexPage.value] : pageHeader[3],style: TextStyle( fontFamily: 'poppins', fontWeight: FontWeight.w700, fontSize: 18.sp,),textAlign: TextAlign.center,),
+                    Text((Get.find<PromptController>().isSelectYoutube.value && Get.find<PromptController>().indexPage.value == 1)? pageHeader[Get.find<PromptController>().indexPage.value] : pageHeader[3],style: TextStyle( fontFamily: 'poppins', fontWeight: FontWeight.w700, fontSize: 18.sp,),textAlign: TextAlign.center,),
                     Text(pageTitle[Get.find<PromptController>().indexPage.value],style: TextStyle(color: Color(0xFF8C8C8C), fontFamily: 'inter', fontWeight: FontWeight.w500, fontSize: 15.sp,),textAlign: TextAlign.center,),
                     // Container(
                     //   width: 100.w,
