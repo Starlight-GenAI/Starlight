@@ -27,6 +27,8 @@ import '../../../../core/constants/images.dart';
 import '../../../../injection_container.dart';
 import '../../manager/list_history/list_history_event.dart';
 import '../../manager/navigation_controller.dart';
+import '../../manager/trip_planner/trip_planner_bloc.dart';
+import '../../manager/trip_planner/trip_planner_event.dart';
 import '../profile/profile_page.dart';
 
 class ListHistoryPage extends StatefulWidget {
@@ -156,13 +158,22 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                       Id: state.list?.items[index]
                                                               .queueId ??
                                                           ""));
+                                              if (state.list!.items[index].videoUrl == ""){
+                                                bloc.BlocProvider.of<TripPlannerBloc>(context)
+                                                    .add(GetTripPlanner(Id: state.list!.items[index].queueId));
+                                                Get.to(transition:
+                                                Transition.rightToLeft,
+                                                        () => TripPage());
 
-                                              Get.to(
-                                                  transition:
-                                                      Transition.rightToLeft,
-                                                  arguments:
-                                                      state.list?.items[index],
-                                                  () => SummaryPage());
+                                              }else{
+                                                Get.to(
+                                                    transition:
+                                                    Transition.rightToLeft,
+                                                    arguments:
+                                                    state.list?.items[index],
+                                                        () => SummaryPage());
+                                              }
+
                                             }
                                           },
                                           child: Container(
