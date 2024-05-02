@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/feature/presentation/pages/customize/first_preset.dart';
+import 'package:starlight/feature/presentation/pages/customize/preset_select_country.dart';
+import 'package:starlight/feature/presentation/pages/customize/preset_summary_result.dart';
 import 'package:starlight/feature/presentation/pages/customize/second_preset.dart';
 import 'package:starlight/feature/presentation/pages/customize/third_preset.dart';
 
@@ -27,14 +29,18 @@ class _CustomizePresetPageState extends State<CustomizePresetPage> {
   var pageHeader = [
     "How many day you\nwant to go?",
     "Who coming with you\n on this journey?",
-    "What activity you\n interest?"
+    "What activity you\n interest?",
+    "What Country do you\nwant to go?",
+    "Now you can waiting for a result\nat a My action menu"
 
   ];
 
   var pageTitle = [
     "Tell us to plan a right trip for you.",
     "We will find the right place for you all.",
-    "Feel free to select as many\n options as you would like."
+    "Feel free to select as many options\nas you would like.",
+    "...",
+    "...."
 
   ];
 
@@ -98,7 +104,7 @@ class _CustomizePresetPageState extends State<CustomizePresetPage> {
                         ),
                       ),
                       AnimatedContainer(
-                        width: 25.w * (_indexPage + 1),
+                        width: 20.w * (_indexPage + 1),
                         height: .8.h,
                           duration: Duration(milliseconds: 400),
                         decoration: BoxDecoration(
@@ -112,7 +118,7 @@ class _CustomizePresetPageState extends State<CustomizePresetPage> {
 
                 Column(
                   children: [
-                    Text('STEP ${(_indexPage+1)}/3',style: TextStyle(color: Color(0xFF4D32F8), fontFamily: 'inter', fontWeight: FontWeight.w700,letterSpacing: 1),),
+                    Text('STEP ${(_indexPage+1)}/5',style: TextStyle(color: Color(0xFF4D32F8), fontFamily: 'inter', fontWeight: FontWeight.w700,letterSpacing: 1),),
                     SizedBox(height: 1.h,),
 
                     Text(pageHeader[_indexPage],style: TextStyle( fontFamily: 'poppins', fontWeight: FontWeight.w700, fontSize: 18.sp,),textAlign: TextAlign.center,),
@@ -120,12 +126,12 @@ class _CustomizePresetPageState extends State<CustomizePresetPage> {
                     Text(pageTitle[_indexPage],style: TextStyle(color: Color(0xFF8C8C8C), fontFamily: 'inter', fontWeight: FontWeight.w500, fontSize: 15.sp,),textAlign: TextAlign.center,),
                     Container(
                       width: 100.w,
-                      height: 50.h,
+                      height: 55.h,
                       child: PageView(
                         physics: const NeverScrollableScrollPhysics(),
                         controller: pageController,
                         children: [
-                          FirstPreset() , SecondPreset(), ThirdPreset()
+                          FirstPreset() , SecondPreset(), ThirdPreset(), PresetSelectCountry(), PresetSummaryResult()
                         ],
 
                       ),
@@ -147,7 +153,7 @@ class _CustomizePresetPageState extends State<CustomizePresetPage> {
               top: false,
               child: GestureDetector(
                 onTap: () {
-                  if (_indexPage < 2){
+                  if (_indexPage < 4){
                       setState(() {
                         _indexPage++;
                       });
@@ -159,7 +165,7 @@ class _CustomizePresetPageState extends State<CustomizePresetPage> {
                   }
                   },
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24,vertical: 3.h),
+                  padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Container(
                       width: 100.w,
                       height: 15.w,
