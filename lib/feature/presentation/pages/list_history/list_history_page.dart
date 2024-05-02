@@ -176,7 +176,7 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
 
                                             }
                                           },
-                                          child: Container(
+                                          child: state.list!.items[index].videoId != '' ? Container(
                                             height: 18.h,
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -190,7 +190,8 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                     offset: Offset(0, 4),
                                                     blurRadius: 12,
                                                   )
-                                                ]),
+                                                ]
+                                            ),
                                             child: Row(
                                               children: [
 
@@ -251,61 +252,9 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                         Spacer(),
                                                         Row(
                                                           children: [
-                                                          Text(state.list!.items[index].isUseSubtitle ? "Mode :\nSubtitle" : "Mode :\nVideo, Subtitle",style: TextStyle(fontSize: 11.sp,fontWeight: FontWeight.w700,color: Color(0xFF201E38).withOpacity(0.6),fontFamily: 'inter'),),
+                                                          Text(state.list!.items[index].isUseSubtitle ? "Mode :\nSubtitle" : "Mode :\nVideo, Subtitle",style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w700,color: Color(0xFF201E38).withOpacity(0.6),fontFamily: 'inter'),),
                                                           Spacer(),
-                                                          state.list!.items[index].status == "success"? Container(
-                                                            decoration: BoxDecoration(
-                                                              color: Color(0xFF52C883),
-                                                              borderRadius: BorderRadius.circular(48)
-                                                            ),
-                                                            child: Padding(
-                                                              padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
-                                                              child: Row(
-                                                                children: [
-                                                                  Icon(EvaIcons.checkmark,color: Colors.white,size: 18.sp,),
-                                                                  SizedBox(width: .5.w,),
-                                                                  Text('Success',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ): state.list!.items[index].status == "pending"? Container(
-                                                            decoration: BoxDecoration(
-                                                                color: Color(0xFFFFA800),
-                                                                borderRadius: BorderRadius.circular(48)
-                                                            ),
-                                                            child: Padding(
-                                                              padding: EdgeInsets.only(right: 1.h,left: 1.h,top: .2.h, bottom: .2.h),
-                                                              child: Row(
-                                                                children: [
-                                                                  Container(
-                                                                    width: 3.w,
-                                                                    height: 3.w,
-                                                                    child: CircularProgressIndicator(
-                                                                      color: Colors.white,
-                                                                      strokeWidth: 2,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(width: 1.5.w,),
-                                                                  Text('Pending',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ): Container(
-                                                            decoration: BoxDecoration(
-                                                                color: Color(0xFFFF522D),
-                                                                borderRadius: BorderRadius.circular(48)
-                                                            ),
-                                                            child: Padding(
-                                                              padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
-                                                              child: Row(
-                                                                children: [
-                                                                  Icon(EvaIcons.close,color: Colors.white,size: 18.sp,),
-                                                                  SizedBox(width: .5.w,),
-                                                                  Text('Failed',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          )
+                                                          _statusTag(state.list!.items[index].status)
                                                         ],)
                                                       ],
                                                     ),
@@ -313,7 +262,8 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
                                                 ),
                                               ],
                                             ),
-                                          ),
+                                          ) : state.list!.items[index].prompt != '' ? _buildOnlyPromptBox(state.list!.items[index].prompt, state.list!.items[index].status):
+                                          _buildPresetBox(state.list!.items[index].promptPreset, state.list!.items[index].status),
                                         ),
                                       );
                                     }),
@@ -374,35 +324,205 @@ class _ListHistoryPageState extends State<ListHistoryPage> {
     );
   }
 
-  // _buildPresetBox() {
-  //   List<Map<String, dynamic>> details = [
-  //     {'title': 'Days', 'value': Get.find<PresetController>().day.value.toString(), 'icon': FaIcon(FontAwesomeIcons.calendar, size: 16.sp, color: const Color(0xFF646C9C))},
-  //     {'title': 'Coming with', 'value': Get.find<PresetController>().comingWith.value, 'icon': FaIcon(FontAwesomeIcons.userGroup, size: 15.sp, color: const Color(0xFF646C9C))},
-  //     {'title': "Activities", 'value': Get.find<PresetController>().activities.value, 'icon': FaIcon(FontAwesomeIcons.drum, size: 16.sp, color: const Color(0xFF646C9C))},
-  //     {'title': "Location", 'value': Get.find<PresetController>().location.value, 'icon': FaIcon(FontAwesomeIcons.locationDot, size: 16.sp, color: const Color(0xFF646C9C))}
-  //   ];
-  //   return Container(
-  //     child: Column(
-  //       children: [
-  //         Row(
-  //           children: [
-  //             Text(
-  //               "Generate with Preset",
-  //               style: TextStyle(
-  //                   fontSize: 16.sp,
-  //                   fontWeight:
-  //                   FontWeight.w700,
-  //                   fontFamily: 'inter',
-  //                   letterSpacing: -0.17
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //         Column(
-  //           children: details.map((data) => InformationRow(data: data)).toList(),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  _buildPresetBox(data,status) {
+    List<Map<String, dynamic>> details = [
+      {'title': 'Days', 'value': data['day'].toString(), 'icon': FaIcon(FontAwesomeIcons.calendar, size: 16.sp, color: const Color(0xFF646C9C))},
+      {'title': 'Coming with', 'value': data['journey_type'], 'icon': FaIcon(FontAwesomeIcons.userGroup, size: 15.sp, color: const Color(0xFF646C9C))},
+      {'title': "Activities", 'value': data['interesting_activity'], 'icon': FaIcon(FontAwesomeIcons.drum, size: 16.sp, color: const Color(0xFF646C9C))},
+      {'title': "Location", 'value': data['city'], 'icon': FaIcon(FontAwesomeIcons.locationDot, size: 16.sp, color: const Color(0xFF646C9C))}
+    ];
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(16),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: shadowColor
+                  .withOpacity(0.3),
+              offset: Offset(0, 4),
+              blurRadius: 12,
+            )
+          ]
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 1.5.h, vertical: 20),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 2.w),
+                  child: Text(
+                    "Generate with Preset",
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight:
+                        FontWeight.w700,
+                        fontFamily: 'inter',
+                        letterSpacing: -0.17
+                    ),
+                  ),
+                ),
+                _statusTag(status)
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 1.5.w, top: 2.6.w),
+              child: Divider(),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2.w),
+              child: Column(
+                children: details.map((data) => InformationRow(data: data)).toList(),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  _buildOnlyPromptBox(data,status) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(16),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: shadowColor
+                  .withOpacity(0.3),
+              offset: Offset(0, 4),
+              blurRadius: 12,
+            )
+          ]
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 1.5.h, vertical: 20),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 2.w),
+                  child: Text(
+                    "Generate with Prompt",
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight:
+                        FontWeight.w700,
+                        fontFamily: 'inter',
+                        letterSpacing: -0.17
+                    ),
+                  ),
+                ),
+                _statusTag(status)
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 1.5.w, top: 2.6.w),
+              child: Divider(),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2.w),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SvgPicture.asset(tripGenBlackIcon),
+                  SizedBox(width: 2.w,),
+                  Flexible(
+                    child: Text(
+                      data,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight:
+                          FontWeight.w600,
+                          fontFamily: 'inter',
+                          letterSpacing: -0.17,
+                          color: Color(0xFF646C9C)
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 2.w,)
+            // SizedBox(height: 4.w,),
+            // Row(
+            //   children: [
+            //     Spacer(),
+            //     _statusTag(status)
+            //   ],
+            // )
+          ],
+        ),
+      ),
+    );
+  }
+
+  _statusTag(status) {
+    //state.list!.items[index].status
+    return status == "success"? Container(
+      decoration: BoxDecoration(
+          color: Color(0xFF52C883),
+          borderRadius: BorderRadius.circular(48)
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
+        child: Row(
+          children: [
+            Icon(EvaIcons.checkmark,color: Colors.white,size: 18.sp,),
+            SizedBox(width: .5.w,),
+            Text('Success',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
+          ],
+        ),
+      ),
+    ): status == "pending"? Container(
+      decoration: BoxDecoration(
+          color: Color(0xFFFFA800),
+          borderRadius: BorderRadius.circular(48)
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(right: 1.h,left: 1.h,top: .2.h, bottom: .2.h),
+        child: Row(
+          children: [
+            Container(
+              width: 3.w,
+              height: 3.w,
+              child: CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2,
+              ),
+            ),
+            SizedBox(width: 1.5.w,),
+            Text('Pending',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
+          ],
+        ),
+      ),
+    ): Container(
+      decoration: BoxDecoration(
+          color: Color(0xFFFF522D),
+          borderRadius: BorderRadius.circular(48)
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(right: 1.h,left: .5.h,top: .2.h, bottom: .2.h),
+        child: Row(
+          children: [
+            Icon(EvaIcons.close,color: Colors.white,size: 18.sp,),
+            SizedBox(width: .5.w,),
+            Text('Failed',style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight: FontWeight.w700,fontFamily: 'inter'),)
+          ],
+        ),
+      ),
+    );
+  }
 }
