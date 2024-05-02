@@ -215,7 +215,11 @@ class _JourneyPlannerModalSubmitState extends State<JourneyPlannerModalSubmit> {
       child: GestureDetector(
         onTap: () => {
           isSelectTitle != '' ?
-          widget.videoId != '' ? bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoId: widget.videoId, videoUrl: '', isUseSubtitle: isUseSubtitle, userId: Get.find<NavigationController>().uid.value)):
+          widget.videoId != '' ? bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(
+              videoId: widget.videoId,
+              videoUrl: '',
+              isUseSubtitle: isUseSubtitle,
+              userId: Get.find<NavigationController>().uid.value)):
           bloc.BlocProvider.of<JourneyPlannerBloc>(context).add(UploadVideo(videoUrl: widget.videoUrl, videoId: '',isUseSubtitle: isUseSubtitle, userId: Get.find<NavigationController>().uid.value)) : null,
           Get.back()
         },

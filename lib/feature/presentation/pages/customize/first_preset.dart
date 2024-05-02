@@ -1,6 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:starlight/feature/presentation/manager/preset_controller.dart';
 
 class FirstPreset extends StatefulWidget {
   const FirstPreset({super.key});
@@ -23,6 +28,7 @@ class _FirstPresetState extends State<FirstPreset> {
             onTap: () => {
               setState(() {
                 selectIndex = data;
+                Get.find<PresetController>().day.value = int.parse(data);
               })
             },
             child: IndexBox(data: data, selectData: selectIndex))).toList(),

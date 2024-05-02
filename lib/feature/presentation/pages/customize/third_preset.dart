@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/images.dart';
 
 import '../../../../core/constants/colors.dart';
+import '../../manager/preset_controller.dart';
 
 class ThirdPreset extends StatefulWidget {
   const ThirdPreset({super.key});
@@ -30,7 +33,7 @@ class _ThirdPresetState extends State<ThirdPreset> {
     return Center(
       child: GridView.count(
         primary: false,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 50),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
         crossAxisSpacing: 4.w,
         mainAxisSpacing: 4.w,
         crossAxisCount: 3,
@@ -42,6 +45,7 @@ class _ThirdPresetState extends State<ThirdPreset> {
               } else {
                 selectData.add(data['text']);
               }
+              Get.find<PresetController>().activities.value = selectData.join(',');
               // print(selectData);
             })
           },
@@ -64,8 +68,8 @@ class ListActivities extends StatelessWidget {
       children: [
         AnimatedContainer(
           duration: Duration(milliseconds: 100),
-          width: 15.w,
-          height: 15.w,
+          width: 16.5.w,
+          height: 16.5.w,
           decoration: BoxDecoration(
             color: isSelect != '' ? Color(0xFFC8D0FF): Colors.white,
             borderRadius: BorderRadius.circular(16),
@@ -78,11 +82,11 @@ class ListActivities extends StatelessWidget {
             ],
           ),
           child: Center(
-            child: Image.asset(data['image'], width: 7.w,),
+            child: Image.asset(data['image'], width: 8.w,),
           ),
         ),
         SizedBox(height: 2.w),
-        Text(data['text'], style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w600,fontFamily: 'inter',
+        Text(data['text'], style: TextStyle(fontSize: 14.5.sp,fontWeight: FontWeight.w600,fontFamily: 'poppins',
             color: Color(0xFF676771)))
       ],
     );

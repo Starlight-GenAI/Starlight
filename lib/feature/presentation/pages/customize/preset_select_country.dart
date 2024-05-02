@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:starlight/core/constants/images.dart';
 
 import '../../../../core/constants/colors.dart';
+import '../../manager/preset_controller.dart';
 
 class PresetSelectCountry extends StatefulWidget {
   const PresetSelectCountry({super.key});
@@ -38,6 +41,7 @@ class _PresetSelectCountryState extends State<PresetSelectCountry> {
             onTap: () => {
               setState(() {
                 selectData = data['text'];
+                Get.find<PresetController>().location.value = data['text'];
               })
             },
             child: ListCountry(data: data, selectData: selectData))).toList(),
