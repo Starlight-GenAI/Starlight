@@ -18,12 +18,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:starlight/core/constants/images.dart';
 import 'package:starlight/feature/domain/entities/trip_planner/trip_planner.dart';
 import 'package:starlight/feature/presentation/manager/trip_planner/trip_planner_bloc.dart';
 import 'package:starlight/feature/presentation/manager/trip_planner/trip_planner_state.dart';
 import 'package:starlight/feature/presentation/pages/customize/customize_select_page.dart';
 import 'dart:ui' as ui;
 import 'package:get/get_navigation/src/routes/transitions_type.dart' as page;
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/constants.dart';
@@ -81,7 +84,6 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
         refLink +
         "&key="+placeAPIKey+"&maxheight=400";
   }
-
   _addPin(TripPlannerState state){
     Get.find<NavigationController>().allMarkers.value.clear();
     state.list!.content?[selectedIndex].locationWithSummary?.forEach((element) {
@@ -175,8 +177,6 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                       setState(() {
                         Get.find<NavigationController>().toTop.value = (1- ((res - 50.h) / (90.h - 50.h))).clamp(0.0, 1.0);
                       });
-                      print("res$res");
-                      print("${100.h}");
 
 
                     },
@@ -332,8 +332,6 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                 itemBuilder:
                     (BuildContext context, int itemIndex, int pageViewIndex) {
                   final summaryText = state.list?.content?[selectedIndex].locationWithSummary?[itemIndex].summary;
-                  print('/////////summary text////////');
-                  print(summaryText);
                   final textList = _formatText(summaryText!.replaceAll('\n', ''));
                   return Padding(
                     padding: EdgeInsets.only(right: 1.h, top: 1.h),
@@ -438,7 +436,6 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                     disableCenter: true,
                     pageSnapping: true,
                 onPageChanged: (index, _) async {
-                      print(index);
                       final GoogleMapController controller = await _mapController.future;
                       await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.list?.content?[selectedIndex].locationWithSummary?[index].lat ?? 0 ,state.list?.content?[selectedIndex].locationWithSummary?[index].lng ?? 0),zoom: 17)));
                 })),
@@ -481,12 +478,14 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                   if (selectedIndex>0){
                                     setState(() {
                                       selectedIndex = selectedIndex - 1;
+                                      selectedExpanded = -1;
                                     });
                                     _addPin(state);
                                     carouselController.animateToPage(0,duration: Duration(milliseconds: 400));
                                     final GoogleMapController controller = await _mapController.future;
                                     await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.list?.content?[selectedIndex].locationWithSummary?[0].lat ?? 0 ,state.list?.content?[selectedIndex].locationWithSummary?[0].lng ?? 0),zoom: 14.48)));
                                   }
+
 
                                 },
                                 icon: Icon(
@@ -499,6 +498,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                   if(selectedIndex < ((state.list?.content?.length ) ?? 0)-1){
                                     setState(() {
                                       selectedIndex = selectedIndex + 1;
+                                      selectedExpanded = -1;
                                     });
                                     _addPin(state);
 
@@ -597,6 +597,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                 if (selectedIndex>0){
                                   setState(() {
                                     selectedIndex = selectedIndex - 1;
+                                    selectedExpanded = -1;
                                   });
                                   _addPin(state);
                                   carouselController.animateToPage(0,duration: Duration(milliseconds: 400));
@@ -615,6 +616,7 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                 if(selectedIndex < ((state.list?.content?.length ) ?? 0)-1){
                                   setState(() {
                                     selectedIndex = selectedIndex + 1;
+                                    selectedExpanded = -1;
                                   });
                                   _addPin(state);
 
@@ -638,13 +640,14 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                 //list trip expanded
                 Expanded(
                   child: SingleChildScrollView(
+                    controller: scrollController,
+
                     child: Column(
                       children: [
                         ConstrainedBox(
                           constraints: BoxConstraints(
                               minHeight: 80.h, maxHeight: double.infinity),
                           child: ListView.builder(
-                            controller: scrollController,
                             padding: EdgeInsets.only(top: 5.w),
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
@@ -1015,6 +1018,39 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                                                     ],
                                                                   ),
                                                                 ),
+                                                                selectedExpanded == index ?SizedBox(height: 3.h,) : Container(),
+                                                                selectedExpanded == index ? GestureDetector(
+                                                                  onTap: (){
+                                                                    MapUtils.openMap(state.list!.content![selectedIndex]
+                                                                        .locationWithSummary![index].placeId!);
+                                                                  },
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Spacer(),
+                                                                        Container(
+                                                                          decoration: BoxDecoration(
+                                                                            color: Color(0xFFF0F0F0).withOpacity(0.8),
+                                                                            borderRadius: BorderRadius.circular(60),
+                                                                            border: Border.all(color: Color(0xFFC7C7C7))
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.all(8.0),
+                                                                            child: Row(
+                                                                              children: [
+                                                                                Image.asset(mapImage,width: 4.w,),
+                                                                                SizedBox(width: 1.w,),
+                                                                                Text("Open in Google Maps",style: TextStyle(
+                                                                                  color: Color(0xFF777777),
+                                                                                  fontFamily: 'inter',
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                  fontSize: 14.sp,
+                                                                                ),),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    )) : Container()
                                                               ],
                                                             ),
                                                           ),
@@ -1099,5 +1135,19 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
     );
   }
 
+}
+
+class MapUtils {
+
+  MapUtils._();
+
+  static Future<void> openMap(String placeId) async {
+    String googleUrl = 'https://www.google.com/maps/place/?q=place_id:$placeId';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
+  }
 }
 
