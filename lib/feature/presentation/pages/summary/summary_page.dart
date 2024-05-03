@@ -39,6 +39,7 @@ class _SummaryPageState extends State<SummaryPage> {
   var chipIndex = 0;
   bool showButton = false;
   bool showText = true;
+  bool? like;
   // var chipList = ["Locations"];
   var chipIcon = [
     highlightIcon,
@@ -330,6 +331,34 @@ class _SummaryPageState extends State<SummaryPage> {
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xFF15104F)),
                             )),
+                            SizedBox(width: 8.w,),
+                            GestureDetector(
+                              onTap: () => {
+                                setState(() {
+                                  if ((like != null) && like!) {
+                                    like = null;
+                                  } else {
+                                    like = true;
+                                  }
+                                })
+                              },
+                              child: FaIcon((like != null) && like! ? FontAwesomeIcons.solidThumbsUp : FontAwesomeIcons.thumbsUp, size: 20.sp,
+                                  color: Color(0xFF646C9C).withOpacity((like != null) && like! ? 1 : 0.5)),
+                            ),
+                            SizedBox(width: 4.w,),
+                            GestureDetector(
+                              onTap: () => {
+                                setState(() {
+                                  if ((like != null) && !like!) {
+                                    like = null;
+                                  } else {
+                                    like = false;
+                                  }
+                                })
+                              },
+                              child: FaIcon((like != null) && !like! ? FontAwesomeIcons.solidThumbsDown : FontAwesomeIcons.thumbsDown, size: 20.sp,
+                                  color: Color(0xFF646C9C).withOpacity((like != null) && !like! ? 1 : 0.5)),
+                            )
                           ],
                         ),
                       ),

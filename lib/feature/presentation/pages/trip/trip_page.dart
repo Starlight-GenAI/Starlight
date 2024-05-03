@@ -125,6 +125,8 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
     return index != -1 && text.substring(0, index).contains('\n');
   }
 
+  bool? like;
+
   @override
   void initState() {
     super.initState();
@@ -222,7 +224,70 @@ class _TripPageState extends State<TripPage> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     Spacer(),
-
+                                    GestureDetector(
+                                      onTap: () => {
+                                        setState(() {
+                                          if ((like != null) && like!) {
+                                            like = null;
+                                          } else {
+                                            like = true;
+                                          }
+                                        })
+                                      },
+                                      child: Container(
+                                        height: 11.w,
+                                        width: 11.w,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(1000),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(0.2),
+                                              spreadRadius: 2,
+                                              blurRadius: 20,
+                                              offset: Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Center(
+                                          child: FaIcon((like != null) && like! ? FontAwesomeIcons.solidThumbsUp : FontAwesomeIcons.thumbsUp, size: 20.sp,
+                                              color: Color(0xFF646C9C).withOpacity((like != null) && like! ? 1 : 0.5)),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 2.w,),
+                                    GestureDetector(
+                                      onTap: () => {
+                                        setState(() {
+                                          if ((like != null) && !like!) {
+                                            like = null;
+                                          } else {
+                                            like = false;
+                                          }
+                                        })
+                                      },
+                                      child: Container(
+                                        height: 11.w,
+                                        width: 11.w,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(1000),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(0.2),
+                                              spreadRadius: 2,
+                                              blurRadius: 20,
+                                              offset: Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Center(
+                                          child: FaIcon((like != null) && !like! ? FontAwesomeIcons.solidThumbsDown : FontAwesomeIcons.thumbsDown, size: 20.sp,
+                                              color: Color(0xFF646C9C).withOpacity((like != null) && !like! ? 1 : 0.5)),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 2.w,),
                                     Container(
                                       width: 24.w,
                                       height: 11.w,
