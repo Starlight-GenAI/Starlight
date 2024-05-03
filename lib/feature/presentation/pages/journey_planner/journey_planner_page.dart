@@ -27,6 +27,7 @@ import '../../../data/data_sources/upload_video/upload_video_request.dart';
 import '../../manager/journey_planner/journey_planner_state.dart';
 import '../../manager/list_history/list_history_bloc.dart';
 import '../../manager/list_history/list_history_event.dart';
+import '../../manager/prompt_controller.dart';
 import '../navigation_page.dart';
 
 
@@ -51,6 +52,8 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
   @override
   void initState() {
     super.initState();
+
+    Get.put(PromptController(), permanent: false);
 
     if(videoId != null) {
       print('////////state url///////////');
@@ -79,7 +82,7 @@ class _JourneyPlannerPageState extends State<JourneyPlannerPage> {
   @override
   void dispose() {
     print("leo dispose");
-    _bloc?.add(ResetBlocEvent());
+    // _bloc?.add(ResetBlocEvent());
     super.dispose();
 
   }
