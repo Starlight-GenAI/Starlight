@@ -8,6 +8,8 @@ const String btnGradient1 = "assets/images/btn_gradient_bg1.jpg";
 const String btnGradient2 = "assets/images/btn_gradient_bg2.jpg";
 const String thirdWidget = "assets/images/activities.png";
 const String secondWidget = "assets/images/comingWith.png";
+const String mapImage = "assets/images/map_image.png";
+
 //emoji
 const String emojiSolo = "assets/images/image17.png";
 const String emojiFriend = "assets/images/image18.png";
